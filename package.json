@@ -6,11 +6,21 @@
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
+    "history": "^4.6.2",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
+    "raven-for-redux": "^1.0.0",
     "raven-js": "^3.16.0",
     "react": "^15.6.0",
-    "react-dom": "^15.6.0"
+    "react-dom": "^15.6.0",
+    "react-redux": "^5.0.5",
+    "react-redux-saga": "^1.0.2",
+    "react-router": "^4.1.1",
+    "react-router-redux": "next",
+    "redux": "^3.6.0",
+    "redux-api-middleware-fixed": "^1.2.0",
+    "redux-batch-enhancer": "^0.1.3",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.1",
@@ -21,6 +31,9 @@
     "npm-run-all": "^4.0.2",
     "prettier": "^1.4.4",
     "react-scripts": "1.0.7",
+    "redux-immutable-state-invariant": "^2.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-validate-fsa": "^0.1.2",
     "veritone-lib": "git+https://github.com/veritone/veritone-lib#develop"
   },
   "scripts": {

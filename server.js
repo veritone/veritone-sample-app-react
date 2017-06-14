@@ -4,7 +4,14 @@ const express = require('express');
 const compression = require('compression');
 const cheerio = require('cheerio');
 const cookieParser = require('cookie-parser');
-const config = require('node-config').load();
+const nodeConfig = require('node-config');
+
+let config;
+try {
+  config = nodeConfig.load();
+} catch (e) {
+  config = nodeConfig.loadFromLocation('src/dev-config.json');
+}
 
 const app = express();
 const host = '0.0.0.0';

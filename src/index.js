@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { uniqueId } from 'lodash';
 
+import './devConfig';
 import './polyfill';
 import './sentry';
 
@@ -10,11 +11,16 @@ import './styles/global.css';
 import './styles/theme.css';
 import './styles/typography.css';
 
+import { RootComponent, runConfig } from './configure';
+
 import './App.css';
 import App from './App';
+
+const { store, history, rootRoute } = runConfig();
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
-// Promise.resolve(store.dispatch(boot()))
+// Promise.resolve(store.dispatch(boot()));
 // .then(() => store.dispatch(fetchUser()));
 
 if (module.hot) {
