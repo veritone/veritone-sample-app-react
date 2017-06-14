@@ -1,0 +1,18 @@
+@import './modules/variables';
+
+a {
+  color: $blue-1;
+  text-decoration: none;
+}
+
+a:visited {
+  color: $blue-1;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+body {
+  color: $dark-black;
+}
