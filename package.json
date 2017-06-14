@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
+    "raven-js": "^3.16.0",
     "react": "^15.6.0",
     "react-dom": "^15.6.0"
   },
@@ -26,6 +28,7 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
+    "serve": "node server.js",
     "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

@@ -24,16 +24,13 @@ try {
 }
 
 const $indexHtml = cheerio.load(indexHtml);
-const newConfig =
-  `<script id="injected-config">
+const newConfig = `<script id="injected-config">
       window.config = ${JSON.stringify(config)}
   </script>`;
 
 if ($indexHtml('#injected-config').length) {
   // config exists, overwrite
-  $indexHtml('#injected-config').replaceWith(
-    newConfig
-  );
+  $indexHtml('#injected-config').replaceWith(newConfig);
 
   console.log('existing config found in index.html; replaced with new config');
 } else {
@@ -46,13 +43,13 @@ fs.writeFileSync('build/index.html', indexWithConfig);
 console.log('wrote index.html with injected config');
 
 app.use(compression());
-app.use(express.static('build/static'));
+app.use('/static', express.static('build/static'));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build/index.html'));
 });
 
-app.listen(port, host, (err) => {
+app.listen(port, host, err => {
   if (err) {
     console.log(err);
     return;
