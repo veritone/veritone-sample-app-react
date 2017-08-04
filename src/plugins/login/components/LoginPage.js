@@ -1,5 +1,4 @@
 import React from 'react';
-import { flow } from 'lodash';
 import { connect } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 
@@ -9,8 +8,6 @@ import LoginForm from './LoginForm';
 
 import { PropTypes } from 'helpers/react';
 const { func } = PropTypes; // handles redirect logic after login success
-
-const decorators = flow([RedirectIfLoggedIn, connect(null, { ...userModule })]);
 
 class LoginPage extends React.Component {
   static propTypes = {
@@ -51,4 +48,4 @@ class LoginPage extends React.Component {
   }
 }
 
-export default decorators(LoginPage);
+export default LoginPage;

@@ -37,11 +37,11 @@ export default function configureStore(initialState) {
   store.runSaga(rootSaga);
 
   // Enable hot module replacement for root reducers
-  // if (process.env.NODE_ENV === 'development' && module.hot) {
-  //   module.hot.accept('../reducer', () => {
-  //     store.replaceReducer(createRootReducer(store.asyncReducers));
-  //   });
-  // }
+  if (process.env.NODE_ENV === 'development' && module.hot) {
+    module.hot.accept('../reducer', () => {
+      store.replaceReducer(createRootReducer(store.asyncReducers));
+    });
+  }
 
   return store;
 }

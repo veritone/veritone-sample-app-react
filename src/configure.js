@@ -1,11 +1,9 @@
-import { browserHistory } from 'react-router';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { isFunction, flow } from 'lodash';
 import { Sagas } from 'react-redux-saga';
-
 import configureStore from 'reduxConfig/store/configureStore';
 // import {
 //   EnsureUserIsAuthenticated,
@@ -28,7 +26,7 @@ const AuthChecks = flow(
 
 export function runConfig() {
   const store = configureStore();
-  const history = syncHistoryWithStore(browserHistory, store);
+  //const history = syncHistoryWithStore(browserHistory, store);
 
   const rootRoute = {
     path: '/',
@@ -51,7 +49,7 @@ export function runConfig() {
 
   return {
     store,
-    history,
+    //history,
     rootRoute
   };
 }
@@ -61,6 +59,6 @@ export const RootComponent = (
 ) =>
   <Provider store={store}>
     <Sagas middleware={store.sagaMiddleware}>
-      <Router history={history} routes={rootRoute} />
+      <Router routes={rootRoute} />
     </Sagas>
   </Provider>;

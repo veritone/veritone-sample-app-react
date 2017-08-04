@@ -1,7 +1,7 @@
 import thunkMiddleware from 'redux-thunk';
 import { apiMiddleware } from 'redux-api-middleware-fixed';
 import { batchStoreEnhancer, batchMiddleware } from 'redux-batch-enhancer';
-import { browserHistory } from 'react-router';
+import { Routes } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import createRavenMiddleware from 'raven-for-redux';
 
@@ -10,8 +10,7 @@ import { getConfig } from 'modules/config';
 export const getBaseMiddlewares = () => [
   batchMiddleware,
   apiMiddleware(fetch),
-  thunkMiddleware.withExtraArgument(state => getConfig(state)),
-  routerMiddleware(browserHistory)
+  thunkMiddleware.withExtraArgument(state => getConfig(state))
 ];
 
 export const getDevOnlyMiddlewares = () => {

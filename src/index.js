@@ -14,7 +14,7 @@ import './styles/typography.css';
 import { RootComponent, runConfig } from './configure';
 
 import './App.css';
-import App from './App';
+import App from './plugins/app/App';
 
 const { store, history, rootRoute } = runConfig();
 

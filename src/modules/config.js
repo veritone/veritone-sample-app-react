@@ -1,5 +1,4 @@
-import { createReducer } from 'helpers/redux';
-// import { } from 'lodash';
+import { createReducer } from 'modules/redux';
 
 export const namespace = 'config';
 
