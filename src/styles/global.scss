@@ -227,7 +227,7 @@ hr {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 40px;
   background: #f2f2f2;
   display: flex;
   padding: 0 24px;
@@ -237,18 +237,19 @@ hr {
     width: 100%;
     display: flex;
     position: relative;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     text-align: center;
+
+    span {
+      margin-right: 8px;
+    }
+
   }
 }
 
-
-// main container
 .container {
-
   height: 100%;
-
   &.topBarOffset {
     padding-top: $topBarHeight;
   }
