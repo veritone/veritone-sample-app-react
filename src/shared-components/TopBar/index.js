@@ -72,26 +72,12 @@ class TopBar extends React.Component {
     const rightGroupClasses = cx(styles['actions-container__item']);
     const leftGroupClasses = cx(styles['actions-container__item']);
 
-    const activeNavItem = find(this.props.appNavigationItems, ({ link }) => {
-      return startsWith(this.props.router.location.pathname, link);
-    }) || {};
-
     return (
       <div className={containerClasses}>
-        {this.props.appNavigation &&
-          <AppNavigation
-            navigationItems={appNavigationItems}
-            activeNavigationItem={activeNavItem}
-            open={this.state.open}
-            onOpen={this.handleOpenMenu}
-            onRequestClose={this.handleRequestClose}
-            anchorEl={this.state.anchorEl}
-          />}
         <div className={styles['actions-container']}>
           <div className={leftGroupClasses}>
             {this.props.leftElement}
           </div>
-
           <div className={rightGroupClasses}>
             {this.props.rightElement}
           </div>

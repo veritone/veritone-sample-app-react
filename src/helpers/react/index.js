@@ -1,7 +1,7 @@
 import React, { PropTypes as ReactPropTypes } from 'react';
 import { omitBy, isUndefined } from 'lodash';
 
-import { fetchingStatus } from 'modules/redux';
+import { fetchingStatus } from 'helpers/redux';
 import { Interval } from 'helpers/date';
 
 export const PropTypes = {

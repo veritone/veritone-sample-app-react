@@ -1,4 +1,4 @@
-import { createReducer } from 'modules/redux';
+import { createReducer } from 'helpers/redux';
 
 export const namespace = 'config';
 

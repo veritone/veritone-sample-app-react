@@ -6,8 +6,10 @@ const Footer = (props = {}) => {
   const { loading } = props;
 
   return (
-    <div>
-      FOOTER
+    <div className="footer">
+      <div className="content">
+        2017 | Sample React Application <a href="https://www.veritone.com">Veritone</a>
+      </div>
     </div>
   );
 };

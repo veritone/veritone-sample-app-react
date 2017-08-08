@@ -3,7 +3,7 @@ import { flow } from 'lodash';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import * as user from 'modules/user';
-import { TextField, requireFields } from 'modules/redux/form';
+import { TextField, requireFields } from 'helpers/redux/form';
 import { PropTypes } from 'helpers/react';
 import ProgressButton from 'shared-components/ProgressButton';
 const { func, bool, string } = PropTypes;

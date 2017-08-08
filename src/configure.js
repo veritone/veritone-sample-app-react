@@ -1,27 +1,28 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
 import { isFunction, flow } from 'lodash';
 import { Sagas } from 'react-redux-saga';
+
 import configureStore from 'reduxConfig/store/configureStore';
+import { EnsureUserIsAuthenticated } from 'helpers/auth';
+//import { syncHistoryWithStore } from 'react-router-redux';
 // import {
 //   EnsureUserIsAuthenticated,
 //   EnsureUserCompletedDevSignup
 // } from 'helpers/auth';
 
-import App from 'plugins/app/App';
+import App from 'App';
 import loginRoute from 'plugins/login';
 import noAccessRoute from 'plugins/noAccess';
 import notFoundRoute from 'plugins/notFound';
 
 const PassThrough = props => props.children;
 
-const AuthChecks = flow(
-  [
-    // EnsureUserCompletedDevSignup,
-    // EnsureUserIsAuthenticated
-  ]
+//
+const AuthChecks = flow([
+  EnsureUserIsAuthenticated
+]
 )(PassThrough);
 
 export function runConfig() {
@@ -32,7 +33,7 @@ export function runConfig() {
     path: '/',
     component: App,
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/engines')
+      //onEnter: (nextState, replace) => replace('/engines')
     },
     childRoutes: [
       loginRoute(store),
@@ -49,7 +50,6 @@ export function runConfig() {
 
   return {
     store,
-    //history,
     rootRoute
   };
 }
