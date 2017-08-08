@@ -8,7 +8,9 @@ const Footer = (props = {}) => {
   return (
     <div className="footer">
       <div className="content">
-        2017 | Sample React Application <a href="https://www.veritone.com">Veritone</a>
+        <span>&copy; Veritone, Inc. All Rights Reserved.</span>
+        <span><a href="#">Terms of Service</a></span>
+        <span><a href="#">Privacy Policy</a></span>
       </div>
     </div>
   );
