@@ -330,3 +330,15 @@ h1 {
   border-top: 1px solid #ccc;
   padding-top: 10px;
 }
+
+.appToolBar {
+  background: none !important;
+  height: 60px;
+  width: 100%;
+  color: #fff;
+
+  span {
+    font-size: 0.8em;
+  }
+
+}

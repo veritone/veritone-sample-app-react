@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { instanceOf } from 'prop-types';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { instanceOf } from 'prop-types';
 import { Container, Row, Col } from 'shared-components/grid';
-
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 
@@ -12,31 +11,14 @@ class App extends Component {
     cookies: instanceOf(Cookies).isRequired
   };
   componentWillMount() {
-    // const { cookies } = this.props;
-    //
-    // this.state = {
-    //   token: cookies.get('dev-veritone-session-id') || '55351c02-04cf-4e5b-aab0-44d7e93a2e76'
-    // };
-    //'
-    //cookies.set('dev-veritone-session-id', this.state.token, { path: '/' });
-    //this.setState({ this.state.token });
-
-    // if (!cookies) {
-    //   console.log('no cookies');
-    // } else {
-    //   cookies.set('dev-veritone-session-id', '55351c02-04cf-4e5b-aab0-44d7e93a2e76', { path: '/' });
-    //   this.state = {
-    //     apiToken: cookies.get('apiToken') || ''
-    //   };
-    // }
-    //console.log(this.state);
+    // on mount
   }
-
   render() {
     //const { apiToken } = this.state;
     return (
+      <MuiThemeProvider>
         <div className="wrapper">
-          <Header />
+          <Header appSwitcher profileMenu />
           <Container topBarOffset>
             <Row>
               <Col lg={12}>
@@ -95,6 +77,7 @@ class App extends Component {
           <div id="loader"></div>
           <Footer />
         </div>
+        </MuiThemeProvider>
 
     );
   }
