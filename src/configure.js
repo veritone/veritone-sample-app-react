@@ -20,10 +20,10 @@ import notFoundRoute from 'plugins/notFound';
 const PassThrough = props => props.children;
 
 //
-const AuthChecks = flow([
-  EnsureUserIsAuthenticated
-]
-)(PassThrough);
+// const AuthChecks = flow([
+//   EnsureUserIsAuthenticated
+// ]
+// )(PassThrough);
 
 export function runConfig() {
   const store = configureStore();
@@ -38,7 +38,7 @@ export function runConfig() {
     childRoutes: [
       loginRoute(store),
       {
-        component: AuthChecks,
+        //component: AuthChecks,
         childRoutes: [
           // auth-protected top-level routes
           noAccessRoute,

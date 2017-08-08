@@ -11,7 +11,6 @@ class App extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   };
-
   componentWillMount() {
     // const { cookies } = this.props;
     //
@@ -93,9 +92,10 @@ class App extends Component {
               </Col>
             </Row>
           </Container>
+          <div id="loader"></div>
           <Footer />
         </div>
-      
+
     );
   }
 }

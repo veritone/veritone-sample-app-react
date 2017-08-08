@@ -31,13 +31,13 @@ const AppMarkup = () => {
   return markup;
 };
 
-//ReactDOM.render(<App />, document.getElementById('root'));
+//
 
 
 
 // kick off app by loading initial resources
 Promise.resolve(store.dispatch(boot()))
-  .then(() => store.dispatch(fetchUser()))
+  //.then(() => store.dispatch(fetchUser()))
   .then(() => {
     // Render the React application to the DOM
     render(AppMarkup(), document.getElementById('root'));
@@ -54,7 +54,7 @@ if (module.hot) {
 }
 
 
-
+//ReactDOM.render(<App />, document.getElementById('root'));
 
 // export default function Root() {
 //   return (
@@ -65,10 +65,10 @@ if (module.hot) {
 // }
 
 //
-// ReactDOM.render(<App />, document.getElementById('root'));
-//
-// // Promise.resolve(store.dispatch(boot()));
-// // .then(() => store.dispatch(fetchUser()));
+//ReactDOM.render(<App />, document.getElementById('root'));
+
+// Promise.resolve(store.dispatch(boot()));
+// .then(() => store.dispatch(fetchUser()));
 //
 // if (module.hot) {
 //   module.hot.accept('./App', () => {
