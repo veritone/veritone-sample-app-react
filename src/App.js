@@ -3,22 +3,70 @@ import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { instanceOf } from 'prop-types';
 import { Container, Row, Col } from 'shared-components/grid';
+import { Request } from 'shared-components/Veritone';
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
+import axios from 'axios';
 
 class App extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   };
   componentWillMount() {
-    // on mount
-  }
+
+    const URL = 'https://api.aws-dev.veritone.com/v1/admin/current-user';
+    const USER_TOKEN = '6e15ac5b-efa1-4cbf-ad26-b4cbc1005f1a';
+    const AuthStr = 'Bearer '.concat(USER_TOKEN);
+    axios.get(URL, { headers: { Authorization: AuthStr } })
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log('error 3 ' + error);
+    });
+
+
+
+
+  };
+
+
+  handleClick = () => {
+    alert('hello');
+  };
   render() {
-    //const { apiToken } = this.state;
+    //const { testdata } = this.state;
+    const ExampleRequests = [
+      {
+        index: '1',
+        description: 'Get your current logged in user data',
+        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user'
+      },
+      {
+        index: '2',
+        description: 'Request Organization Data',
+        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-org'
+      }
+    ];
+
+    const apps = [
+      {
+        applicationId: 'abcd',
+        applicationName: 'Test Application',
+        applicationIconSvg: '',
+        applicationIconUrl: 'https://www.veritone.com'
+      },
+      {
+        applicationId: '1234',
+        applicationName: 'Beta Application',
+        applicationIconSvg: '',
+        applicationIconUrl: 'https://www.veritone.com'
+      }
+    ];
     return (
       <MuiThemeProvider>
         <div className="wrapper">
-          <Header appSwitcher profileMenu />
+          <Header enabledApps={this.enabledApps} appSwitcher profileMenu onLogout={this.handleClick} />
           <Container topBarOffset>
             <Row>
               <Col lg={12}>
@@ -51,25 +99,8 @@ class App extends Component {
                   Please refer to the API documentation if you are unsure of any functionality.
                 </p>
 
-                <Row className="cta">
-                  <Col sm={12} lg={10}>
-                  1. Get your current logged in user data<br />
-                    <small>https://api.aws-dev.veritone.com/v1/admin/current-user</small>
-                  </Col>
-                  <Col sm={12} lg={2}>
-                    <button className="cta__button--blue"><span />Request</button>
-                  </Col>
-                </Row>
-
-                <Row className="cta">
-                  <Col sm={12} lg={10}>
-                  2. Request Organization Data<br />
-                    <small>https://api.aws-dev.veritone.com/v1/admin/current-org</small>
-                  </Col>
-                  <Col sm={12} lg={2}>
-                    <button className="cta__button--blue"><span />Request</button>
-                  </Col>
-                </Row>
+                <Request {...ExampleRequests[0]} />
+                <Request {...ExampleRequests[1]} />
 
               </Col>
             </Row>

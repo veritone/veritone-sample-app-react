@@ -5,7 +5,6 @@ import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 import styles from './styles/index.scss';
 
-
 const { element, bool, shape, string, func } = PropTypes;
 
 export default class App extends React.Component {

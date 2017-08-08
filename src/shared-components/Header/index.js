@@ -28,7 +28,6 @@ const Header = (props = {}) => {
     closeButton,
     onClose
   } = props;
-
   return (
     <div className={cx('header', className, {
       ['header--fixed']: true,
@@ -52,10 +51,7 @@ const Header = (props = {}) => {
             <ProfileMenu onLogout={props.logout} />}
           {props.closeButton &&
             <div style={{ marginLeft: 'auto' }}>
-              <IconButton
-                onTouchTap={props.onClose}
-                style={{ fontSize: 'inherit' }}
-              >
+              <IconButton style={{ fontSize: 'inherit' }}>
                 <CloseIcon color="white" />
               </IconButton>
             </div>}
@@ -63,6 +59,10 @@ const Header = (props = {}) => {
       </Toolbar>
     </div>
   );
+};
+
+Header.handleClick = () => {
+  alert('hello');
 };
 
 export default Header;

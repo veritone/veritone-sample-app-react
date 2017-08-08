@@ -1,10 +1,12 @@
 import React from 'react';
+import { PropTypes } from 'helpers/react';
+
+import AppSwitcherList from 'shared-components/AppSwitcherList';
+import AppSwitcherErrorState from 'shared-components/AppSwitcherErrorState';
+
 import AppsIcon from 'material-ui/svg-icons/navigation/apps';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
-import { PropTypes } from 'helpers/react';
-import AppSwitcherList from 'shared-components/AppSwitcherList';
-import AppSwitcherErrorState from 'shared-components/AppSwitcherErrorState';
 
 import styles from './styles/index.scss';
 
@@ -26,19 +28,15 @@ export default class AppSwitcher extends React.Component {
     handleRefresh: func
   };
   static defaultProps = {};
-
   state = {
     menuOpen: false
   };
-
   handleOnRequestChange = value => {
     this.setState({
       menuOpen: value
     });
   };
-
   render() {
-    // todo: loading state
     return (
       <div>
         <IconMenu
@@ -56,9 +54,7 @@ export default class AppSwitcher extends React.Component {
           open={this.state.menuOpen}
           onRequestChange={this.handleOnRequestChange}
         >
-          {this.props.enabledAppsFailedLoading
-            ? <AppSwitcherErrorState handleRefresh={this.props.handleRefresh} />
-            : <AppSwitcherList enabledApps={this.props.enabledApps} />}
+          <AppSwitcherList enabledApps={this.props.enabledApps} />
         </IconMenu>
         <span className={styles['appSwitcher__title']}>Developer</span>
       </div>

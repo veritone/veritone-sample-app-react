@@ -27,14 +27,16 @@ export default class AppNavigation extends React.Component {
     anchorEl: object // eslint-disable-line
   };
   static defaultProps = {};
-
+  onClick = value => {
+    console.log('X------------------>');
+  };
   render() {
     return (
       <div className={styles['appNavigation-container']}>
         <span className={styles['button--desktop']}>
           <FlatButton
             className={styles['appNavigation-container__button']}
-            onTouchTap={this.props.onOpen}
+            onTouchTap={this.onClick}
           >
             <div className={styles['appNavigation-container__button-label']}>
               <span className={styles['label--mobile']}>

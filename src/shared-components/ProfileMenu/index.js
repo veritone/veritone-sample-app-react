@@ -12,7 +12,7 @@ const { string, func } = PropTypes;
 export default class AppSwitcher extends React.Component {
   static propTypes = {
     className: string,
-    onLogout: func.isRequired
+    onLogout: func
   };
   static defaultProps = {};
 
@@ -44,7 +44,7 @@ export default class AppSwitcher extends React.Component {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         targetOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
-        <MenuItem primaryText="Log out" onTouchTap={this.handleLogout} />
+        <MenuItem primaryText="Log out" />
       </IconMenu>
     );
   }
