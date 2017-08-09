@@ -17,10 +17,6 @@ const Request = ({ className, index, description, endpoint, ...props }) => (
   </Row>
 );
 
-Request.handleClick = () => {
-  console.log('test');
-};
-
 Request.propTypes = {
   className: string,
   index: string,

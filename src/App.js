@@ -1,41 +1,16 @@
 import React, { Component } from 'react';
-import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { instanceOf } from 'prop-types';
 import { Container, Row, Col } from 'shared-components/grid';
 import { Request } from 'shared-components/Veritone';
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
-import axios from 'axios';
 
 class App extends Component {
   static propTypes = {
-    cookies: instanceOf(Cookies).isRequired
-  };
-  componentWillMount() {
-
-    const URL = 'https://api.aws-dev.veritone.com/v1/admin/current-user';
-    const USER_TOKEN = '6e15ac5b-efa1-4cbf-ad26-b4cbc1005f1a';
-    const AuthStr = 'Bearer '.concat(USER_TOKEN);
-    axios.get(URL, { headers: { Authorization: AuthStr } })
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log('error 3 ' + error);
-    });
-
-
-
-
   };
 
-
-  handleClick = () => {
-    alert('hello');
-  };
   render() {
-    //const { testdata } = this.state;
     const ExampleRequests = [
       {
         index: '1',
@@ -114,4 +89,4 @@ class App extends Component {
   }
 }
 
-export default withCookies(App);
+export default App;

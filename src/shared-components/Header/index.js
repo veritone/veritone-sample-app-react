@@ -61,8 +61,4 @@ const Header = (props = {}) => {
   );
 };
 
-Header.handleClick = () => {
-  alert('hello');
-};
-
 export default Header;
