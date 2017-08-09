@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { instanceOf } from 'prop-types';
@@ -9,47 +10,13 @@ import Footer from 'shared-components/Footer';
 import axios from 'axios';
 
 class App extends Component {
+
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   };
-  componentWillMount() {
 
-    const URL = 'https://api.aws-dev.veritone.com/v1/admin/current-user';
-    const USER_TOKEN = '6e15ac5b-efa1-4cbf-ad26-b4cbc1005f1a';
-    const AuthStr = 'Bearer '.concat(USER_TOKEN);
-    axios.get(URL, { headers: { Authorization: AuthStr } })
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log('error 3 ' + error);
-    });
-
-
-
-
-  };
-
-
-  handleClick = () => {
-    alert('hello');
-  };
-  render() {
-    //const { testdata } = this.state;
-    const ExampleRequests = [
-      {
-        index: '1',
-        description: 'Get your current logged in user data',
-        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user'
-      },
-      {
-        index: '2',
-        description: 'Request Organization Data',
-        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-org'
-      }
-    ];
-
-    const apps = [
+  state = {
+    apps: [
       {
         applicationId: 'abcd',
         applicationName: 'Test Application',
@@ -62,11 +29,42 @@ class App extends Component {
         applicationIconSvg: '',
         applicationIconUrl: 'https://www.veritone.com'
       }
-    ];
+    ],
+    requests: [
+      {
+        index: '1',
+        description: 'Get your current logged in user data',
+        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user'
+      },
+      {
+        index: '2',
+        description: 'Request Organization Data',
+        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-org'
+      }
+    ]
+  };
+
+  componentWillMount() {
+    // const URL = 'https://api.aws-dev.veritone.com/v1/admin/current-user';
+    // const USER_TOKEN = '6e15ac5b-efa1-4cbf-ad26-b4cbc1005f1a';
+    // const AuthStr = 'Bearer '.concat(USER_TOKEN);
+    // axios.get(URL, { headers: { Authorization: AuthStr } })
+    // .then(response => {
+    //   console.log(response.data);
+    // })
+    // .catch((error) => {
+    //   console.log('error 3 ' + error);
+    // });
+  };
+  handleClick = () => {
+    alert('hello');
+  };
+  render() {
+    injectTapEventPlugin();
     return (
       <MuiThemeProvider>
         <div className="wrapper">
-          <Header enabledApps={this.enabledApps} appSwitcher profileMenu onLogout={this.handleClick} />
+          <Header enabledApps={this.state.apps} appSwitcher profileMenu onLogout={this.handleClick} />
           <Container topBarOffset>
             <Row>
               <Col lg={12}>
@@ -99,8 +97,8 @@ class App extends Component {
                   Please refer to the API documentation if you are unsure of any functionality.
                 </p>
 
-                <Request {...ExampleRequests[0]} />
-                <Request {...ExampleRequests[1]} />
+                <Request {...this.state.requests[0]} />
+                <Request {...this.state.requests[1]} />
 
               </Col>
             </Row>
