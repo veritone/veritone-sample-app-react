@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'helpers/react';
 
 import AppSwitcherList from 'shared-components/AppSwitcherList';
-import AppSwitcherErrorState from 'shared-components/AppSwitcherErrorState';
+//import AppSwitcherErrorState from 'shared-components/AppSwitcherErrorState';
 
 import AppsIcon from 'material-ui/svg-icons/navigation/apps';
 import IconButton from 'material-ui/IconButton';

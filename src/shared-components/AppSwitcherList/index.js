@@ -19,7 +19,6 @@ export default class AppSwitcherList extends React.Component {
   static defaultProps = {
     enabledApps: []
   };
-
   render() {
     return this.props.enabledApps.length
       ? <div>
@@ -35,6 +34,7 @@ export default class AppSwitcherList extends React.Component {
                 target={app.applicationId}
               >
                 <img
+                  alt={app.applicationName}
                   className={appListButtonIconClasses}
                   src={app.applicationIconSvg || app.applicationIconUrl}
                 />

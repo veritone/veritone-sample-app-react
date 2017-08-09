@@ -45,19 +45,10 @@ class App extends Component {
   };
 
   componentWillMount() {
-    // const URL = 'https://api.aws-dev.veritone.com/v1/admin/current-user';
-    // const USER_TOKEN = '6e15ac5b-efa1-4cbf-ad26-b4cbc1005f1a';
-    // const AuthStr = 'Bearer '.concat(USER_TOKEN);
-    // axios.get(URL, { headers: { Authorization: AuthStr } })
-    // .then(response => {
-    //   console.log(response.data);
-    // })
-    // .catch((error) => {
-    //   console.log('error 3 ' + error);
-    // });
+    // todo: update
   };
   handleClick = () => {
-    alert('hello');
+    // todo: update
   };
   render() {
     injectTapEventPlugin();
