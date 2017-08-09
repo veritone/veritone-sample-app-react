@@ -27,7 +27,6 @@ export default class AppSwitcherList extends React.Component {
             const appListButtonIconClasses = cx(styles['appListButtonIcon'], {
               [`${styles['hasSvg']}`]: app.applicationIconSvg
             });
-
             return (
               <MenuItem
                 className={styles['appListButton']}
@@ -39,7 +38,6 @@ export default class AppSwitcherList extends React.Component {
                   className={appListButtonIconClasses}
                   src={app.applicationIconSvg || app.applicationIconUrl}
                 />
-
                 {app.applicationName}
               </MenuItem>
             );

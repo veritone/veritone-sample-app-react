@@ -56,7 +56,7 @@ export default class AppSwitcher extends React.Component {
         >
           <AppSwitcherList enabledApps={this.props.enabledApps} />
         </IconMenu>
-        <span className={styles['appSwitcher__title']}>Developer</span>
+        <span className={styles['appSwitcher__title']}>Applications</span>
       </div>
     );
   }

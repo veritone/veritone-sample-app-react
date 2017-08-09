@@ -50,8 +50,10 @@ const Header = (props = {}) => {
           {props.profileMenu &&
             <ProfileMenu onLogout={props.logout} />}
           {props.closeButton &&
-            <div style={{ marginLeft: 'auto' }}>
-              <IconButton style={{ fontSize: 'inherit' }}>
+            <div
+              style={{ marginLeft: 'auto' }}>
+              <IconButton
+                style={{ fontSize: 'inherit' }}>
                 <CloseIcon color="white" />
               </IconButton>
             </div>}
