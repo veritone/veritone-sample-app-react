@@ -39,9 +39,9 @@ const enhancer = composeEnhancers(
 // ------------------------------------
 const store = createStore(
   /* fixme reducers */
-	combineReducers({
-		[userNamespace]: user
-	}),
+  combineReducers({
+    [userNamespace]: user
+  }),
   {},
   enhancer
 );

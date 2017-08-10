@@ -15,13 +15,13 @@ class App extends React.Component {
     userIsAuthenticated: bool
   };
 
-	componentWillMount() {
-		const { userIsAuthenticated, fetchUser } = this.props;
+  componentWillMount() {
+    const { userIsAuthenticated, fetchUser } = this.props;
 
-		if (!userIsAuthenticated) {
-			this.props.fetchUser();
-		}
-	}
+    if (!userIsAuthenticated) {
+      this.props.fetchUser();
+    }
+  }
 
   render() {
     return (
