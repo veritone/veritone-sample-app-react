@@ -1,5 +1,7 @@
-import React, { PropTypes as ReactPropTypes } from 'react';
+//import React from 'react';
 //import { PropTypes } from 'prop-types';
+
+import { PropTypes as ReactPropTypes } from 'prop-types';
 
 export const PropTypes = {
   ...ReactPropTypes,

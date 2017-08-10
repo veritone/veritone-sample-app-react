@@ -6,6 +6,9 @@ import { Request } from 'shared-components/Veritone';
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 
+import { User } from 'modules/user';
+import { Application } from 'modules/application';
+
 class App extends Component {
 
   static propTypes = {
@@ -31,17 +34,22 @@ class App extends Component {
         index: '1',
         description: 'Get your current logged in user data',
         endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user',
+        parameters: User.requestParameters,
+        fields: User.responseParameters.fields,
         handleClick: () => this.handleClick(0)
+      },
+      {
+        index: '2',
+        description: 'Get available Veritone applications',
+        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user/applications',
+        parameters: User.requestParameters,
+        fields: Application.responseParameters.fields,
+        handleClick: () => this.handleClick(1)
       }
     ]
   };
 
-  // {
-  //   index: '2',
-  //   description: 'Request Organization Data',
-  //   endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-org',
-  //   handleClick: () => this.handleClick(1)
-  // }
+
 
   componentWillMount() {
     // todo: update
@@ -89,6 +97,7 @@ class App extends Component {
                   Please refer to the API documentation if you are unsure of any functionality.
                 </p>
                 <Request {...this.state.requests[0]} />
+                <Request {...this.state.requests[1]} />
               </Col>
             </Row>
           </Container>
