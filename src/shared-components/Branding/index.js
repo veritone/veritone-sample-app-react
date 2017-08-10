@@ -1,18 +1,15 @@
 import React from 'react';
-import cx from 'classnames';
-import { PropTypes } from 'helpers/react';
-// import ApplicationLogoImage from 'public/veritone-logo-white.svg';
+import { PropTypes } from 'prop-types';
+import ApplicationLogoImage from 'resources/veritone-logo-white.svg';
 
-const ApplicationLogoImage = 'fixme';
-
-const { children, number, bool, string } = PropTypes;
+const { string } = PropTypes;
 
 // fixme -- shouldn't this be part of AppBar?
 
 
 const Logo = ({ className, link, ...props }) => (
   <div className="logo">
-    <a href={link} target="_blank"><img src={ApplicationLogoImage} />FIXME LOGO</a>
+    <a href={link} target="_blank" rel="noopener noreferrer"><img alt="Veritone Application" src={ApplicationLogoImage} /></a>
   </div>
 );
 

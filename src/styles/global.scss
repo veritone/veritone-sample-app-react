@@ -163,6 +163,7 @@ hr {
 // header element
 .header {
 
+  z-index: 100;
   display: flex;
   justify-content: space-between;
 
@@ -249,7 +250,9 @@ hr {
 }
 
 .container {
-  height: 100%;
+
+  padding-bottom: 20px;
+  
   &.topBarOffset {
     padding-top: $topBarHeight;
   }
@@ -338,7 +341,7 @@ h1 {
   color: #fff;
 
   span {
-    font-size: 0.8em;
+    font-size: 0.9em;
   }
 
 }

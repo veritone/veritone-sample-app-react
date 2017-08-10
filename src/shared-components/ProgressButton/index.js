@@ -7,8 +7,7 @@ import { PropTypes } from 'helpers/react';
 const { bool } = PropTypes;
 
 const ProgressButton = (props = {}) => {
-  const { loading } = props;
-
+  //const { loading } = props;
   return (
     <button>
       { this.props.value }

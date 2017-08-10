@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuItem from 'material-ui/MenuItem';
-import { PropTypes } from 'helpers/react';
-import cx from 'classnames';
+import { PropTypes } from 'prop-types';
+//import cx from 'classnames';
 import styles from './styles/index.scss';
 const { string, arrayOf, shape } = PropTypes;
 
@@ -19,15 +19,10 @@ export default class AppSwitcherList extends React.Component {
   static defaultProps = {
     enabledApps: []
   };
-
   render() {
     return this.props.enabledApps.length
       ? <div>
           {this.props.enabledApps.map(app => {
-            const appListButtonIconClasses = cx(styles['appListButtonIcon'], {
-              [`${styles['hasSvg']}`]: app.applicationIconSvg
-            });
-
             return (
               <MenuItem
                 className={styles['appListButton']}
@@ -35,10 +30,6 @@ export default class AppSwitcherList extends React.Component {
                 href={`/switch-app/${app.applicationId}`}
                 target={app.applicationId}
               >
-                <img
-                  className={appListButtonIconClasses}
-                  src={app.applicationIconSvg || app.applicationIconUrl}
-                />
 
                 {app.applicationName}
               </MenuItem>
@@ -50,3 +41,13 @@ export default class AppSwitcherList extends React.Component {
         </div>;
   }
 }
+
+// const appListButtonIconClasses = cx(styles['appListButtonIcon'], {
+//   [`${styles['hasSvg']}`]: app.applicationIconSvg
+// });
+
+// <img
+//   alt={app.applicationName}
+//   className={appListButtonIconClasses}
+//   src={app.applicationIconSvg || app.applicationIconUrl}
+// />

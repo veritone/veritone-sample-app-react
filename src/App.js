@@ -1,30 +1,18 @@
 import React, { Component } from 'react';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { instanceOf } from 'prop-types';
 import { Container, Row, Col } from 'shared-components/grid';
 import { Request } from 'shared-components/Veritone';
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 
 class App extends Component {
+
   static propTypes = {
   };
 
-  render() {
-    const ExampleRequests = [
-      {
-        index: '1',
-        description: 'Get your current logged in user data',
-        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user'
-      },
-      {
-        index: '2',
-        description: 'Request Organization Data',
-        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-org'
-      }
-    ];
-
-    const apps = [
+  state = {
+    apps: [
       {
         applicationId: 'abcd',
         applicationName: 'Test Application',
@@ -37,15 +25,42 @@ class App extends Component {
         applicationIconSvg: '',
         applicationIconUrl: 'https://www.veritone.com'
       }
-    ];
+    ],
+    requests: [
+      {
+        index: '1',
+        description: 'Get your current logged in user data',
+        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user',
+        handleClick: () => this.handleClick(0)
+      }
+    ]
+  };
+
+  // {
+  //   index: '2',
+  //   description: 'Request Organization Data',
+  //   endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-org',
+  //   handleClick: () => this.handleClick(1)
+  // }
+
+  componentWillMount() {
+    // todo: update
+  };
+
+  handleClick = (requestIndex) => {
+    console.info(this.state.requests[requestIndex]);
+  };
+
+  render() {
+    injectTapEventPlugin();
     return (
       <MuiThemeProvider>
         <div className="wrapper">
-          <Header enabledApps={this.enabledApps} appSwitcher profileMenu onLogout={this.handleClick} />
+          <Header enabledApps={this.state.apps} appSwitcher profileMenu onLogout={this.handleClick} />
           <Container topBarOffset>
             <Row>
               <Col lg={12}>
-                <h1>Sample Application</h1>
+                <h1>Sample Veritone Application</h1>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id
                   commodo augue. Praesent quam nisi, dictum ac neque quis, ultricies vulputate
@@ -73,10 +88,7 @@ class App extends Component {
                   Below are a few example API requests which can be made after proper authentication/authorization.
                   Please refer to the API documentation if you are unsure of any functionality.
                 </p>
-
-                <Request {...ExampleRequests[0]} />
-                <Request {...ExampleRequests[1]} />
-
+                <Request {...this.state.requests[0]} />
               </Col>
             </Row>
           </Container>
@@ -84,9 +96,10 @@ class App extends Component {
           <Footer />
         </div>
         </MuiThemeProvider>
-
     );
   }
 }
+
+//<Request {...this.state.requests[1]} />
 
 export default App;

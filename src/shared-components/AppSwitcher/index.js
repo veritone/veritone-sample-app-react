@@ -1,13 +1,10 @@
 import React from 'react';
-import { PropTypes } from 'helpers/react';
-
+import { PropTypes } from 'prop-types';
 import AppSwitcherList from 'shared-components/AppSwitcherList';
-import AppSwitcherErrorState from 'shared-components/AppSwitcherErrorState';
-
+//import AppSwitcherErrorState from 'shared-components/AppSwitcherErrorState';
 import AppsIcon from 'material-ui/svg-icons/navigation/apps';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
-
 import styles from './styles/index.scss';
 
 const { string, arrayOf, shape, bool, func } = PropTypes;
@@ -56,7 +53,7 @@ export default class AppSwitcher extends React.Component {
         >
           <AppSwitcherList enabledApps={this.props.enabledApps} />
         </IconMenu>
-        <span className={styles['appSwitcher__title']}>Developer</span>
+        <span className={styles['appSwitcher__title']}>Applications</span>
       </div>
     );
   }

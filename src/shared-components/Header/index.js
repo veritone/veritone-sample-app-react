@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import { PropTypes } from 'helpers/react';
 
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 import { Logo } from 'shared-components/Branding';
@@ -10,10 +9,6 @@ import AppSwitcher from 'shared-components/AppSwitcher';
 import ProfileMenu from 'shared-components/ProfileMenu';
 
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
-
-import styles from './styles/index.scss';
-
-const { string, bool } = PropTypes;
 
 const Header = (props = {}) => {
   const {
@@ -33,8 +28,6 @@ const Header = (props = {}) => {
       ['header--fixed']: true,
       ['header--centered']: true
     })}>
-
-
       <Toolbar className='appToolBar'>
         <ToolbarGroup>
           <Logo link="https://www.veritone.com" />
@@ -50,8 +43,10 @@ const Header = (props = {}) => {
           {props.profileMenu &&
             <ProfileMenu onLogout={props.logout} />}
           {props.closeButton &&
-            <div style={{ marginLeft: 'auto' }}>
-              <IconButton style={{ fontSize: 'inherit' }}>
+            <div
+              style={{ marginLeft: 'auto' }}>
+              <IconButton
+                style={{ fontSize: 'inherit' }}>
                 <CloseIcon color="white" />
               </IconButton>
             </div>}

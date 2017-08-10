@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PropTypes } from 'helpers/react';
+import { PropTypes } from 'prop-types';
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 import styles from './styles/index.scss';

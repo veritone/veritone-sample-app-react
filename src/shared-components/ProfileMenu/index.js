@@ -4,7 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 
-import { PropTypes } from 'helpers/react';
+import { PropTypes } from 'prop-types';
 const { string, func } = PropTypes;
 
 // import styles from './styles/index';
