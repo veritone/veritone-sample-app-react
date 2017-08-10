@@ -16,16 +16,11 @@ const defaultState = {
 
 const reducer = createReducer(defaultState, {
   [FETCH_USER](state, action) {
-    const requestSuccessState = {
+    return {
       ...state,
       isFetching: true,
       fetchingFailed: false
     };
-
-    return action.error
-      ? // handle requestError ie. offline
-        this[FETCH_USER_FAILURE](state, action)
-      : requestSuccessState;
   },
 
   [FETCH_USER_SUCCESS](state, action) {
