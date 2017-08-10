@@ -1,54 +1,54 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import Header from 'shared-components/Header';
+// import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 import styles from './styles/index.scss';
 
+import { userIsAuthenticated, fetchUser } from 'modules/user';
+
 const { element, bool, shape, string, func } = PropTypes;
 
-export default class App extends React.Component {
+
+class App extends React.Component {
   static propTypes = {
-    children: element.isRequired,
     userIsAuthenticated: bool
   };
 
-  state = {
-    currentChildren: this.props.children,
-    pendingChildren: null
-  };
+	componentWillMount() {
+		const { userIsAuthenticated, fetchUser } = this.props;
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.loading) {
-      this.setState({
-        currentChildren: nextProps.children || this.state.currentChildren,
-        pendingChildren: null
-      });
-    }
-
-    if (nextProps.children !== this.state.currentChildren) {
-      if (nextProps.loading) {
-        this.setState({
-          pendingChildren: nextProps.children
-        });
-      } else {
-        this.setState({
-          currentChildren: nextProps.children,
-          pendingChildren: null
-        });
-      }
-    }
-  }
+		if (!userIsAuthenticated) {
+			this.props.fetchUser();
+		}
+	}
 
   render() {
     return (
       <div className={styles['container']}>
-        <Header />
+        {/* <Header /> */}
           <div className={styles['content']}>
-            {this.props.currentChildren}
+            <h1>Hello World</h1>
           </div>
         <Footer />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userIsAuthenticated: userIsAuthenticated(state)
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchUser: () => dispatch(fetchUser())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
