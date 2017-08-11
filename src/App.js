@@ -92,7 +92,7 @@ class App extends React.Component {
                 Please refer to the API documentation if you are unsure of any functionality.
               </p>
               {
-                requests.map((request, index) => <RequestBar key={index} id={index += 1} {...request} />)
+                requests.map((request, index) => <RequestBar key={index} id={index + 1} {...request} />)
               }
             </Col>
           </Row>
