@@ -46,14 +46,14 @@ class App extends React.Component {
         endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user',
         parameters: {},
         fields: [],
-        handleClick: () => console.log('AJAX() 1 - https://api.aws-dev.veritone.com/v1/admin/current-user')
+        onClick: () => console.log('AJAX() 1 - https://api.aws-dev.veritone.com/v1/admin/current-user')
       },
       {
         description: 'Get available Veritone applications',
         endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user/applications',
         parameters: {},
         fields: [],
-        handleClick: () => console.log('AJAX() 2 - https://api.aws-dev.veritone.com/v1/admin/current-user/applications')
+        onClick: () => console.log('AJAX() 2 - https://api.aws-dev.veritone.com/v1/admin/current-user/applications')
       }
     ];
 

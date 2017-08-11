@@ -1,13 +1,11 @@
 import { parse } from 'qs';
 
 /**
- * Parses url query string value
- * @param {STRING} key - query string key
+ * Returns query string from url
  * @return {OBJECT} - query string key value
  */
-export function parseQueryString(key) {
-  const queryObj = parse(window.location.search.substring(1));
-  return queryObj[key];
+export function getQuery() {
+  return parse(window.location.search.substring(1));
 }
 
 /**

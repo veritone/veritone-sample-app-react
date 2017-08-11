@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import veritoneApi from 'veritone-api';
-import { parseQueryString } from 'helpers';
+import { getQuery } from 'helpers';
 
 import user, { namespace as userNamespace } from 'modules/user';
 
@@ -28,7 +28,7 @@ injectTapEventPlugin();
 // Veritone API Client Initalization
 // ------------------------------------
 const client = veritoneApi({
-  token: parseQueryString('apiToken'),
+  token: getQuery().apiToken,
   baseUrl: "https://api.aws-dev.veritone.com"
 })
 

@@ -11,7 +11,7 @@ export default class RequestBar extends React.Component {
     endpoint: string.isRequired,
     parameters: objectOf(any),
     fields: arrayOf(any),
-    handleClick: func.isRequired
+    onClick: func.isRequired
   };
   static defaultProps = {};
 
@@ -32,7 +32,7 @@ export default class RequestBar extends React.Component {
         </Col>
         <Col sm={12} lg={2}>
           <Row>
-            <button className="cta__button--blue" onClick={this.props.handleClick}>
+            <button className="cta__button--blue" onClick={this.props.onClick}>
               Request
             </button>
           </Row>
