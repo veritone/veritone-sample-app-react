@@ -15,8 +15,14 @@ import './styles/global.css';
 import './styles/theme.css';
 import './styles/typography.css';
 
-import './plugins/app/styles/index.scss';
-import App from './plugins/app/App';
+import App from './App';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 
 // Veritone API Client Initalization
@@ -41,7 +47,6 @@ const enhancer = composeEnhancers(
 // Store Initialization
 // ------------------------------------
 const store = createStore(
-  /* fixme reducers */
   combineReducers({
     [userNamespace]: user
   }),
@@ -54,7 +59,9 @@ const store = createStore(
 // ------------------------------------
 render(
   <Provider store={store}>
-    <App />
+    <MuiThemeProvider>
+      <App />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')
 );
