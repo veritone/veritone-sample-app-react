@@ -26,7 +26,7 @@ class App extends React.Component {
   render() {
     return (
       <div className={styles['container']}>
-         {/* <Header />  */}
+           {/* <Header />  */}
           <div className={styles['content']}>
             <h1>Hello World</h1>
           </div>
@@ -42,11 +42,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchUser
-  }
-}
+const mapDispatchToProps = { fetchUser }
 
 export default connect(
   mapStateToProps,
