@@ -1,22 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+
 import { Container, Row, Col } from 'shared-components/grid';
 import RequestBar from 'shared-components/RequestBar';
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 import styles from './App.scss';
 
-import { userIsAuthenticated, fetchUser } from 'modules/user';
+import { userIsAuthenticated, fetchUser, fetchApplications } from 'modules/user';
+import Demo from 'modules/demo';
 
 const { element, bool, shape, string, func } = PropTypes;
-
 
 class App extends React.Component {
   static propTypes = {
     userIsAuthenticated: bool
   };
-  
+
   componentWillMount() {
     const { userIsAuthenticated, fetchUser } = this.props;
 
@@ -25,41 +26,17 @@ class App extends React.Component {
     }
   }
 
+  DemoRequestHandler = (e) => {
+    e.preventDefault();
+    console.log(e, fetchApplications);
+    // nothing
+  }
+
   render() {
-    const apps = [
-      {
-        applicationId: 'abcd',
-        applicationName: 'Test Application',
-        applicationIconSvg: '',
-        applicationIconUrl: 'https://www.veritone.com'
-      },
-      {
-        applicationId: '1234',
-        applicationName: 'Beta Application',
-        applicationIconSvg: '',
-        applicationIconUrl: 'https://www.veritone.com'
-      }
-    ];
-    const requests = [
-      {
-        description: 'Get your current logged in user data',
-        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user',
-        parameters: {},
-        fields: [],
-        onClick: () => console.log('AJAX() 1 - https://api.aws-dev.veritone.com/v1/admin/current-user')
-      },
-      {
-        description: 'Get available Veritone applications',
-        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user/applications',
-        parameters: {},
-        fields: [],
-        onClick: () => console.log('AJAX() 2 - https://api.aws-dev.veritone.com/v1/admin/current-user/applications')
-      }
-    ];
 
     return (
       <div className={styles['wrapper']}>
-        <Header enabledApps={apps} appSwitcher profileMenu onLogout={this.handleClick} />
+        <Header enabledApps={Demo.apps} appSwitcher profileMenu onLogout={this.handleClick} />
         <Container topBarOffset>
           <Row>
             <Col lg={12}>
@@ -92,7 +69,7 @@ class App extends React.Component {
                 Please refer to the API documentation if you are unsure of any functionality.
               </p>
               {
-                requests.map((request, index) => <RequestBar key={index} id={index + 1} {...request} />)
+                Demo.requests.map((request, index) => <RequestBar key={index} id={index + 1} onclick={this.DemoRequestHandler} {...request} />)
               }
             </Col>
           </Row>

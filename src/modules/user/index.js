@@ -7,11 +7,19 @@ export const FETCH_USER = 'vtn/user/FETCH_USER';
 export const FETCH_USER_SUCCESS = 'vtn/user/FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'vtn/user/FETCH_USER_FAILURE';
 
+export const FETCH_USER_APPLICATIONS = 'vtn/user/FETCH_USER_APPLICATIONS';
+export const FETCH_USER_APPLICATIONS_SUCCESS = 'vtn/user/FETCH_USER_APPLICATIONS_SUCCESS';
+export const FETCH_USER_APPLICATIONS_FAILURE = 'vtn/user/FETCH_USER_APPLICATIONS_FAILURE';
+
 const defaultState = {
   user: {},
+  applications: {},
 
   isFetching: false,
   fetchingFailed: false,
+  
+  isFetchingApplications: false,
+  fetchingApplicationsFailed: false
 };
 
 const reducer = createReducer(defaultState, {
@@ -22,7 +30,6 @@ const reducer = createReducer(defaultState, {
       fetchingFailed: false
     };
   },
-
   [FETCH_USER_SUCCESS](state, action) {
     return {
       ...state,
@@ -31,13 +38,35 @@ const reducer = createReducer(defaultState, {
       user: action.payload
     };
   },
-
   [FETCH_USER_FAILURE](state, action) {
     return {
       ...state,
       isFetching: false,
       fetchingFailed: true,
       user: {}
+    };
+  },
+  [FETCH_USER_APPLICATIONS](state, action) {
+    return {
+      ...state,
+      isFetchingApplications: true,
+      fetchingApplicationsFailed: false
+    };
+  },
+  [FETCH_USER_APPLICATIONS_SUCCESS](state, action) {
+    return {
+      ...state,
+      isFetchingApplications: false,
+      fetchingApplicationsFailed: false,
+      applications: action.payload
+    };
+  },
+  [FETCH_USER_APPLICATIONS_FAILURE](state, action) {
+    return {
+      ...state,
+      isFetchingApplications: false,
+      fetchingApplicationsFailed: true,
+      applications: {}
     };
   }
 });
@@ -51,14 +80,30 @@ function local(state) {
 export function fetchUser() {
   return (dispatch, getState, client) => {
     dispatch({ type: FETCH_USER })
-
-    client.engine.getEngines().then(
+    client.user.getCurrentUser().then(
       (user) => dispatch({
         type: FETCH_USER_SUCCESS,
         payload: user
       }),
       (err) => dispatch({
         type: FETCH_USER_FAILURE,
+        error: true,
+        payload: err
+      })
+    );
+  }
+}
+
+export function fetchApplications() {
+  return (dispatch, getState, client) => {
+    dispatch({ type: FETCH_USER_APPLICATIONS })
+    client.user.getApplications().then(
+      (user) => dispatch({
+        type: FETCH_USER_APPLICATIONS_SUCCESS,
+        payload: user
+      }),
+      (err) => dispatch({
+        type: FETCH_USER_APPLICATIONS_FAILURE,
         error: true,
         payload: err
       })

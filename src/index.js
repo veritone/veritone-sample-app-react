@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import veritoneApi from 'veritone-api';
-import { getQuery } from 'helpers';
+import veritoneApi from 'veritone-api/dist/bundle-node.js';
+import { AuthFlow } from 'helpers';
 
 import user, { namespace as userNamespace } from 'modules/user';
 
@@ -27,10 +27,8 @@ injectTapEventPlugin();
 
 // Veritone API Client Initalization
 // ------------------------------------
-const client = veritoneApi({
-  token: getQuery().apiToken,
-  baseUrl: "https://api.aws-dev.veritone.com"
-})
+const apiConfig = AuthFlow();
+const client = veritoneApi(apiConfig);
 
 
 // Middleware

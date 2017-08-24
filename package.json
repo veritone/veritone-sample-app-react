@@ -27,8 +27,8 @@
   "devDependencies": {
     "cheerio": "^1.0.0-rc.1",
     "functional-permissions-lib": "git+https://github.com/veritone/functional-permissions-lib#develop",
-    "node-config": "git+https://github.com/inspirent/node-config",
-    "node-logger": "git+https://github.com/inspirent/node-logger",
+    "node-config": "git+https://github.com/inspirent/node-config.git",
+    "node-logger": "git+https://github.com/inspirent/node-logger.git",
     "node-sass-chokidar": "^0.0.2",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.4.4",
@@ -36,8 +36,8 @@
     "redux-immutable-state-invariant": "^2.0.0",
     "redux-logger": "^3.0.6",
     "redux-validate-fsa": "^0.1.2",
-    "veritone-lib": "git+https://github.com/veritone/veritone-lib#develop",
-    "veritone-api": "git+https://github.com/veritone/veritone-api#refactor/VTN-3590/use-handler-factory"
+    "veritone-api": "git+https://github.com/veritone/veritone-api#refactor/VTN-3590/use-handler-factory",
+    "veritone-lib": "git+https://github.com/veritone/veritone-lib#develop"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",

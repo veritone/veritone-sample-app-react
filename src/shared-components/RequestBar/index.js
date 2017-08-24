@@ -3,7 +3,6 @@ import { Row, Col } from 'shared-components/grid';
 import { PropTypes } from 'helpers/react';
 const { number, string, arrayOf, objectOf, func, any } = PropTypes;
 
-
 export default class RequestBar extends React.Component {
   static propTypes = {
     id: number.isRequired,
@@ -11,7 +10,7 @@ export default class RequestBar extends React.Component {
     endpoint: string.isRequired,
     parameters: objectOf(any),
     fields: arrayOf(any),
-    onClick: func.isRequired
+    onclick: func
   };
   static defaultProps = {};
 
@@ -32,7 +31,7 @@ export default class RequestBar extends React.Component {
         </Col>
         <Col sm={12} lg={2}>
           <Row>
-            <button className="cta__button--blue" onClick={this.props.onClick}>
+            <button className="cta__button--blue" onClick={this.props.onclick}>
               Request
             </button>
           </Row>

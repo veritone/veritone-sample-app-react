@@ -2,7 +2,7 @@ const Application = {
   requestParameters: {
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer 10d590c0-2e82-4297-9b2e-9d2387a50236',
+      'Authorization': 'Bearer ad3e78eb-febc-43fe-9d7e-45a3fd9a7e61',
       'Content-Type': 'application/json'
     }
   },
