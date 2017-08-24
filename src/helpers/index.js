@@ -20,7 +20,7 @@ export function AuthFlow() {
     endpointLogin: 'https://www.aws-dev.veritone.com/login',
     endpointAuthorize: 'https://api.aws-dev.veritone.com/v1/admin/oauth/authorize',
     clientId: 'e5d90340-f4fc-4054-bbd9-a4bd727f1f95',
-    clientExampleToken: 'cb67853f-2fde-4d21-ba57-80393b268194',
+    clientExampleToken: 'a99f8502-8a07-4ae1-9023-46d0c4512dd0',
     clientOrigin: 'http://local.veritone.com:3000',
     clientRedirect: encodeURIComponent('http://local.veritone.com:3000'),
     clientScope: 'readall '
@@ -35,6 +35,7 @@ export function AuthFlow() {
     AuthProcessSessionToken(appConfig, params.token);
     return {
       token: params.token,
+      Origin: null,
       baseUrl: appConfig.endpointApi
     }
   } else {
@@ -50,9 +51,8 @@ function AuthProcessSessionToken(appConfig, token) {
   console.log(url);
   fetch(url, {
     method: "get",
-    origin: 'local.veritone.com',
     headers: {
-      "authorization": "bearer 38d6fee1-8c81-4f5e-ae6a-7dead5308894"
+      "authorization": "bearer " + appConfig.clientExampleToken
     }
   })
   .then(response => {
@@ -65,6 +65,7 @@ function AuthProcessSessionToken(appConfig, token) {
 
 function AuthProcessAccessCode(appConfig, token) {
   console.log('[Step 2]: Processing Access Code', token);
+  return;
   AuthProcessAccessToken(appConfig, 'abcd');
 }
 

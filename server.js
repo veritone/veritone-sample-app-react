@@ -5,6 +5,7 @@ const compression = require('compression');
 const cheerio = require('cheerio');
 const cookieParser = require('cookie-parser');
 const nodeConfig = require('node-config');
+const cors = require('cors');
 
 let config;
 try {
@@ -49,10 +50,14 @@ const indexWithConfig = $indexHtml.html();
 fs.writeFileSync('build/index.html', indexWithConfig);
 console.log('wrote index.html with injected config');
 
+app.use(cors());
+app.use(cookieParser())
 app.use(compression());
 app.use('/static', express.static('build/static'));
 
+
 app.get('*', (req, res) => {
+  res.cookie('veritone-vda-test-cookie', 1);
   res.sendFile(path.join(__dirname, 'build/index.html'));
 });
 

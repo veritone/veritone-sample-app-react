@@ -22,7 +22,7 @@ class App extends React.Component {
     const { userIsAuthenticated, fetchUser } = this.props;
 
     if (!userIsAuthenticated) {
-      this.props.fetchUser();
+      //this.props.fetchUser();
     }
   }
 
