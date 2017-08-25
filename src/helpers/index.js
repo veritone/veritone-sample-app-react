@@ -2,7 +2,19 @@ import React from 'react';
 import Cookies from 'universal-cookie';
 import { parse } from 'qs';
 
+// recent additions
+import stagedConfig from './stage.json';
 const cookies = new Cookies();
+
+
+/**
+ * generic set cookie function
+ * @return null
+ */
+function setCookie(name, value) {
+  cookies.set(name, value, { path: '/', domain: '.veritone.com', maxAge: 604800 });
+}
+
 
 /**
  * Checks whether an object is empty
@@ -19,45 +31,39 @@ export function isEmpty(obj) {
 }
 
 
-  // cookies.set('myCat', 'Pacman', { path: '/' });
-
-
 /**
- * Temporary Configuration
- * @return {OBJECT}
- */
-const appConfig = {
-  endpointApi: 'https://api.aws-dev.veritone.com',
-  endpointLogin: 'https://www.aws-dev.veritone.com/login',
-  endpointAuthorize: 'https://api.aws-dev.veritone.com/v1/admin/oauth/authorize',
-  endpointToken: 'https://api.aws-dev.veritone.com/v1/admin/oauth/token',
-  clientId: 'e5d90340-f4fc-4054-bbd9-a4bd727f1f95',
-  clientSecret: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
-  clientUserSessionToken: 'bfac6081-24ca-4af0-82cf-4dace9af5118',
-  clientOrigin: 'http://local.veritone.com:3000',
-  clientRedirect: 'http://local.veritone.com:3000',
-  clientScope: 'readall', // or read
-  clientGrantType: 'authorization_code'
-};
-
-
-/**
- * API Configuration
+ * set API configuration
  * @return {OBJECT}
  */
 export function ApiConfiguration(attrs) {
+  const state = GetApplicationState();
   return {
-    token: cookies.get('veritone-auth-session-token'),
-    accessCode: cookies.get('veritone-auth-access-code'),
-    accessToken: cookies.get('veritone-auth-access-token'),
-    baseUrl: appConfig.endpointApi
+    token: state.session,
+    accessCode: state.code,
+    accessToken: state.token,
+    baseUrl: state.api
   }
 }
 
 
 /**
- * Returns query string from url
- * @return {OBJECT} - query string key value
+ * Load all configurations from cookies and json
+ * @return {OBJECT}
+ */
+export function GetApplicationState() {
+  return {
+    session: cookies.get('veritone-auth-session-token'),
+    code: cookies.get('veritone-auth-access-code'),
+    token: cookies.get('veritone-auth-access-token'),
+    queries: parse(window.location.search.substring(1)),
+    api: stagedConfig.endpointApi
+  }
+}
+
+
+/**
+ * Basic auth flow handler
+ * @return null
  */
 export function AuthFlow() {
   const params = parse(window.location.search.substring(1));
@@ -66,9 +72,7 @@ export function AuthFlow() {
   } else if(params.token && params.code === undefined) {
     AuthProcessAccessCode(params); // 2
   } else if(params.code && params.token === undefined) {
-    return AuthProcessAccessToken(params); // 3
-  } else {
-    AuthProcessDefault(params); // 4
+    AuthProcessAccessToken(params); // 3
   }
 }
 
@@ -79,11 +83,9 @@ export function AuthFlow() {
  */
 function AuthProcessVeritoneLogin(params) {
   if(cookies.get('veritone-auth-session-token') === undefined) {
-    // defaulty set
-    cookies.set('veritone-auth-session-token', appConfig.clientUserSessionToken, { path: '/', domain: '.veritone.com' });
-
-    console.log(`[ OAUTH STEP 1 ] => If there are no codes or tokens [${params.token}, ${params.code}]`);
-    window.location = `${appConfig.endpointLogin}?redirect=${appConfig.clientRedirect}%3Ftoken%3D${appConfig.clientUserSessionToken}`;
+    //console.log(`[ OAUTH STEP 1 ] => If there are no codes or tokens [${params.token}, ${params.code}]`);
+    setCookie('veritone-auth-session-token', stagedConfig.clientUserSessionToken);
+    window.location = `${stagedConfig.endpointLogin}?redirect=${stagedConfig.clientRedirect}%3Ftoken%3D${stagedConfig.clientUserSessionToken}`;
   }
 }
 
@@ -93,9 +95,9 @@ function AuthProcessVeritoneLogin(params) {
  * @return {OBJECT} - query string key value
  */
 function AuthProcessAccessCode(params) {
-  console.log(`[ OAUTH STEP 2 ] => If we have token but no code [${params.token}, ${params.code}]`);
-  cookies.set('veritone-auth-session-token', params.token, { path: '/', domain: '.veritone.com' });
-  const url = `${appConfig.endpointAuthorize}?response_type=code&client_id=${appConfig.clientId}&redirect_uri=${appConfig.clientRedirect}&scope=${appConfig.clientScope}`;
+  //console.log(`[ OAUTH STEP 2 ] => If we have token but no code [${params.token}, ${params.code}]`);
+  setCookie('veritone-auth-session-token', params.token);
+  const url = `${stagedConfig.endpointAuthorize}?response_type=code&client_id=${stagedConfig.clientId}&redirect_uri=${stagedConfig.clientRedirect}&scope=${stagedConfig.clientScope}`;
   window.location = url;
 }
 
@@ -105,147 +107,22 @@ function AuthProcessAccessCode(params) {
  * @return {OBJECT} - query string key value
  */
 function AuthProcessAccessToken(params) {
-  console.log(`[ OAUTH STEP 3 ] => If we have code but no token [${params.token}, ${params.code}]`);
-  cookies.set('veritone-auth-access-code', params.code, { path: '/', domain: '.veritone.com' });
-  let codeUrl = `http://local.veritone.com:9000/oauth?code=${params.code}`;
-  fetch(codeUrl, {
+  //console.log(`[ OAUTH STEP 3 ] => If we have code but no token [${params.token}, ${params.code}]`);
+  setCookie('veritone-auth-access-code', params.code);
+  fetch(`http://local.veritone.com:9000/oauth?code=${params.code}`, {
     method: "post"
   })
   .then((resp) => resp.json())
   .then(function(data) {
     try {
       if(data.token.access_token) {
-        cookies.set('veritone-auth-access-token', data.token.access_token, { path: '/', domain: '.veritone.com' });
+        setCookie('veritone-auth-access-token', data.token.access_token);
       }
     } catch(e) {
       console.error(e);
     }
-    //
   }).catch(function(err) {
     cookies.remove('veritone-auth-access-code');
     cookies.remove('veritone-auth-access-token');
   });
 }
-
-
-/**
- * Returns query string from url
- * @return {OBJECT} - query string key value
- */
-function AuthProcessDefault(params) {
-  console.log(`[ OAUTH STEP 4 ] => If we hit no other conditionals [${params.token}, ${params.code}]`);
-  return {
-    token: appConfig.clientUserSessionToken,
-    baseUrl: appConfig.endpointApi
-  }
-}
-
-
-//
-//
-//
-// attrs.then(function(data) {
-//   return {
-//     token: tokens.session || '',
-//     accessToken: data.token.access_token || '',
-//     baseUrl: appConfig.endpointApi || ''
-//   }
-// }).catch(function(err) {
-//   console.log(err);
-// })
-
-
-
-
-
-// var tokens = {
-//   api: null,
-//   session: appConfig.clientUserSessionToken,
-//   token: null
-// }
-//
-// apiConfig
-//   .then(function(codes) {
-//   return {
-//     token: tokens.session,
-//     accessToken: codes.token.access_token || '',
-//     baseUrl:
-//   }
-// }).catch(function() {
-//   return {
-//     token: tokens.session,
-//     baseUrl: appConfig.endpointApi
-//   }
-// })
-
-
-/**
- * Returns query string from url
- * @return {OBJECT} - query string key value
- */
-// export function getQuery() {
-//   const q = window.location.search.substring(1);
-//   return (q === undefined ? window.location = "https//www.aws-dev.veritone.com/login" : parse(q) );
-// }
-
-// /**
-//  * Returns query string from url
-//  * @return {OBJECT} - query string key value
-//  */
-// function AuthX(code) {
-//   //const url = `${appConfig.endpointAuthorize}?response_type=code&client_id=${appConfig.clientId}&redirect_uri=${appConfig.clientRedirect}&scope=${appConfig.clientScope}`;
-//
-//   const url = `http://local.veritone.com:9000/oauth?code=${code}`;
-//   console.log(url);
-//   fetch(url, {
-//     method: "post",
-//     headers: {
-//       "authorization": "bearer " + appConfig.clientExampleToken
-//     }
-//   })
-//   .then(response => {
-//     console.log('cat', response)
-//   })
-//   .catch(error => {
-//     console.log('dog', error);
-//   });
-// }
-
-  //AuthProcessAccessCode(appConfig, params.code);
-  //const url = `${appConfig.endpointAuthorize}?response_type=code&client_id=${appConfig.clientId}&redirect_uri=${appConfig.clientRedirect}&scope=${appConfig.clientScope}`;
-  //window.location = url;
-  // console.log(url);
-  // AuthX(params.code);
-  //
-  // return;
-
-  // if(params.token) {
-  //   AuthProcessSessionToken(appConfig, params.token);
-  //   return {
-  //     token: params.token,
-  //     Origin: null,
-  //     baseUrl: appConfig.endpointApi
-  //   }
-  // } else {
-  //   window.location = `${appConfig.endpointLogin}?redirect=${appConfig.clientRedirect}%3Ftoken%3D${appConfig.clientExampleToken}`;
-  // }
-//
-// function AuthProcessSessionToken(appConfig, token) {
-//   // console.log('[Step 1]: Processing Session Token', token);
-//   localStorage.setItem('dev-veritone-session-id', token);
-//   const url = `${appConfig.endpointAuthorize}?response_type=code&client_id=${appConfig.clientId}&redirect_uri=${appConfig.clientRedirect}&scope=${appConfig.clientScope}`;
-//   window.location = url;
-//   // console.log(url);
-//   // fetch(url, {
-//   //   method: "get",
-//   //   headers: {
-//   //     "authorization": "bearer " + appConfig.clientExampleToken
-//   //   }
-//   // })
-//   // .then(response => {
-//   //   console.log('cat', response)
-//   // })
-//   // .catch(error => {
-//   //   console.log('dog', error);
-//   // });
-// }

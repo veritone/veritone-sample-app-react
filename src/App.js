@@ -10,8 +10,8 @@ import styles from './App.scss';
 import { userIsAuthenticated, fetchUser, fetchApplications } from 'modules/user';
 import Demo from 'modules/demo';
 
-const { bool, instanceOf } = PropTypes;
-//const { element, bool, shape, string, func } = PropTypes;
+const { element, bool, shape, string, func, instanceOf } = PropTypes;
+
 class App extends React.Component {
   static propTypes = {
     userIsAuthenticated: bool
@@ -21,7 +21,7 @@ class App extends React.Component {
     const { userIsAuthenticated, fetchUser } = this.props;
 
     if (!userIsAuthenticated) {
-      //this.props.fetchUser();
+      this.props.fetchUser();
     }
   }
 

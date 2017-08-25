@@ -17,7 +17,7 @@ const defaultState = {
 
   isFetching: false,
   fetchingFailed: false,
-  
+
   isFetchingApplications: false,
   fetchingApplicationsFailed: false
 };
@@ -97,7 +97,7 @@ export function fetchUser() {
 export function fetchApplications() {
   return (dispatch, getState, client) => {
     dispatch({ type: FETCH_USER_APPLICATIONS })
-    client.user.getApplications().then(
+    client.engine.getEngines().then(
       (user) => dispatch({
         type: FETCH_USER_APPLICATIONS_SUCCESS,
         payload: user
