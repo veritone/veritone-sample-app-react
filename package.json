@@ -16,7 +16,6 @@
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
     "react": "^15.6.1",
-    "react-cookie": "^2.0.8",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-redux-saga": "^1.0.2",
@@ -25,7 +24,8 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "unirest": "^0.5.1"
+    "unirest": "^0.5.1",
+    "universal-cookie": "^2.0.8"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.1",

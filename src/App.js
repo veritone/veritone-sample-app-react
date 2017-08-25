@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-
 import { Container, Row, Col } from 'shared-components/grid';
 import RequestBar from 'shared-components/RequestBar';
 import Header from 'shared-components/Header';
@@ -11,8 +10,8 @@ import styles from './App.scss';
 import { userIsAuthenticated, fetchUser, fetchApplications } from 'modules/user';
 import Demo from 'modules/demo';
 
-const { element, bool, shape, string, func } = PropTypes;
-
+const { bool, instanceOf } = PropTypes;
+//const { element, bool, shape, string, func } = PropTypes;
 class App extends React.Component {
   static propTypes = {
     userIsAuthenticated: bool
