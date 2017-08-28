@@ -8,8 +8,6 @@ import RequestBar from 'shared-components/RequestBar';
 import ExpandingContainer from 'shared-components/ExpandingContainer';
 
 import { transcribeMedia } from 'modules/mediaExample';
-// import { createRecording, createMediaAsset } from 'modules/recording';
-// import { createJob, getJob } from 'modules/job';
 
 
 const { bool } = PropTypes;
@@ -36,9 +34,11 @@ class MediaExample extends React.Component {
         <h4>Transcription Example</h4>
         <RequestBar
           id={1}
-          description={'Upload a media file to begin transcription'}
+          description='Upload a media file to begin transcription'
           expanded={this.state.expanded}
-          button={<MediaUpload onFileLoad={this.onFileLoad}/>}
+          button={
+            <MediaUpload onFileLoad={this.onFileLoad}/>
+          }
         />
       </div>
     );

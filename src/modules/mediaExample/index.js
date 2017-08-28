@@ -25,8 +25,6 @@ const defaultState = {
 
 const reducer = createReducer(defaultState, {
   [CREATE_RECORDING](state, action) {
-    console.log('CREATE_RECORDING action', action)
-    console.log('CREATE_RECORDING state', state)
     return {
       ...state,
       actions: {
@@ -40,8 +38,6 @@ const reducer = createReducer(defaultState, {
   },
 
   [CREATE_RECORDING_SUCCESS](state, action) {
-    console.log('CREATE_RECORDING_SUCCESS action', action)
-    console.log('CREATE_RECORDING_SUCCESS state', state)
     return {
       ...state,
       actions: {
@@ -156,7 +152,7 @@ const reducer = createReducer(defaultState, {
       actions: {
         ...state.actions,
         getJob: {
-          name: 'Begin Polling For Job',
+          name: 'Polling For Job',
           status: 'loading'
         }
       }
@@ -170,8 +166,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         getJob: {
           ...state.actions.getJob,
-          name: 'Polling For Job',
-          status: 'loading'
+          name: 'Job Complete',
+          status: 'success'
         }
       }
     };
@@ -205,13 +201,11 @@ export function transcribeMedia(file) {
       stopDateTime: file.stopDateTime
     }))
     .then((response) => {
-      console.log('createRecording() payload', response)
       const recordingId = response.payload.recordingId;
 
       return dispatch(createMediaAsset(recordingId, file));
     })
     .then((response) => {
-      console.log('createMediaAsset() payload', response)
       const recordingId = response.payload.recordingId;
       const tasks = [
         {
@@ -222,35 +216,18 @@ export function transcribeMedia(file) {
       return dispatch(createJob(recordingId, tasks));
     })
     .then((response) => {
-      console.log('createJob() payload', response)
       const self = this;
       const jobId = response.payload.jobId;
-      // var x = 0;
-      // var intervalID = setInterval(function () {
-        
-      //      // Your logic here
-      //      self.props.getJob(jobId).then(response => console.log('resp', response));
-      //      if (++x === 5) {
-      //          window.clearInterval(intervalID);
-      //      }
-      //   }, 5000);
-      
 
       return dispatch(getJob(jobId));
-    })
-    .then((response) => {
-      // return dispatch(showResults());
-      console.log('getJob() payload', response)
-    })
+    });
   }
 }
 
 
 export function createRecording(recording) {
-  console.log('recording..', recording)
   return (dispatch, getState, client) => {
-    dispatch({ type: CREATE_RECORDING })
-    console.log('client', client);
+    dispatch({ type: CREATE_RECORDING });
     return client.client2.recording.createRecording(recording).then(
       (recording) => dispatch({
         type: CREATE_RECORDING_SUCCESS,
@@ -268,8 +245,7 @@ export function createRecording(recording) {
 export function createMediaAsset(recordingId, asset) {
   console.log('recordingId..', recordingId)
   return (dispatch, getState, client) => {
-    dispatch({ type: CREATE_MEDIA_ASSET })
-    console.log('client', client);
+    dispatch({ type: CREATE_MEDIA_ASSET });
     return client.client2.recording.createAsset(recordingId, asset).then(
       (recording) => dispatch({
         type: CREATE_MEDIA_ASSET_SUCCESS,
@@ -285,11 +261,8 @@ export function createMediaAsset(recordingId, asset) {
 }
 
 export function createJob(recordingId, tasks) {
-  console.log('recordingId..', recordingId);
-  console.log('tasks', tasks)
   return (dispatch, getState, client) => {
-    dispatch({ type: CREATE_JOB })
-    console.log('client', client);
+    dispatch({ type: CREATE_JOB });
     return client.client2.job.createJob({ recordingId, tasks }).then(
       (job) => dispatch({
         type: CREATE_JOB_SUCCESS,
@@ -305,20 +278,22 @@ export function createJob(recordingId, tasks) {
 }
 
 export function getJob(jobId) {
-  console.log('jobId..', jobId);
   return (dispatch, getState, client) => {
     dispatch({ type: GET_JOB })
-    console.log('client', client);
-    return client.client2.job.getJob(jobId).then(
-      (job) => dispatch({
-        type: GET_JOB_SUCCESS,
-        payload: job
-      }),
-      (err) => dispatch({
-        type: GET_JOB_FAILURE,
-        error: true,
-        payload: err
-      })
-    );
+    return client.client2.job.getJob(jobId).then((job) => {
+      if (job.status !== 'complete') {
+        setTimeout(function(){
+          return dispatch(getJob(jobId));
+        }, 5000);
+      } else {
+        return dispatch({ type: GET_JOB_SUCCESS })
+      }
+
+    })
+    .catch(err => dispatch({
+      type: GET_JOB_FAILURE,
+      error: true,
+      payload: err
+    }));
   }
 }
