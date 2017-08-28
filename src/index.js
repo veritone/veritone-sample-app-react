@@ -3,10 +3,11 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import veritoneApi from 'veritone-api';
+import veritoneApi from 'veritone-api/dist/bundle-node.js';
 import { getQuery } from 'helpers';
 
 import user, { namespace as userNamespace } from 'modules/user';
+import mediaExample, { namespace as mediaExampleNamespace } from 'modules/mediaExample';
 
 import './polyfill';
 
@@ -28,6 +29,11 @@ injectTapEventPlugin();
 // Veritone API Client Initalization
 // ------------------------------------
 const client = veritoneApi({
+  token: getQuery().token,
+  baseUrl: "https://api.aws-dev.veritone.com"
+})
+
+const client2 = veritoneApi({
   token: getQuery().apiToken,
   baseUrl: "https://api.aws-dev.veritone.com"
 })
@@ -39,7 +45,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancer = composeEnhancers(
   applyMiddleware(
-    thunkMiddleware.withExtraArgument(client)
+    thunkMiddleware.withExtraArgument({ client, client2 })
   )
 );
 
@@ -48,7 +54,8 @@ const enhancer = composeEnhancers(
 // ------------------------------------
 const store = createStore(
   combineReducers({
-    [userNamespace]: user
+    [userNamespace]: user,
+    [mediaExampleNamespace]: mediaExample
   }),
   {},
   enhancer

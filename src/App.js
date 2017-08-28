@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { Container, Row, Col } from 'shared-components/grid';
+import { Container, Row, Col } from 'shared-components/Grid';
 import RequestBar from 'shared-components/RequestBar';
+import MediaExample from 'shared-components/MediaExample';
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 import styles from './App.scss';
@@ -21,7 +22,7 @@ class App extends React.Component {
     const { userIsAuthenticated, fetchUser } = this.props;
 
     if (!userIsAuthenticated) {
-      this.props.fetchUser();
+      // this.props.fetchUser();
     }
   }
 
@@ -94,6 +95,11 @@ class App extends React.Component {
               {
                 requests.map((request, index) => <RequestBar key={index} id={index + 1} {...request} />)
               }
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={12} className="topDivider">
+              <MediaExample />
             </Col>
           </Row>
         </Container>

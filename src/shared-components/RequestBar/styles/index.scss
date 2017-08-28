@@ -1,0 +1,54 @@
+$blue-1: #2196f3;
+
+.requestBar {
+    padding: 12px 22px;
+    background: #f2f2f2;
+    border-left: 3px solid #2196f3;
+    margin-bottom: 14px;
+
+    &:hover {
+        background: #f1f1f1;
+        border-left: 3px solid #4caf50;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 36px;
+    }
+
+    &__endpoint {
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    &__payload {
+        max-height: 500px;
+        background-color: #FBFBFB;
+        overflow: auto;
+        border: 1px solid rgb(224, 224, 224);
+        padding: 0 20px;
+    }
+
+    &__btn {
+
+        &-container {
+            width: 110px;
+        }
+
+        border: 0;
+        font-family: Roboto, sans-serif;
+        cursor: pointer;
+        outline: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+        background-color: $blue-1;
+        color: white;
+
+        &:hover {
+            background: #1E8AE0;
+        }
+    }
+}

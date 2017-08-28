@@ -1,0 +1,19 @@
+.container {
+  padding: 4px 10px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .title-content {
+    width: 100%;
+    padding-right: 20px;
+  }
+
+  .toggle-icon {
+    display: inline-block;
+    opacity: 0.54 !important;
+  }
+}
