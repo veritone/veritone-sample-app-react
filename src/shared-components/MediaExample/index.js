@@ -31,54 +31,8 @@ class MediaExample extends React.Component {
   };
 
   render() {
-    const payload = {
-        "jobId": "000e68d8-4d3b-4bc3-b7b2-4bdca5ed8326",
-        "recordingId": "21098970",
-        "sourceAssetId": null,
-        "createdDateTime": 1503701619,
-        "modifiedDateTime": 1503701619,
-        "retries": 0,
-        "clusterId": null,
-        "bundleId": null,
-        "tasks": [
-            {
-                "taskId": "000e68d8-4d3b-4bc3-b7b2-4bdca5ed8326-ca5ecf8f-1e6d-4c94-90f2-9d2dbe46e422",
-                "jobId": "000e68d8-4d3b-4bc3-b7b2-4bdca5ed8326",
-                "applicationId": "652cf6d2-0834-46c2-bbd3-821333d369ea",
-                "createdDateTime": 1503701619,
-                "queuedDateTime": 1503701619,
-                "modifiedDateTime": 1503701619,
-                "completedDateTime": null,
-                "taskOrder": 0,
-                "taskExecutor": "iron-io",
-                "taskExecutorId": "59a0aa73dc3073000ba3dd3e",
-                "taskStatus": "queued",
-                "taskPayload": {
-                    "mode": "library-run",
-                    "libraryId": "513c805f-2893-4f49-8814-b2548ef700d6"
-                },
-                "taskOutput": null,
-                "recordingId": "21098970",
-                "isClone": false,
-                "engineId": "imagedetection-facerecognition-kairos",
-                "failureType": null,
-                "taskLog": null,
-                "sourceAssetId": null,
-                "enginePrice": null,
-                "customerPrice": null,
-                "mediaLengthSecs": null,
-                "mediaStorageBytes": null,
-                "mediaFileName": null,
-                "businessName": null,
-                "buildId": "aa6832b6-6e44-4297-8bc5-128311d44c13",
-                "buildId2": null,
-                "buildId3": null
-            }
-        ],
-        "status": "running"
-    }
-
     const actions = this.props.actions;
+    const payload = this.props.payload;
 
     const showResults = this.props.actions.getJob &&
                         this.props.actions.getJob.status === 'success';
@@ -98,11 +52,13 @@ class MediaExample extends React.Component {
           <MediaUploadStates actions={this.props.actions} />
           <Divider />
           {showResults &&
-          <MediaUploadState action='Results' />}
+            <MediaUploadState action='Results' />
+          }
           {showResults &&
-          <div className='requestBar__payload'>
-            <pre>{JSON.stringify(payload, null, 2)}</pre>
-          </div>}
+            <div className='requestBar__payload'>
+              <pre>{JSON.stringify(payload, null, 2)}</pre>
+            </div>
+          }
         </RequestBar>
       </div>
     );
@@ -111,7 +67,8 @@ class MediaExample extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    actions: state.mediaExample.actions
+    actions: state.mediaExample.actions,
+    payload: state.mediaExample.result
   }
 }
 

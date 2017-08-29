@@ -254,7 +254,7 @@ hr {
   padding-bottom: 20px;
 
   &.topBarOffset {
-    padding-top: $topBarHeight;
+    padding: $topBarHeight 0;
   }
 }
 

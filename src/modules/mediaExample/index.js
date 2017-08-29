@@ -24,7 +24,8 @@ export const GET_RECORDING_TRANSCRIPT_FAILURE = 'vtn/recoding/GET_RECORDING_TRAN
 export const namespace = 'mediaExample';
 
 const defaultState = {
-  actions: {}
+  actions: {},
+  result: {}
 };
 
 const reducer = createReducer(defaultState, {
@@ -193,30 +194,20 @@ const reducer = createReducer(defaultState, {
 
   [GET_RECORDING_TRANSCRIPT](state, action) {
     return {
-      ...state,
-      actions: {
-        ...state.actions
-      }
+      ...state
     };
   },
 
   [GET_RECORDING_TRANSCRIPT_SUCCESS](state, action) {
-    console.log('state', state);
-    console.log('action', action)
     return {
       ...state,
-      actions: {
-        ...state.actions
-      }
+      result: action.payload
     };
   },
 
   [GET_RECORDING_TRANSCRIPT_FAILURE](state, action) {
     return {
-      ...state,
-      actions: {
-        ...state.actions
-      }
+      ...state
     };
   }
 });
@@ -257,9 +248,7 @@ export function transcribeMedia(file) {
   }
 }
 
-
 export function createRecording(recording) {
-  console.log('recording', recording)
   return (dispatch, getState, client) => {
     dispatch({ type: CREATE_RECORDING });
     return client.apiTokenClient.recording.createRecording(recording).then(
@@ -315,16 +304,18 @@ export function getJob(jobId, recordingId) {
     dispatch({ type: GET_JOB });
     return client.apiTokenClient.job.getJob(jobId).then(
       (job) => {
-        if (job.status !== 'complete') {
-          setTimeout(function(){
-            return dispatch(getJob(jobId, recordingId));
-          }, 5000);
-        } else {
-          console.log('jobId', jobId);
-          console.log('recordingId', recordingId)
+        if (job.status === 'failed') {
+          return dispatch({ type: GET_JOB_FAILURE });
+        }
+
+        if (job.status === 'complete') {
           dispatch({ type: GET_JOB_SUCCESS });
           return dispatch(getRecordingTranscript(recordingId));
         }
+
+        setTimeout(function(){
+          return dispatch(getJob(jobId, recordingId));
+        }, 5000);
       },
       (err) => dispatch({
         type: GET_JOB_FAILURE,
