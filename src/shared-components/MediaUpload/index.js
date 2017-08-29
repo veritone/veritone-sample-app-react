@@ -11,16 +11,12 @@ import styles from './styles/index.css';
 export default class MediaUpload extends Component {
 
     static defaultProps = {
-        fileTypeRegex: /.*/,
         onFileLoad: (e) => undefined,
-        buttonControl: RaisedButton,
         files: []
     };
 
     static propTypes = {
-        fileTypeRegex: propTypes.object,
         onFileLoad: propTypes.func,
-        buttonControl: propTypes.func,
         files: propTypes.array
     };
 
@@ -32,7 +28,6 @@ export default class MediaUpload extends Component {
         .forEach(
             (file) => {
                 const self = this;
-                console.log('file', file)
                 // Files is a list because you can select several files
                 // We just upload the first selected file
                 const reader = new FileReader();
@@ -49,9 +44,9 @@ export default class MediaUpload extends Component {
                         const duration = Math.round(video.duration);
                         const stopDateTime = startDateTime + (duration * 1000);
 
-                        self.props.files[0].startDateTime = startDateTime;
-                        self.props.files[0].stopDateTime = stopDateTime;
-                        self.props.files[0].duration = duration;
+                        self.props.files[self.props.files.length-1].startDateTime = startDateTime;
+                        self.props.files[self.props.files.length-1].stopDateTime = stopDateTime;
+                        self.props.files[self.props.files.length-1].duration = duration;
 
                         return self.props.onFileLoad(evt, self.props.files[0]);
                     }
