@@ -98,16 +98,12 @@ app.get('/oauth', cors(corsOptions), (req, res) => {
 
 // (post) post for access token
 // --------------------------------
-
 app.post('/oauth', cors(corsOptions), (req, res) => {
   const code = req.query.code;
-  console.log('requesting access token with code:', code);
   getAccessToken(code, function(payload) {
-    console.log(payload);
     res.json(payload);
   })
 });
-
 
 
 // exchange code for token
