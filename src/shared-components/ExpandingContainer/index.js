@@ -1,11 +1,9 @@
-import React from 'react';
-import Paper from 'material-ui/Paper';
+import React from "react";
 
-import styles from './styles/index.scss';
+import styles from "./styles/index.scss";
 
-import { PropTypes } from 'helpers/react';
+import { PropTypes } from "helpers/react";
 const { node, children, bool, shape, any } = PropTypes;
-
 
 export default class ExpandingContainer extends React.Component {
   static propTypes = {
@@ -37,9 +35,12 @@ export default class ExpandingContainer extends React.Component {
 
   render() {
     return (
-      <div className={styles['container']} style={ this.state.open ? this.props.style : null }>
-        <div className={styles['title']}>
-          <div className={styles['title-content']}>
+      <div
+        className={styles["container"]}
+        style={this.state.open ? this.props.style : null}
+      >
+        <div className={styles["title"]}>
+          <div className={styles["title-content"]}>
             {this.state.open ? this.props.expandedTitle : this.props.title}
           </div>
         </div>

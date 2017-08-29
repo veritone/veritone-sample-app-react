@@ -1,7 +1,6 @@
-import React, { PropTypes } from "react";
-import styles from "./styles/index.css";
-
-const { string, any, bool } = PropTypes;
+import React from "react";
+import { PropTypes } from "helpers/react";
+import "./styles/index.css";
 
 export default class MediaUploadState extends React.Component {
   static propTypes = {

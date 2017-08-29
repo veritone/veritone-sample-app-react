@@ -1,5 +1,4 @@
 import { createReducer } from "helpers/redux";
-import { isEmpty } from "helpers";
 
 export const CREATE_RECORDING = "vtn/recording/CREATE_RECORDING";
 export const CREATE_RECORDING_SUCCESS =
@@ -219,10 +218,6 @@ const reducer = createReducer(defaultState, {
 });
 
 export default reducer;
-
-function local(state) {
-  return state[namespace];
-}
 
 export function transcribeMedia(file) {
   return (dispatch, getState, client) => {

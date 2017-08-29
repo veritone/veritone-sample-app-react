@@ -1,5 +1,4 @@
 import React from "react";
-import { PropTypes } from "helpers/react";
 import { connect } from "react-redux";
 
 import Divider from "material-ui/Divider";
@@ -7,11 +6,8 @@ import MediaUpload from "shared-components/MediaUpload";
 import MediaUploadState from "shared-components/MediaUploadState";
 import MediaUploadStates from "shared-components/MediaUploadStates";
 import RequestBar from "shared-components/RequestBar";
-import ExpandingContainer from "shared-components/ExpandingContainer";
 
 import { transcribeMedia } from "modules/mediaExample";
-
-const { bool } = PropTypes;
 
 class MediaExample extends React.Component {
   state = {
@@ -30,9 +26,7 @@ class MediaExample extends React.Component {
     const actions = this.props.actions;
     const payload = this.props.payload;
 
-    const showResults =
-      this.props.actions.getJob &&
-      this.props.actions.getJob.status === "success";
+    const showResults = actions.getJob && actions.getJob.status === "success";
 
     return (
       <div>
@@ -44,7 +38,7 @@ class MediaExample extends React.Component {
           button={<MediaUpload onFileLoad={this.onFileLoad} />}
         >
           <Divider style={{ marginTop: "20px" }} />
-          <MediaUploadStates actions={this.props.actions} />
+          <MediaUploadStates actions={actions} />
           <Divider />
           {showResults && <MediaUploadState action="Results" />}
           {showResults &&

@@ -4,7 +4,7 @@ import { findDOMNode } from "react-dom";
 import RaisedButton from "material-ui/RaisedButton";
 import { filter } from "lodash";
 
-import styles from "./styles/index.css";
+import "./styles/index.css";
 
 export default class MediaUpload extends Component {
   static defaultProps = {
