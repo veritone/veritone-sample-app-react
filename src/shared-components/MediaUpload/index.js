@@ -29,7 +29,8 @@ export default class MediaUpload extends Component {
 
       // We read the file and call the upload function with the result
       reader.onload = evt => {
-        self.props.files.push(file);
+        const files = self.props.files;
+        files.push(file);
         const video = document.createElement("video");
         video.preload = "metadata";
 
@@ -39,15 +40,11 @@ export default class MediaUpload extends Component {
           const duration = Math.round(video.duration);
           const stopDateTime = startDateTime + duration * 1000;
 
-          self.props.files[
-            self.props.files.length - 1
-          ].startDateTime = startDateTime;
-          self.props.files[
-            self.props.files.length - 1
-          ].stopDateTime = stopDateTime;
-          self.props.files[self.props.files.length - 1].duration = duration;
+          files[files.length - 1].startDateTime = startDateTime;
+          files[files.length - 1].stopDateTime = stopDateTime;
+          files[files.length - 1].duration = duration;
 
-          return self.props.onFileLoad(evt, self.props.files[0]);
+          return self.props.onFileLoad(evt, files[0]);
         };
 
         video.src = URL.createObjectURL(file);
