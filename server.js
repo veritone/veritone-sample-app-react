@@ -9,7 +9,11 @@ const cors = require('cors');
 const unirest = require('unirest');
 const url = require('url');
 const http = require('http');
+const Cookies = require('universal-cookie');
 
+
+// load config from file
+// --------------------------------
 let config;
 try {
   config = nodeConfig.load();
@@ -17,106 +21,126 @@ try {
   config = nodeConfig.loadFromLocation('src/config.json');
 }
 
+
+// settings
+// --------------------------------
+const settings = {
+  host: '0.0.0.0',
+  port: config.port || 9000,
+  clientId: 'e5d90340-f4fc-4054-bbd9-a4bd727f1f95',
+  clientSecret: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+};
+
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (config.clientOrigins.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true
+}
+
+
+// express app
+// --------------------------------
 const app = express();
-const host = '0.0.0.0';
-const port = config.port || 9000;
 
-//const logger = require('node-logger')(config);
-//const serverLib = require('veritone-lib/app-server')(config, logger);
 
-app.use(cors());
+// common app handlers
+// --------------------------------
 app.use(cookieParser());
 app.use(compression());
 
+
+// allow static file serving
+// --------------------------------
 app.use('/static', express.static('build/static'));
 
-const appConfig = {
-  endpointApi: 'https://api.aws-dev.veritone.com',
-  endpointLogin: 'https://www.aws-dev.veritone.com/login',
-  endpointAuthorize: 'https://api.aws-dev.veritone.com/v1/admin/oauth/authorize',
-  endpointToken: 'https://api.aws-dev.veritone.com/v1/admin/oauth/token',
-  clientId: 'e5d90340-f4fc-4054-bbd9-a4bd727f1f95',
-  clientSecret: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
-  clientUserSessionToken: 'bfac6081-24ca-4af0-82cf-4dace9af5118',
-  clientOrigin: 'http://local.veritone.com:3000',
-  clientRedirect: 'http://local.veritone.com:3000',
-  clientScope: 'readall',
-  clientGrantType: 'authorization_code'
-};
 
+// middleware
+// --------------------------------
 app.use(function (req, res, next) {
-  next(); //console.log('OAUTH MIDDLEWARE:', Date.now());
+  next();
 });
 
-app.get('/oauth', (req, res) => {
-  res.json(appConfig);
+
+// (get) get veritone session id if exists)
+// --------------------------------
+app.get('/oauth', cors(corsOptions), (req, res) => {
+  if(req.headers.cookie === undefined) {
+    return res.json({
+      id: null,
+      error: 'no session found'
+    });
+  }
+  const cookies = new Cookies(req.headers.cookie);
+  if(req.query.client == config.clientId) {
+    try {
+      res.json({
+        id: cookies.get(config.cookies.name.veritone)
+      });
+    } catch(e) {
+      res.json({
+        id: null,
+        error: e
+      });
+    }
+  } else {
+    res.json({
+      id: null,
+      error: 'invalid clientId'
+    });
+  }
 });
 
-app.options('/oauth', cors())
-app.post('/oauth', (req, res) => {
+
+// (post) post for access token
+// --------------------------------
+
+app.post('/oauth', cors(corsOptions), (req, res) => {
   const code = req.query.code;
+  console.log('requesting access token with code:', code);
   getAccessToken(code, function(payload) {
+    console.log(payload);
     res.json(payload);
   })
 });
 
+
+
+// exchange code for token
+// --------------------------------
 function getAccessToken(accessCode, callback) {
-  console.log(`--> [ACCESS CODE] ${accessCode}`);
-  const url = `${appConfig.endpointToken}?client_id=${appConfig.clientId}&client_secret=${appConfig.clientSecret}&code=${accessCode}&grant_type=${appConfig.clientGrantType}&redirect_uri=${appConfig.clientRedirect}`;
+  const url = `${config.endpoints.token}?client_id=${config.clientId}&client_secret=${config.clientSecret}&code=${accessCode}&grant_type=${config.clientGrantType}&redirect_uri=${config.clientRedirect}`;
   unirest.post(url)
   .headers({
     'Content-Type': 'application/x-www-form-urlencoded'
   })
   .send({
-    client_id: appConfig.clientId,
-    client_secret: appConfig.clientSecret,
-    redirect_uri: appConfig.clientRedirect,
-    grant_type: appConfig.clientGrantType,
+    client_id: settings.clientId || config.clientId,
+    client_secret: settings.clientSecret || config.clientSecret,
+    redirect_uri: settings.clientRedirect || config.clientRedirect,
+    grant_type: settings.clientGrantType || config.clientGrantType,
     code: accessCode
   })
-  .end(function (response) {
-    console.log(response.body);
-    const payload = {
+  .end(response => {
+    callback({
       code: accessCode,
       token: response.body,
-      response: response
-    };
-    callback(payload)
+      response: response.statusCode
+    })
   });
 }
 
-app.listen(port, host, err => {
+
+// start server
+// --------------------------------
+app.listen(settings.port, settings.host, err => {
   if (err) {
     console.log(err);
     return;
   }
-  console.log('🐬  App is listening at http://%s:%s', host, port);
+  console.log('🐬  App is listening at http://%s:%s', settings.host, settings.port);
 });
-
-//serverLib.routes.mountAppSwitchingRoute(app);
-//
-// let indexHtml;
-// try {
-//   indexHtml = fs.readFileSync('build/index.html', 'utf8');
-// } catch (e) {
-//   console.error(e);
-// }
-
-//const $indexHtml = cheerio.load(indexHtml);
-// const newConfig = `<script id="injected-config">
-//       window.config = ${JSON.stringify(config)}
-//   </script>`;
-//
-// if ($indexHtml('#injected-config').length) {
-//   // config exists, overwrite
-//   $indexHtml('#injected-config').replaceWith(newConfig);
-//
-//   console.log('existing config found in index.html; replaced with new config');
-// } else {
-//   $indexHtml('head').append(newConfig);
-//
-//   console.log('no existing config found in index.html; added config');
-// }
-// const indexWithConfig = $indexHtml.html();
-//fs.writeFileSync('build/index.html', indexWithConfig);
-// console.log('wrote index.html with injected config');

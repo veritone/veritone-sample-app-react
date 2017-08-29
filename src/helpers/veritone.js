@@ -1,41 +1,112 @@
 import Cookies from 'universal-cookie';
-import stagedConfig from './stage.json';
+import config from '../config.json';
 
 const cookies = new Cookies();
 
-const config = {
-  endpoints: {
-    api: 'https://api.aws-dev.veritone.com',
-    login: 'https://www.aws-dev.veritone.com/login',
-    authorize: 'https://api.aws-dev.veritone.com/v1/admin/oauth/authorize',
-    token: 'https://api.aws-dev.veritone.com/v1/admin/oauth/token',
-    code: 'http://local.veritone.com:9000/oauth'
-  },
-  cookies: {
-    domain: '.veritone.com',
-    path: '/',
-    expire: 604800,
-    name: {
-      session: 'veritone-auth-session-token',
-      code: 'veritone-auth-access-code',
-      token: 'veritone-auth-access-token',
-      timestamp: 'veritone-auth-access-timestamp'
+class Veritone {
+
+  constructor() {
+    this.config = config;
+    this.uptime = new Date();
+
+    this.auth = {
+      code: null,
+      session: null,
+      token: null
+    };
+
+    if(cookies.get('veritone-auth-access-token')) {
+      this.auth.token = cookies.get('veritone-auth-access-token');
+    }
+
+    if(cookies.get('veritone-auth-access-code')) {
+      this.auth.code = cookies.get('veritone-auth-access-code');
+    }
+
+    if(cookies.get('veritone-auth-session-token')) {
+      this.auth.session = cookies.get('veritone-auth-session-token');
+    }
+
+  }
+
+  connect(params) {
+
+    if(params.code !== undefined) {
+      this.auth.code = params.code;
+    }
+
+    if(params.token !== undefined) {
+      this.auth.token = params.token;
+    }
+
+    if(this.auth.session) {
+      // if we have a token
+      if(this.auth.token && this.auth.token !== null) {
+        // good
+      } else {
+        // if we have a code
+        if(this.auth.code && this.auth.token === null) {
+
+          fetch(`${config.endpoints.code}?code=${this.auth.code}`, {
+            method: "post"
+          })
+          .then((resp) => resp.json())
+          .then(function(data) {
+
+            // data back from exchanging code
+            if(data.token && data.token.access_token) {
+              const cookies = new Cookies();
+              cookies.set(config.cookies.name['token'], data.token.access_token, {
+                path: config.cookies.path,
+                domain: config.cookies.domain,
+                maxAge: config.cookies.expire
+              });
+            }
+
+          }).catch(function(err) {
+            // nothing
+          });
+        } else {
+          return window.location = `${config.endpoints.authorize}?response_type=code&client_id=${config.clientId}&redirect_uri=${config.clientRedirect}&scope=${config.clientScope}`;
+        }
+      }
+    } else {
+      this.recoverGlobalSession();
     }
   }
-};
 
-class Veritone {
-  constructor() {
-    this.setCookie('timestamp', new Date().toISOString() );
-    this.config = config;
+  recoverGlobalSession() {
+    fetch(`${config.endpoints.oauth}?client=${config.clientId}`, {
+      method: "get",
+      credentials: 'include'
+    })
+    .then((resp) => resp.json())
+    .then(function(data) {
+      if (data.id && data.id !== null) {
+        const cookies = new Cookies();
+        cookies.set('veritone-auth-session-token', data.id, {
+          path: config.cookies.path,
+          domain: config.cookies.domain,
+          maxAge: config.cookies.expire
+        });
+      } else {
+        return window.location = `${config.endpoints.login}?redirect=${config.clientRedirect}`;
+      }
+    }).catch(function(err) {
+      // error
+    });
   }
+
   getConfig() {
     return config;
   }
+
   getCookie(name) {
     return cookies.get(config.cookies.name[name]);
   }
+
   setCookie(name, value) {
+    const cookies = new Cookies();
     cookies.set(config.cookies.name[name], value, {
       path: config.cookies.path,
       domain: config.cookies.domain,
@@ -44,44 +115,13 @@ class Veritone {
   }
 
   clearCookies() {
+    const cookies = new Cookies();
     cookies.remove(config.cookies.name.session);
     cookies.remove(config.cookies.name.code);
     cookies.remove(config.cookies.name.token);
     cookies.remove(config.cookies.name.timestamp);
   }
 
-  validateSession(params) {
-    if(this.getCookie('session') === undefined) {
-      this.setCookie('session', stagedConfig.clientUserSessionToken);
-      window.location = `${this.config.endpoints.login}?redirect=${stagedConfig.clientRedirect}%3Ftoken%3D${stagedConfig.clientUserSessionToken}`;
-    }
-  }
-
-  validateCode(params) {
-    this.setCookie('session', params.token);
-    const url = `${this.config.endpoints.authorize}?response_type=code&client_id=${stagedConfig.clientId}&redirect_uri=${stagedConfig.clientRedirect}&scope=${stagedConfig.clientScope}`;
-    window.location = url;
-  }
-
-  validateToken(params) {
-    this.setCookie('code', params.code);
-    fetch(`${this.config.endpoints.code}?code=${params.code}`, {
-      method: "post"
-    })
-    .then((resp) => resp.json())
-    .then(function(data) {
-      try {
-        if(data.token.access_token) {
-          this.setCookie('token', data.token.access_token);
-        }
-      } catch(e) {
-        this.clearCookies();
-      }
-    }).catch(function(err) {
-      // nothing
-    });
-  }
 }
-
 
 export default new Veritone();

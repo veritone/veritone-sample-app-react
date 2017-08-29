@@ -1,5 +1,5 @@
 import { parse } from 'qs';
-import Veritone from './veritone';
+import veritone from './veritone';
 
 /**
  * Basic auth flow handler
@@ -7,13 +7,7 @@ import Veritone from './veritone';
  */
 export function AuthFlow() {
   const params = parse(window.location.search.substring(1));
-  if(params.token === undefined && params.code === undefined) {
-    Veritone.validateSession(params);
-  } else if(params.token && params.code === undefined) {
-    Veritone.validateCode(params);
-  } else if(params.code && params.token === undefined) {
-    Veritone.validateToken(params);
-  }
+  veritone.connect(params);
 }
 
 /**
@@ -51,10 +45,10 @@ export function ApiConfiguration(attrs) {
  */
 export function GetApplicationState() {
   return {
-    session: Veritone.getCookie('session'),
-    code: Veritone.getCookie('code'),
-    token: Veritone.getCookie('token'),
+    session: veritone.getCookie('session'),
+    code: veritone.getCookie('code'),
+    token: veritone.getCookie('token'),
     queries: parse(window.location.search.substring(1)),
-    api: Veritone.config.endpoints.api
+    api: veritone.config.endpoints.api
   }
 }
