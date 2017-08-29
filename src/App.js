@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { Container, Row, Col } from 'shared-components/Grid';
+import { Container, Row, Col } from 'shared-components/grid';
 import RequestBar from 'shared-components/RequestBar';
 import MediaExample from 'shared-components/MediaExample';
 import Header from 'shared-components/Header';
