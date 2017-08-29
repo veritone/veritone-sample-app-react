@@ -33,7 +33,7 @@ export default class MediaUpload extends Component {
         const video = document.createElement("video");
         video.preload = "metadata";
 
-        video.onloadedmetadata = function () {
+        video.onloadedmetadata = function() {
           window.URL.revokeObjectURL(this.src);
           const startDateTime = file.lastModified;
           const duration = Math.round(video.duration);
