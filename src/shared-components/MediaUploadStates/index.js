@@ -5,13 +5,12 @@ import MediaUploadState from 'shared-components/MediaUploadState';
 
 import NavigationCheck from 'material-ui/svg-icons/navigation/check';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import { connect } from 'react-redux';
 
 
 // const { element, bool, shape, string, func } = PropTypes;
 
 
-class MediaUploadStates extends React.Component {
+export default class MediaUploadStates extends React.Component {
   render() {
 
     const states = {
@@ -42,17 +41,3 @@ class MediaUploadStates extends React.Component {
     );
   }
 }
-
-const mapStateToProps = (state) => {
-    return {
-      actions: state.mediaExample.actions
-    }
-  }
-  
-  const mapDispatchToProps = {}
-  
-  export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(MediaUploadStates)
-  

@@ -17,6 +17,10 @@ export const GET_JOB = 'vtn/job/GET_JOB';
 export const GET_JOB_SUCCESS = 'vtn/job/GET_JOB_SUCCESS';
 export const GET_JOB_FAILURE = 'vtn/job/GET_JOB_FAILURE';
 
+export const GET_RECORDING_TRANSCRIPT = 'vtn/recoding/GET_RECORDING_TRANSCRIPT';
+export const GET_RECORDING_TRANSCRIPT_SUCCESS = 'vtn/recoding/GET_RECORDING_TRANSCRIPT_SUCCESS';
+export const GET_RECORDING_TRANSCRIPT_FAILURE = 'vtn/recoding/GET_RECORDING_TRANSCRIPT_FAILURE';
+
 export const namespace = 'mediaExample';
 
 const defaultState = {
@@ -185,6 +189,35 @@ const reducer = createReducer(defaultState, {
         }
       }
     };
+  },
+
+  [GET_RECORDING_TRANSCRIPT](state, action) {
+    return {
+      ...state,
+      actions: {
+        ...state.actions
+      }
+    };
+  },
+
+  [GET_RECORDING_TRANSCRIPT_SUCCESS](state, action) {
+    console.log('state', state);
+    console.log('action', action)
+    return {
+      ...state,
+      actions: {
+        ...state.actions
+      }
+    };
+  },
+
+  [GET_RECORDING_TRANSCRIPT_FAILURE](state, action) {
+    return {
+      ...state,
+      actions: {
+        ...state.actions
+      }
+    };
   }
 });
 
@@ -209,26 +242,27 @@ export function transcribeMedia(file) {
       const recordingId = response.payload.recordingId;
       const tasks = [
         {
-          engineId: "44081d92-444d-457e-8899-e45462f17933" // steves
+          engineId: 'transcribe-voicebase'
         }
       ];
 
       return dispatch(createJob(recordingId, tasks));
     })
     .then((response) => {
-      const self = this;
       const jobId = response.payload.jobId;
+      const recordingId = response.payload.recordingId;
 
-      return dispatch(getJob(jobId));
+      return dispatch(getJob(jobId, recordingId));
     });
   }
 }
 
 
 export function createRecording(recording) {
+  console.log('recording', recording)
   return (dispatch, getState, client) => {
     dispatch({ type: CREATE_RECORDING });
-    return client.client2.recording.createRecording(recording).then(
+    return client.apiTokenClient.recording.createRecording(recording).then(
       (recording) => dispatch({
         type: CREATE_RECORDING_SUCCESS,
         payload: recording
@@ -243,10 +277,9 @@ export function createRecording(recording) {
 }
 
 export function createMediaAsset(recordingId, asset) {
-  console.log('recordingId..', recordingId)
   return (dispatch, getState, client) => {
     dispatch({ type: CREATE_MEDIA_ASSET });
-    return client.client2.recording.createAsset(recordingId, asset).then(
+    return client.apiTokenClient.recording.createAsset(recordingId, asset).then(
       (recording) => dispatch({
         type: CREATE_MEDIA_ASSET_SUCCESS,
         payload: recording
@@ -263,7 +296,7 @@ export function createMediaAsset(recordingId, asset) {
 export function createJob(recordingId, tasks) {
   return (dispatch, getState, client) => {
     dispatch({ type: CREATE_JOB });
-    return client.client2.job.createJob({ recordingId, tasks }).then(
+    return client.apiTokenClient.job.createJob({ recordingId, tasks }).then(
       (job) => dispatch({
         type: CREATE_JOB_SUCCESS,
         payload: job
@@ -277,23 +310,44 @@ export function createJob(recordingId, tasks) {
   }
 }
 
-export function getJob(jobId) {
+export function getJob(jobId, recordingId) {
   return (dispatch, getState, client) => {
-    dispatch({ type: GET_JOB })
-    return client.client2.job.getJob(jobId).then((job) => {
-      if (job.status !== 'complete') {
-        setTimeout(function(){
-          return dispatch(getJob(jobId));
-        }, 5000);
-      } else {
-        return dispatch({ type: GET_JOB_SUCCESS })
-      }
+    dispatch({ type: GET_JOB });
+    return client.apiTokenClient.job.getJob(jobId).then(
+      (job) => {
+        if (job.status !== 'complete') {
+          setTimeout(function(){
+            return dispatch(getJob(jobId, recordingId));
+          }, 5000);
+        } else {
+          console.log('jobId', jobId);
+          console.log('recordingId', recordingId)
+          dispatch({ type: GET_JOB_SUCCESS });
+          return dispatch(getRecordingTranscript(recordingId));
+        }
+      },
+      (err) => dispatch({
+        type: GET_JOB_FAILURE,
+        error: true,
+        payload: err
+      })
+    );
+  }
+}
 
-    })
-    .catch(err => dispatch({
-      type: GET_JOB_FAILURE,
-      error: true,
-      payload: err
-    }));
+export function getRecordingTranscript(recordingId) {
+  return (dispatch, getState, client) => {
+    dispatch({ type: GET_RECORDING_TRANSCRIPT });
+    return client.apiTokenClient.recording.getRecordingTranscript(recordingId).then(
+      (transcript) => dispatch({
+        type: GET_RECORDING_TRANSCRIPT_SUCCESS,
+        payload: transcript
+      }),
+      (err) => dispatch({
+        type: GET_RECORDING_TRANSCRIPT_FAILURE,
+        error: true,
+        payload: err
+      })
+    );
   }
 }
