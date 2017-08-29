@@ -1,9 +1,5 @@
 import React from 'react';
-// import {} from 'lodash';
 import Paper from 'material-ui/Paper';
-import IconButton from 'material-ui/IconButton';
-import MoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import LessIcon from 'material-ui/svg-icons/navigation/expand-less';
 
 import styles from './styles/index.scss';
 
@@ -46,13 +42,6 @@ export default class ExpandingContainer extends React.Component {
           <div className={styles['title-content']}>
             {this.state.open ? this.props.expandedTitle : this.props.title}
           </div>
-          {/* {this.state.open
-            ? <IconButton onClick={this.toggleState}>
-                <LessIcon className={styles['toggle-icon']} />
-              </IconButton>
-            : <IconButton onClick={this.toggleState}>
-                <MoreIcon className={styles['toggle-icon']} />
-              </IconButton>} */}
         </div>
         {this.state.open && this.props.children}
       </div>
