@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import Divider from "material-ui/Divider";
-import MediaUploadState from "shared-components/MediaUploadState";
+import Divider from 'material-ui/Divider';
+import MediaUploadState from 'shared-components/MediaUploadState';
 
-import NavigationCheck from "material-ui/svg-icons/navigation/check";
-import NavigationClose from "material-ui/svg-icons/navigation/close";
+import NavigationCheck from 'material-ui/svg-icons/navigation/check';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
 export default class MediaUploadStates extends React.Component {
   render() {
     const iconStyles = {
-      margin: "0 auto"
+      margin: 0 + 'auto'
     };
 
     const states = {
@@ -29,7 +29,7 @@ export default class MediaUploadStates extends React.Component {
               <MediaUploadState
                 action={actions[action].name}
                 icon={states[actions[action].status]}
-                isLoading={actions[action].status === "loading"}
+                isLoading={actions[action].status === 'loading'}
               />
             </div>
           )}

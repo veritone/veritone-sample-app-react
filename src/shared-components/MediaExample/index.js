@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import Divider from "material-ui/Divider";
-import MediaUpload from "shared-components/MediaUpload";
-import MediaUploadState from "shared-components/MediaUploadState";
-import MediaUploadStates from "shared-components/MediaUploadStates";
-import RequestBar from "shared-components/RequestBar";
+import Divider from 'material-ui/Divider';
+import MediaUpload from 'shared-components/MediaUpload';
+import MediaUploadState from 'shared-components/MediaUploadState';
+import MediaUploadStates from 'shared-components/MediaUploadStates';
+import RequestBar from 'shared-components/RequestBar';
 
-import { transcribeMedia } from "modules/mediaExample";
+import { transcribeMedia } from 'modules/mediaExample';
 
 class MediaExample extends React.Component {
   state = {
@@ -24,9 +24,7 @@ class MediaExample extends React.Component {
 
   render() {
     const actions = this.props.actions;
-    const payload = this.props.payload;
-
-    const showResults = actions.getJob && actions.getJob.status === "success";
+    const showResults = actions.getJob && actions.getJob.status === 'success';
 
     return (
       <div>
@@ -37,14 +35,14 @@ class MediaExample extends React.Component {
           expanded={this.state.expanded}
           button={<MediaUpload onFileLoad={this.onFileLoad} />}
         >
-          <Divider style={{ marginTop: "20px" }} />
+          <Divider style={{ marginTop: 20 + 'px' }} />
           <MediaUploadStates actions={actions} />
           <Divider />
           {showResults && <MediaUploadState action="Results" />}
           {showResults &&
             <div className="requestBar__payload">
               <pre>
-                {JSON.stringify(payload, null, 2)}
+                {JSON.stringify(this.props.payload, null, 2)}
               </pre>
             </div>}
         </RequestBar>

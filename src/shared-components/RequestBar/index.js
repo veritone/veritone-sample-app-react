@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import ExpandingContainer from "shared-components/ExpandingContainer";
-import { PropTypes } from "helpers/react";
+import ExpandingContainer from 'shared-components/ExpandingContainer';
+import PropTypes from 'prop-types';
 
-import "./styles/index.css";
+import './styles/index.css';
 
 const { number, string, arrayOf, objectOf, func, any, bool } = PropTypes;
 

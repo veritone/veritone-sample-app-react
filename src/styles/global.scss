@@ -48,7 +48,6 @@ $defaultFontColor: $dark-black;
 $defaultFontSize: 14px;
 $defaultMicroFontSize: 12px;
 
-
 html,
 body {
   height: 100%;
@@ -162,7 +161,6 @@ hr {
 
 // header element
 .header {
-
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -195,7 +193,6 @@ hr {
       img {
         height: 24px;
       }
-
     }
 
     .controls {
@@ -204,22 +201,20 @@ hr {
       margin-right: -24px;
 
       &__element {
-        font-family: Roboto,Helvetica Neue,sans-serif;
+        font-family: Roboto, Helvetica Neue, sans-serif;
         display: inline-block;
         padding: 0 4px;
-        color: #FFF;
-        font-weight: 400!important;
-        font-size: 12px!important;
-        line-height: 16px!important;
+        color: #fff;
+        font-weight: 400 !important;
+        font-size: 12px !important;
+        line-height: 16px !important;
         color: #fff;
         display: inline-block;
         margin: 0;
         opacity: .87;
       }
     }
-
   }
-
 }
 
 // footer element
@@ -245,12 +240,10 @@ hr {
     span {
       margin-right: 8px;
     }
-
   }
 }
 
 .container {
-
   padding-bottom: 20px;
 
   &.topBarOffset {
@@ -262,12 +255,6 @@ h1 {
   font-size: 20px;
 }
 
-.topDivider {
-  margin-top: 10px;
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-}
-
 .appToolBar {
   background: none !important;
   height: 60px;
@@ -277,12 +264,10 @@ h1 {
   span {
     font-size: 0.9em;
   }
-
 }
 
 $size: 20px;
 $border-color: rgb(33, 150, 243);
-
 
 .spinner {
   height: $size;
@@ -307,20 +292,20 @@ $border-color: rgb(33, 150, 243);
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
-  -webkit-animation: ellipsis steps(5,end) 1.3s infinite;      
-  animation: ellipsis steps(5,end) 1.3s infinite;
+  -webkit-animation: ellipsis steps(5, end) 1.3s infinite;
+  animation: ellipsis steps(5, end) 1.3s infinite;
   content: "\2026"; /* ascii code for the ellipsis character */
   width: 0px;
 }
 
 @keyframes ellipsis {
   to {
-    width: 1.25em;    
+    width: 1.25em;
   }
 }
 
 @-webkit-keyframes ellipsis {
   to {
-    width: 1.25em;    
+    width: 1.25em;
   }
 }

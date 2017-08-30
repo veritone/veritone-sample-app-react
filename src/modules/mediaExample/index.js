@@ -1,32 +1,32 @@
-import { createReducer } from "helpers/redux";
+import { createReducer } from 'helpers/redux';
 
-export const CREATE_RECORDING = "vtn/recording/CREATE_RECORDING";
+export const CREATE_RECORDING = 'vtn/recording/CREATE_RECORDING';
 export const CREATE_RECORDING_SUCCESS =
-  "vtn/recording/CREATE_RECORDING_SUCCESS";
+  'vtn/recording/CREATE_RECORDING_SUCCESS';
 export const CREATE_RECORDING_FAILURE =
-  "vtn/recording/CREATE_RECORDING_FAILURE";
+  'vtn/recording/CREATE_RECORDING_FAILURE';
 
-export const CREATE_MEDIA_ASSET = "vtn/recording/CREATE_MEDIA_ASSET";
+export const CREATE_MEDIA_ASSET = 'vtn/recording/CREATE_MEDIA_ASSET';
 export const CREATE_MEDIA_ASSET_SUCCESS =
-  "vtn/recording/CREATE_MEDIA_ASSET_SUCCESS";
+  'vtn/recording/CREATE_MEDIA_ASSET_SUCCESS';
 export const CREATE_MEDIA_ASSET_FAILURE =
-  "vtn/recording/CREATE_MEDIA_ASSET_FAILURE";
+  'vtn/recording/CREATE_MEDIA_ASSET_FAILURE';
 
-export const CREATE_JOB = "vtn/job/CREATE_JOB";
-export const CREATE_JOB_SUCCESS = "vtn/job/CREATE_JOB_SUCCESS";
-export const CREATE_JOB_FAILURE = "vtn/job/CREATE_JOB_FAILURE";
+export const CREATE_JOB = 'vtn/job/CREATE_JOB';
+export const CREATE_JOB_SUCCESS = 'vtn/job/CREATE_JOB_SUCCESS';
+export const CREATE_JOB_FAILURE = 'vtn/job/CREATE_JOB_FAILURE';
 
-export const GET_JOB = "vtn/job/GET_JOB";
-export const GET_JOB_SUCCESS = "vtn/job/GET_JOB_SUCCESS";
-export const GET_JOB_FAILURE = "vtn/job/GET_JOB_FAILURE";
+export const GET_JOB = 'vtn/job/GET_JOB';
+export const GET_JOB_SUCCESS = 'vtn/job/GET_JOB_SUCCESS';
+export const GET_JOB_FAILURE = 'vtn/job/GET_JOB_FAILURE';
 
-export const GET_RECORDING_TRANSCRIPT = "vtn/recoding/GET_RECORDING_TRANSCRIPT";
+export const GET_RECORDING_TRANSCRIPT = 'vtn/recoding/GET_RECORDING_TRANSCRIPT';
 export const GET_RECORDING_TRANSCRIPT_SUCCESS =
-  "vtn/recoding/GET_RECORDING_TRANSCRIPT_SUCCESS";
+  'vtn/recoding/GET_RECORDING_TRANSCRIPT_SUCCESS';
 export const GET_RECORDING_TRANSCRIPT_FAILURE =
-  "vtn/recoding/GET_RECORDING_TRANSCRIPT_FAILURE";
+  'vtn/recoding/GET_RECORDING_TRANSCRIPT_FAILURE';
 
-export const namespace = "mediaExample";
+export const namespace = 'mediaExample';
 
 const defaultState = {
   actions: {},
@@ -40,8 +40,8 @@ const reducer = createReducer(defaultState, {
       actions: {
         ...state.actions,
         createRecording: {
-          name: "Creating Recording",
-          status: "loading"
+          name: 'Creating Recording',
+          status: 'loading'
         }
       }
     };
@@ -54,8 +54,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         createRecording: {
           ...state.actions.createRecording,
-          name: "Created Recording",
-          status: "success"
+          name: 'Created Recording',
+          status: 'success'
         }
       }
     };
@@ -68,8 +68,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         createRecording: {
           ...state.actions.createRecording,
-          name: "Failed To Create Recording",
-          status: "failed"
+          name: 'Failed To Create Recording',
+          status: 'failed'
         }
       }
     };
@@ -80,8 +80,8 @@ const reducer = createReducer(defaultState, {
       actions: {
         ...state.actions,
         createMediaAsset: {
-          name: "Creating Media Asset",
-          status: "loading"
+          name: 'Creating Media Asset',
+          status: 'loading'
         }
       }
     };
@@ -94,8 +94,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         createMediaAsset: {
           ...state.actions.createMediaAsset,
-          name: "Created Media Asset",
-          status: "success"
+          name: 'Created Media Asset',
+          status: 'success'
         }
       }
     };
@@ -108,8 +108,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         createMediaAsset: {
           ...state.actions.createMediaAsset,
-          name: "Failed To Create Media Asset",
-          status: "failed"
+          name: 'Failed To Create Media Asset',
+          status: 'failed'
         }
       }
     };
@@ -121,8 +121,8 @@ const reducer = createReducer(defaultState, {
       actions: {
         ...state.actions,
         createJob: {
-          name: "Creating Job",
-          status: "loading"
+          name: 'Creating Job',
+          status: 'loading'
         }
       }
     };
@@ -135,8 +135,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         createJob: {
           ...state.actions.createJob,
-          name: "Created Job",
-          status: "success"
+          name: 'Created Job',
+          status: 'success'
         }
       }
     };
@@ -149,8 +149,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         createJob: {
           ...state.actions.createJob,
-          name: "Failed To Get Job",
-          status: "failed"
+          name: 'Failed To Get Job',
+          status: 'failed'
         }
       }
     };
@@ -162,8 +162,8 @@ const reducer = createReducer(defaultState, {
       actions: {
         ...state.actions,
         getJob: {
-          name: "Polling For Job",
-          status: "loading"
+          name: 'Polling For Job',
+          status: 'loading'
         }
       }
     };
@@ -176,8 +176,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         getJob: {
           ...state.actions.getJob,
-          name: "Job Complete",
-          status: "success"
+          name: 'Job Complete',
+          status: 'success'
         }
       }
     };
@@ -190,8 +190,8 @@ const reducer = createReducer(defaultState, {
         ...state.actions,
         getJob: {
           ...state.actions.getJob,
-          name: "Failed To Get Job",
-          status: "failed"
+          name: 'Failed To Get Job',
+          status: 'failed'
         }
       }
     };
@@ -236,7 +236,7 @@ export function transcribeMedia(file) {
         const recordingId = response.payload.recordingId;
         const tasks = [
           {
-            engineId: "transcribe-voicebase"
+            engineId: 'transcribe-voicebase'
           }
         ];
 
@@ -262,9 +262,7 @@ export function createRecording(recording) {
         }),
       err =>
         dispatch({
-          type: CREATE_RECORDING_FAILURE,
-          error: true,
-          payload: err
+          type: CREATE_RECORDING_FAILURE
         })
     );
   };
@@ -274,16 +272,14 @@ export function createMediaAsset(recordingId, asset) {
   return (dispatch, getState, client) => {
     dispatch({ type: CREATE_MEDIA_ASSET });
     return client.apiTokenClient.recording.createAsset(recordingId, asset).then(
-      recording =>
+      asset =>
         dispatch({
           type: CREATE_MEDIA_ASSET_SUCCESS,
-          payload: recording
+          payload: asset
         }),
       err =>
         dispatch({
-          type: CREATE_MEDIA_ASSET_FAILURE,
-          error: true,
-          payload: err
+          type: CREATE_MEDIA_ASSET_FAILURE
         })
     );
   };
@@ -300,9 +296,7 @@ export function createJob(recordingId, tasks) {
         }),
       err =>
         dispatch({
-          type: CREATE_JOB_FAILURE,
-          error: true,
-          payload: err
+          type: CREATE_JOB_FAILURE
         })
     );
   };
@@ -313,11 +307,11 @@ export function getJob(jobId, recordingId) {
     dispatch({ type: GET_JOB });
     return client.apiTokenClient.job.getJob(jobId).then(
       job => {
-        if (job.status === "failed") {
+        if (job.status === 'failed') {
           return dispatch({ type: GET_JOB_FAILURE });
         }
 
-        if (job.status === "complete") {
+        if (job.status === 'complete') {
           dispatch({ type: GET_JOB_SUCCESS });
           return dispatch(getRecordingTranscript(recordingId));
         }
@@ -328,9 +322,7 @@ export function getJob(jobId, recordingId) {
       },
       err =>
         dispatch({
-          type: GET_JOB_FAILURE,
-          error: true,
-          payload: err
+          type: GET_JOB_FAILURE
         })
     );
   };
@@ -349,9 +341,7 @@ export function getRecordingTranscript(recordingId) {
           }),
         err =>
           dispatch({
-            type: GET_RECORDING_TRANSCRIPT_FAILURE,
-            error: true,
-            payload: err
+            type: GET_RECORDING_TRANSCRIPT_FAILURE
           })
       );
   };

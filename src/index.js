@@ -8,8 +8,9 @@ import veritoneApi from 'veritone-api/dist/bundle-browser.js';
 import { getQuery } from 'helpers';
 
 import user, { namespace as userNamespace } from 'modules/user';
-import mediaExample, { namespace as mediaExampleNamespace } from 'modules/mediaExample';
-
+import mediaExample, {
+  namespace as mediaExampleNamespace
+} from 'modules/mediaExample';
 
 import 'normalize.css';
 import './styles/global.css';
@@ -19,25 +20,22 @@ import './styles/typography.css';
 import App from './App';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-
 // Veritone API Client Initalization
 // ------------------------------------
 const userSessionClient = veritoneApi({
   token: getQuery().token,
-  baseUrl: "https://api.aws-dev.veritone.com"
-})
+  baseUrl: 'https://api.aws-dev.veritone.com'
+});
 
 const apiTokenClient = veritoneApi({
   token: getQuery().apiToken,
-  baseUrl: "https://api.aws-dev.veritone.com"
-})
-
+  baseUrl: 'https://api.aws-dev.veritone.com'
+});
 
 // Middleware
 // -----------------------------------
@@ -49,7 +47,6 @@ const enhancer = composeEnhancers(
   )
 );
 
-
 // Store Initialization
 // ------------------------------------
 const store = createStore(
@@ -60,7 +57,6 @@ const store = createStore(
   {},
   enhancer
 );
-
 
 // Render
 // ------------------------------------
