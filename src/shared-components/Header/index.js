@@ -24,11 +24,13 @@ const Header = (props = {}) => {
     onClose
   } = props;
   return (
-    <div className={cx('header', className, {
-      ['header--fixed']: true,
-      ['header--centered']: true
-    })}>
-      <Toolbar className='appToolBar'>
+    <div
+      className={cx('header', className, {
+        ['header--fixed']: true,
+        ['header--centered']: true
+      })}
+    >
+      <Toolbar className="appToolBar">
         <ToolbarGroup>
           <Logo link="https://www.veritone.com" />
         </ToolbarGroup>
@@ -40,13 +42,10 @@ const Header = (props = {}) => {
               isFetchingApps={props.isFetchingApps}
               handleRefresh={props.handleRefresh}
             />}
-          {props.profileMenu &&
-            <ProfileMenu onLogout={props.logout} />}
+          {props.profileMenu && <ProfileMenu onLogout={props.logout} />}
           {props.closeButton &&
-            <div
-              style={{ marginLeft: 'auto' }}>
-              <IconButton
-                style={{ fontSize: 'inherit' }}>
+            <div style={{ marginLeft: 'auto' }}>
+              <IconButton style={{ fontSize: 'inherit' }}>
                 <CloseIcon color="white" />
               </IconButton>
             </div>}

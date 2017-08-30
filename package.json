@@ -36,8 +36,8 @@
     "redux-immutable-state-invariant": "^2.0.0",
     "redux-logger": "^3.0.6",
     "redux-validate-fsa": "^0.1.2",
-    "veritone-lib": "git+https://github.com/veritone/veritone-lib#develop",
-    "veritone-api": "git+https://github.com/veritone/veritone-api#refactor/VTN-3590/use-handler-factory"
+    "veritone-api": "git+https://github.com/veritone/veritone-api#refactor/VTN-3590/use-handler-factory",
+    "veritone-lib": "git+https://github.com/veritone/veritone-lib#develop"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",

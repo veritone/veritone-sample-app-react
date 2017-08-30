@@ -52,7 +52,7 @@ export function fetchUser() {
   return (dispatch, getState, client) => {
     dispatch({ type: FETCH_USER })
 
-    client.engine.getEngines().then(
+    client.userSessionClient.engine.getEngines().then(
       (user) => dispatch({
         type: FETCH_USER_SUCCESS,
         payload: user

@@ -1,52 +1,47 @@
 import React from 'react';
-import { Row, Col } from 'shared-components/grid';
-import { PropTypes } from 'helpers/react';
-const { number, string, arrayOf, objectOf, func, any } = PropTypes;
 
+import ExpandingContainer from 'shared-components/ExpandingContainer';
+import PropTypes from 'prop-types';
+
+import './styles/index.css';
+
+const { number, string, arrayOf, objectOf, node, any, bool } = PropTypes;
 
 export default class RequestBar extends React.Component {
   static propTypes = {
-    id: number.isRequired,
+    id: number,
     description: string,
-    endpoint: string.isRequired,
+    endpoint: string,
     parameters: objectOf(any),
     fields: arrayOf(any),
-    onClick: func.isRequired
+    expanded: bool,
+    button: node
   };
-  static defaultProps = {};
+  static defaultProps = {
+    expanded: false
+  };
 
   render() {
     return (
-      <Row className="cta">
-        <Col sm={12} lg={10}>
-          <Row>
+      <div className="requestBar">
+        <div className="requestBar__header">
+          <div>
             <div>
-              { this.props.id }. { this.props.description }
+              {this.props.id}. {this.props.description}
             </div>
-          </Row>
-          <Row>
-            <small>
-              { this.props.endpoint }
-            </small>
-          </Row>
-        </Col>
-        <Col sm={12} lg={2}>
-          <Row>
-            <button className="cta__button--blue" onClick={this.props.onClick}>
-              Request
-            </button>
-          </Row>
-        </Col>
-        { false &&
-          <Col sm={12} lg={12}>
-            <div className="cta__details">
-              <ul>
-                {/* {fieldArray} */}
-              </ul>
-            </div>
-          </Col>
-        }
-      </Row>
+            {this.props.endpoint &&
+              <small className="requestBar__endpoint">
+                {this.props.endpoint}
+              </small>}
+          </div>
+          <div className="requestBar__btn-container">
+            {!this.props.expanded && this.props.button}
+          </div>
+        </div>
+        <ExpandingContainer defaultExpanded={this.props.expanded}>
+          {this.props.children}
+        </ExpandingContainer>
+      </div>
     );
   }
 }
