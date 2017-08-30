@@ -26,6 +26,16 @@ class App extends React.Component {
   }
 
   render() {
+    const exampleBtn = (
+      <button
+        className="requestBar__btn"
+        onClick={function() {
+          console.log('AJAX()');
+        }}
+      >
+        Request
+      </button>
+    );
     const apps = [
       {
         applicationId: 'abcd',
@@ -46,10 +56,7 @@ class App extends React.Component {
         endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user',
         parameters: {},
         fields: [],
-        onClick: () =>
-          console.log(
-            'AJAX() 1 - https://api.aws-dev.veritone.com/v1/admin/current-user'
-          )
+        button: exampleBtn
       },
       {
         description: 'Get available Veritone applications',
@@ -57,10 +64,7 @@ class App extends React.Component {
           'https://api.aws-dev.veritone.com/v1/admin/current-user/applications',
         parameters: {},
         fields: [],
-        onClick: () =>
-          console.log(
-            'AJAX() 2 - https://api.aws-dev.veritone.com/v1/admin/current-user/applications'
-          )
+        button: exampleBtn
       }
     ];
 

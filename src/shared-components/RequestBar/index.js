@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import './styles/index.css';
 
-const { number, string, arrayOf, objectOf, func, any, bool } = PropTypes;
+const { number, string, arrayOf, objectOf, node, any, bool } = PropTypes;
 
 export default class RequestBar extends React.Component {
   static propTypes = {
@@ -15,30 +15,13 @@ export default class RequestBar extends React.Component {
     parameters: objectOf(any),
     fields: arrayOf(any),
     expanded: bool,
-    button: any,
-    onClick: func
+    button: node
   };
   static defaultProps = {
     expanded: false
   };
 
   render() {
-    const defaultBtn = (
-      <button className="requestBar__btn" onClick={this.props.onClick}>
-        Request
-      </button>
-    );
-    const button = !this.props.expanded
-      ? this.props.button || defaultBtn
-      : null;
-
-    const endpointMarkup = (
-      <small className="requestBar__endpoint">
-        {this.props.endpoint}
-      </small>
-    );
-    const endpoint = this.props.endpoint ? endpointMarkup : null;
-
     return (
       <div className="requestBar">
         <div className="requestBar__header">
@@ -46,10 +29,13 @@ export default class RequestBar extends React.Component {
             <div>
               {this.props.id}. {this.props.description}
             </div>
-            {endpoint}
+            {this.props.endpoint &&
+              <small className="requestBar__endpoint">
+                {this.props.endpoint}
+              </small>}
           </div>
           <div className="requestBar__btn-container">
-            {button}
+            {!this.props.expanded && this.props.button}
           </div>
         </div>
         <ExpandingContainer defaultExpanded={this.props.expanded}>

@@ -1,4 +1,4 @@
-$blue-1: #2196f3;
+@import '../../../styles/modules/variables';
 
 .requestBar {
   padding: 12px 22px;
@@ -19,7 +19,7 @@ $blue-1: #2196f3;
   }
 
   &__endpoint {
-    color: rgba(0, 0, 0, 0.54);
+    color: $light-black;
   }
 
   &__payload {
