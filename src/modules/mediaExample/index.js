@@ -254,7 +254,7 @@ export function transcribeMedia(file) {
 export function createRecording(recording) {
   return (dispatch, getState, client) => {
     dispatch({ type: CREATE_RECORDING });
-    return client.apiTokenClient.recording.createRecording(recording).then(
+    return client.recording.createRecording(recording).then(
       recording =>
         dispatch({
           type: CREATE_RECORDING_SUCCESS,
@@ -271,7 +271,7 @@ export function createRecording(recording) {
 export function createMediaAsset(recordingId, asset) {
   return (dispatch, getState, client) => {
     dispatch({ type: CREATE_MEDIA_ASSET });
-    return client.apiTokenClient.recording.createAsset(recordingId, asset).then(
+    return client.recording.createAsset(recordingId, asset).then(
       asset =>
         dispatch({
           type: CREATE_MEDIA_ASSET_SUCCESS,
@@ -288,7 +288,7 @@ export function createMediaAsset(recordingId, asset) {
 export function createJob(recordingId, tasks) {
   return (dispatch, getState, client) => {
     dispatch({ type: CREATE_JOB });
-    return client.apiTokenClient.job.createJob({ recordingId, tasks }).then(
+    return client.job.createJob({ recordingId, tasks }).then(
       job =>
         dispatch({
           type: CREATE_JOB_SUCCESS,
@@ -305,7 +305,7 @@ export function createJob(recordingId, tasks) {
 export function getJob(jobId, recordingId) {
   return (dispatch, getState, client) => {
     dispatch({ type: GET_JOB });
-    return client.apiTokenClient.job.getJob(jobId).then(
+    return client.job.getJob(jobId).then(
       job => {
         if (job.status === 'failed') {
           return dispatch({ type: GET_JOB_FAILURE });
@@ -331,7 +331,7 @@ export function getJob(jobId, recordingId) {
 export function getRecordingTranscript(recordingId) {
   return (dispatch, getState, client) => {
     dispatch({ type: GET_RECORDING_TRANSCRIPT });
-    return client.apiTokenClient.recording
+    return client.recording
       .getRecordingTranscript(recordingId)
       .then(
         transcript =>
