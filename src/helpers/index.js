@@ -32,7 +32,7 @@ export function isEmpty(obj) {
 export function ApiConfiguration(attrs) {
   const state = GetApplicationState();
   return {
-    token: state.session,
+    token: state.token,
     accessCode: state.code,
     accessToken: state.token,
     baseUrl: state.api
@@ -45,7 +45,6 @@ export function ApiConfiguration(attrs) {
  */
 export function GetApplicationState() {
   return {
-    session: veritone.getCookie('session'),
     code: veritone.getCookie('code'),
     token: veritone.getCookie('token'),
     queries: parse(window.location.search.substring(1)),

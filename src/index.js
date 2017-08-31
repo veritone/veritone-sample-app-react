@@ -3,14 +3,35 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import veritoneApi from 'veritone-api/dist/bundle-node.js';
-import { AuthFlow, ApiConfiguration } from 'helpers';
-import user, { namespace as userNamespace } from 'modules/user';
 
 
 // Polyfill
 // -----------------------------------
 import './polyfill';
+
+
+// Core & Authentication helpers
+// -----------------------------------
+import { AuthFlow, ApiConfiguration } from 'helpers';
+
+
+// Veritone Client SDK
+// -----------------------------------
+import veritoneApi from 'veritone-api/dist/bundle-browser.js';
+
+
+// User Module
+// -----------------------------------
+import user, {
+  namespace as userNamespace
+} from 'modules/user';
+
+
+// Media Module
+// -----------------------------------
+import mediaExample, {
+  namespace as mediaExampleNamespace
+} from 'modules/mediaExample';
 
 
 // Global css
@@ -56,7 +77,8 @@ const enhancer = composeEnhancers(
 // ------------------------------------
 const store = createStore(
   combineReducers({
-    [userNamespace]: user
+    [userNamespace]: user,
+    [mediaExampleNamespace]: mediaExample
   }),
   {},
   enhancer

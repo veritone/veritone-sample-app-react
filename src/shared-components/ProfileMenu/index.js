@@ -7,8 +7,6 @@ import IconMenu from 'material-ui/IconMenu';
 import { PropTypes } from 'prop-types';
 const { string, func } = PropTypes;
 
-// import styles from './styles/index';
-
 export default class AppSwitcher extends React.Component {
   static propTypes = {
     className: string,
