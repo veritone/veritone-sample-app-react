@@ -78,10 +78,8 @@ veritone-component-boilerplate
     └── App.css
     └── App.js
     └── App.test.js
-    └── index.css
     └── index.js
-    └── logo.svg
-    └── registerServiceWorker.js
+    └── polyfill.js
 ```
 
 [cra]: https://github.com/facebookincubator/create-react-app
