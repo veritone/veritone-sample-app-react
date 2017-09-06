@@ -16,7 +16,7 @@
 
 
 
-## Quick Start
+### Quick Start
 
 ```sh
 git clone https://github.com/veritone/veritone-component-boilerplate.git
