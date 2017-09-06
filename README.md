@@ -26,61 +26,6 @@ yarn install
 yarn start
 ```
 
-## Project Structure
-
-```
-veritone-component-boilerplate
-├── README.md
-├── node_modules
-├── package.json
-├── .env
-├── .gitignore
-├── public
-│   └── favicon.ico
-│   └── index.html
-│   └── manifest.json
-└── src
-    ├── helpers
-    │   ├── redux
-    │   └── index.js
-    │
-    ├── modules
-    │   ├── application
-    │   ├── mediaExample
-    │   └── user
-    │
-    ├── resources
-    │   ├── veritone-hello-world.mp4
-    │   └── hello-logo-white.svg
-    │
-    ├── shared-components
-    │   ├── AppSwitcher
-    │   ├── AppSwitcherErrorState
-    │   ├── AppSwitcherList
-    │   ├── Branding
-    │   ├── ExpandingContainer
-    │   ├── Footer
-    │   ├── grid
-    │   ├── Header
-    │   ├── MediaExample
-    │   ├── MediaUpload
-    │   ├── MediaUploadState
-    │   ├── MediaUploadStates
-    │   ├── ProfileMenu
-    │   ├── ProgressButton
-    │   ├── RequestBar
-    │   └── TopBar
-    │
-    ├── styles
-    │   ├── modules
-    │   └── vendor
-    │
-    └── App.css
-    └── App.js
-    └── App.test.js
-    └── index.js
-    └── polyfill.js
-```
 
 [cra]: https://github.com/facebookincubator/create-react-app
 [cradocs]: https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md
