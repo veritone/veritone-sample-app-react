@@ -2,76 +2,36 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Container, Row, Col } from 'shared-components/grid';
-import RequestBar from 'shared-components/RequestBar';
 import MediaExample from 'shared-components/MediaExample';
 import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 import styles from './App.scss';
 
-import { userIsAuthenticated, fetchUser } from 'modules/user';
+import { userIsAuthenticated, fetchUser, fetchEnabledApps, getEnabledApps } from 'modules/user';
 
-const { bool } = PropTypes;
+const { bool, array } = PropTypes;
 
 class App extends React.Component {
   static propTypes = {
-    userIsAuthenticated: bool
+    userIsAuthenticated: bool,
+    enabledApps: array
   };
 
   componentWillMount() {
-    const { userIsAuthenticated, fetchUser } = this.props;
+    const { userIsAuthenticated, fetchUser, fetchEnabledApps } = this.props;
 
     if (!userIsAuthenticated) {
-      // this.props.fetchUser();
+      fetchUser();
     }
+
+    fetchEnabledApps();
   }
 
   render() {
-    const exampleBtn = (
-      <button
-        className="requestBar__btn"
-        onClick={function() {
-          console.log('AJAX()');
-        }}
-      >
-        Request
-      </button>
-    );
-    const apps = [
-      {
-        applicationId: 'abcd',
-        applicationName: 'Test Application',
-        applicationIconSvg: '',
-        applicationIconUrl: 'https://www.veritone.com'
-      },
-      {
-        applicationId: '1234',
-        applicationName: 'Beta Application',
-        applicationIconSvg: '',
-        applicationIconUrl: 'https://www.veritone.com'
-      }
-    ];
-    const requests = [
-      {
-        description: 'Get your current logged in user data',
-        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user',
-        parameters: {},
-        fields: [],
-        button: exampleBtn
-      },
-      {
-        description: 'Get available Veritone applications',
-        endpoint:
-          'https://api.aws-dev.veritone.com/v1/admin/current-user/applications',
-        parameters: {},
-        fields: [],
-        button: exampleBtn
-      }
-    ];
-
     return (
       <div className={styles['wrapper']}>
         <Header
-          enabledApps={apps}
+          enabledApps={this.props.enabledApps}
           appSwitcher
           profileMenu
           onLogout={this.handleClick}
@@ -100,20 +60,6 @@ class App extends React.Component {
               </p>
             </Col>
           </Row>
-
-          <Row>
-            <Col sm={12} className={styles['topDivider']}>
-              <h4>Example API Requests</h4>
-              <p>
-                Below are a few example API requests which can be made after
-                proper authentication/authorization. Please refer to the API
-                documentation if you are unsure of any functionality.
-              </p>
-              {requests.map((request, index) =>
-                <RequestBar key={index} id={index + 1} {...request} />
-              )}
-            </Col>
-          </Row>
           <Row>
             <Col sm={12} className={styles['topDivider']}>
               <MediaExample />
@@ -129,10 +75,11 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    userIsAuthenticated: userIsAuthenticated(state)
+    userIsAuthenticated: userIsAuthenticated(state),
+    enabledApps: getEnabledApps(state)
   };
 };
 
-const mapDispatchToProps = { fetchUser };
+const mapDispatchToProps = { fetchUser, fetchEnabledApps };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
