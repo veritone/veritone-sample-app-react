@@ -8,9 +8,10 @@ import Header from 'shared-components/Header';
 import Footer from 'shared-components/Footer';
 import styles from './App.scss';
 
-import { userIsAuthenticated, fetchUser } from 'modules/user';
+import { userIsAuthenticated, fetchUser, fetchApplications } from 'modules/user';
+import Demo from 'modules/demo';
 
-const { bool } = PropTypes;
+const { element, bool, shape, string, func, instanceOf } = PropTypes;
 
 class App extends React.Component {
   static propTypes = {
@@ -21,61 +22,19 @@ class App extends React.Component {
     const { userIsAuthenticated, fetchUser } = this.props;
 
     if (!userIsAuthenticated) {
-      // this.props.fetchUser();
+      this.props.fetchUser();
     }
   }
 
+  DemoRequestHandler = (e) => {
+    e.preventDefault();
+  }
+
   render() {
-    const exampleBtn = (
-      <button
-        className="requestBar__btn"
-        onClick={function() {
-          console.log('AJAX()');
-        }}
-      >
-        Request
-      </button>
-    );
-    const apps = [
-      {
-        applicationId: 'abcd',
-        applicationName: 'Test Application',
-        applicationIconSvg: '',
-        applicationIconUrl: 'https://www.veritone.com'
-      },
-      {
-        applicationId: '1234',
-        applicationName: 'Beta Application',
-        applicationIconSvg: '',
-        applicationIconUrl: 'https://www.veritone.com'
-      }
-    ];
-    const requests = [
-      {
-        description: 'Get your current logged in user data',
-        endpoint: 'https://api.aws-dev.veritone.com/v1/admin/current-user',
-        parameters: {},
-        fields: [],
-        button: exampleBtn
-      },
-      {
-        description: 'Get available Veritone applications',
-        endpoint:
-          'https://api.aws-dev.veritone.com/v1/admin/current-user/applications',
-        parameters: {},
-        fields: [],
-        button: exampleBtn
-      }
-    ];
 
     return (
       <div className={styles['wrapper']}>
-        <Header
-          enabledApps={apps}
-          appSwitcher
-          profileMenu
-          onLogout={this.handleClick}
-        />
+        <Header enabledApps={Demo.apps} appSwitcher profileMenu onLogout={this.handleClick} />
         <Container topBarOffset>
           <Row>
             <Col lg={12}>
@@ -109,7 +68,7 @@ class App extends React.Component {
                 proper authentication/authorization. Please refer to the API
                 documentation if you are unsure of any functionality.
               </p>
-              {requests.map((request, index) =>
+              {Demo.requests.map((request, index) =>
                 <RequestBar key={index} id={index + 1} {...request} />
               )}
             </Col>

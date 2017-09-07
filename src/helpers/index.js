@@ -1,11 +1,13 @@
 import { parse } from 'qs';
+import veritone from './veritone';
 
 /**
- * Returns query string from url
- * @return {OBJECT} - query string key value
+ * Basic auth flow handler
+ * @return {Redirect} Multiple Redirects in Flow
  */
-export function getQuery() {
-  return parse(window.location.search.substring(1));
+export function AuthFlow() {
+  const params = parse(window.location.search.substring(1));
+  veritone.connect(params);
 }
 
 /**
@@ -20,4 +22,32 @@ export function isEmpty(obj) {
     }
   }
   return true;
+}
+
+/**
+ * set API configuration
+ * @param  {Object} attrs
+ * @return {Object}
+ */
+export function ApiConfiguration(attrs) {
+  const state = GetApplicationState();
+  return {
+    token: state.token,
+    accessCode: state.code,
+    accessToken: state.token,
+    baseUrl: state.api
+  }
+}
+
+/**
+ * Load all configurations from cookies and json
+ * @return {Object}
+ */
+export function GetApplicationState() {
+  return {
+    code: veritone.getCookie('code'),
+    token: veritone.getCookie('token'),
+    queries: parse(window.location.search.substring(1)),
+    api: veritone.config.endpoints.api
+  }
 }
