@@ -27,8 +27,8 @@ try {
 const settings = {
   host: '0.0.0.0',
   port: config.port || 9000,
-  clientId: 'e5d90340-f4fc-4054-bbd9-a4bd727f1f95',
-  clientSecret: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+  clientId: 'e5d77a9b-3ffb-472b-906b-899a559d2bc6',
+  clientSecret: 'N9dX40RUsqBVez_xDtEM7zIYeiHEI33gk5ZNIv9V6dbT5RMI3kZSKg'
 };
 
 var corsOptions = {

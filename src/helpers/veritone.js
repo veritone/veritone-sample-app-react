@@ -6,6 +6,7 @@ const cookies = new Cookies();
 class Veritone {
   constructor() {
     this.config = config;
+    this.error = null;
     this.uptime = new Date();
     this.auth = {
       code: null,
@@ -19,11 +20,16 @@ class Veritone {
     }
   }
   connect(params) {
-    if(params.code !== undefined) {
+
+    if(params.error) {
+      return null;
+    }
+
+    if(!!params.code) {
       this.auth.code = params.code;
     }
-    if(this.auth.token === null) {
-      if(this.auth.code !== null) {
+    if(!this.auth.token) {
+      if(!!this.auth.code) {
         this.getAccessToken(this.auth.code)
       } else {
         return window.location = this.getAuthorizeUrl();
@@ -63,14 +69,18 @@ class Veritone {
     })
     .then((resp) => resp.json())
     .then(function(data) {
-      // data back from exchanging code
-      if(data.token && data.token.access_token) {
-        const cookies = new Cookies();
-        cookies.set(config.cookies.name['token'], data.token.access_token, {
-          path: config.cookies.path,
-          domain: config.cookies.domain,
-          maxAge: config.cookies.expire
-        });
+      if(data.token) {
+        // data back from exchanging code
+        if(data.token && data.token.access_token) {
+          const cookies = new Cookies();
+          cookies.set(config.cookies.name['token'], data.token.access_token, {
+            path: config.cookies.path,
+            domain: config.cookies.domain,
+            maxAge: config.cookies.expire
+          });
+          return window.location = config.clientRedirect;
+        }
+      } else {
         return window.location = config.clientRedirect;
       }
     }).catch(function(err) {
