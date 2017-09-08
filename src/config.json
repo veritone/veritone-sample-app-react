@@ -1,0 +1,34 @@
+{
+  "clientOrigins": [
+    "http://local.veritone.com:3000",
+    "http://local.veritone.com:9000",
+    "http://local.veritone.com",
+    "local.veritone.com:9000"
+  ],
+  "clientId": "e5d90340-f4fc-4054-bbd9-a4bd727f1f95",
+  "clientUserSessionToken": "263c798f-c5e9-45e9-843f-3b3d90a4418a",
+  "clientOrigin": "http://local.veritone.com:3000",
+  "clientRedirect": "http://local.veritone.com:3000",
+  "clientScope": "readall",
+  "clientGrantType": "authorization_code",
+  "endpoints": {
+    "api": "https://api.aws-dev.veritone.com",
+    "login": "https://www.aws-dev.veritone.com/login",
+    "authorize": "https://api.aws-dev.veritone.com/v1/admin/oauth/authorize",
+    "token": "https://api.aws-dev.veritone.com/v1/admin/oauth/token",
+    "code": "http://local.veritone.com:9000/oauth",
+    "oauth": "http://local.veritone.com:9000/oauth"
+  },
+  "cookies": {
+    "domain": ".veritone.com",
+    "path": "/",
+    "expire": 604800,
+    "name": {
+      "veritone": "dev-veritone-session-id",
+      "session": "veritone-auth-session-token",
+      "code": "veritone-auth-access-code",
+      "token": "veritone-auth-access-token",
+      "timestamp": "veritone-auth-access-timestamp"
+    }
+  }
+}

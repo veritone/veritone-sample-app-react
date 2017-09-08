@@ -27,6 +27,10 @@ class App extends React.Component {
     fetchEnabledApps();
   }
 
+  DemoRequestHandler = (e) => {
+    e.preventDefault();
+  }
+
   render() {
     return (
       <div className={styles['wrapper']}>

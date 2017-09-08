@@ -15,6 +15,7 @@ export const FETCH_USER_APPLICATIONS_FAILURE =
 
 const defaultState = {
   user: {},
+  applications: {},
 
   isFetching: false,
   fetchingFailed: false,
@@ -33,7 +34,6 @@ const reducer = createReducer(defaultState, {
       fetchingFailed: false
     };
   },
-
   [FETCH_USER_SUCCESS](state, action) {
     return {
       ...state,
@@ -42,7 +42,6 @@ const reducer = createReducer(defaultState, {
       user: action.payload
     };
   },
-
   [FETCH_USER_FAILURE](state, action) {
     return {
       ...state,
@@ -108,8 +107,7 @@ function local(state) {
 export function fetchUser() {
   return (dispatch, getState, client) => {
     dispatch({ type: FETCH_USER })
-
-    client.userSessionClient.user.getCurrentUser().then(
+    client.user.getCurrentUser().then(
       (user) => dispatch({
         type: FETCH_USER_SUCCESS,
         payload: user
@@ -127,7 +125,7 @@ export function fetchEnabledApps() {
   return (dispatch, getState, client) => {
     dispatch({ type: FETCH_USER_APPLICATIONS })
 
-    client.userSessionClient.user.getApplications().then(
+    client.user.getApplications().then(
       (apps) => dispatch({
         type: FETCH_USER_APPLICATIONS_SUCCESS,
         payload: apps
@@ -140,7 +138,6 @@ export function fetchEnabledApps() {
     );
   }
 }
-
 
 export function userIsAuthenticated(state) {
   return !isEmpty(local(state).user);
