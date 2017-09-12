@@ -16,7 +16,6 @@ import './polyfill';
 // -----------------------------------
 // import { AuthFlow, ApiConfiguration } from 'helpers';
 
-import { getQuery } from 'helpers';
 // Veritone Client SDK
 // -----------------------------------
 import veritoneApi from 'veritone-api/dist/bundle-browser.js';
@@ -58,14 +57,14 @@ injectTapEventPlugin();
 
 const cookies = new Cookies();
 
-if (!cookies.get('oauthToken') && !getQuery().oauthToken) {
+if (!cookies.get('oauthToken')) {
   window.location.replace('/auth/veritone');
 }
 
 // // Veritone API Client Initalization
 // // ------------------------------------
 const client = veritoneApi({
-  oauthToken: getQuery().oauthToken || cookies.get('oauthToken')
+  oauthToken: cookies.get('oauthToken')
 });
 
 
