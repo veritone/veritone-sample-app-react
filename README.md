@@ -1,6 +1,6 @@
 # Veritone Sample App - React
 
-[Veritone][veri] sample app is a minimal boilerplate for creating [Veritone][veri] powered web applications ([SPA](https://en.wikipedia.org/wiki/Single-page_application)s).
+The [Veritone][veri] sample app is a minimal boilerplate for creating [Veritone][veri] powered web applications ([SPA](https://en.wikipedia.org/wiki/Single-page_application)s).
 
 
 ### Tech Stack
@@ -19,9 +19,9 @@
 ### Quick Start
 
 ```sh
-git clone https://github.com/veritone/veritone-component-boilerplate.git
+git clone https://github.com/veritone/veritone-sample-app-react.git
 
-cd veritone-component-boilerplate/
+cd veritone-sample-app-react/
 yarn install
 yarn start
 ```
