@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import Cookies from 'universal-cookie';
+
 
 // Polyfill
 // -----------------------------------
@@ -12,26 +14,26 @@ import './polyfill';
 
 // Core & Authentication helpers
 // -----------------------------------
-import { AuthFlow, ApiConfiguration } from 'helpers';
+// import { AuthFlow, ApiConfiguration } from 'helpers';
 
-
+import { getQuery } from 'helpers';
 // Veritone Client SDK
 // -----------------------------------
 import veritoneApi from 'veritone-api/dist/bundle-browser.js';
 
 
-// User Module
-// -----------------------------------
-import user, {
-  namespace as userNamespace
-} from 'modules/user';
+// // User Module
+// // -----------------------------------
+// import user, {
+//   namespace as userNamespace
+// } from 'modules/user';
 
 
-// Media Module
-// -----------------------------------
-import mediaExample, {
-  namespace as mediaExampleNamespace
-} from 'modules/mediaExample';
+// // Media Module
+// // -----------------------------------
+// import mediaExample, {
+//   namespace as mediaExampleNamespace
+// } from 'modules/mediaExample';
 
 
 // Global css
@@ -54,9 +56,28 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 
-// Veritone API Client Initalization
-// ------------------------------------
-const client = veritoneApi(ApiConfiguration(AuthFlow()));
+let client;
+
+function initalizeSDK() {
+  const cookies = new Cookies();
+
+  if (!cookies.get('oauthToken')) {
+    if (getQuery().oauthToken) {
+      cookies.set('oauthToken', getQuery().oauthToken);
+
+      window.location.replace(window.location.pathname);
+    } else {
+      window.location.replace('http://localhost:9000/auth/veritone');
+    }
+  }
+}
+
+initalizeSDK();
+
+
+// // Veritone API Client Initalization
+// // ------------------------------------
+// const client = veritoneApi(ApiConfiguration(AuthFlow()));
 
 
 // Middleware
@@ -77,21 +98,21 @@ const enhancer = composeEnhancers(
 // ------------------------------------
 const store = createStore(
   combineReducers({
-    [userNamespace]: user,
-    [mediaExampleNamespace]: mediaExample
+    // [userNamespace]: user,
+    // [mediaExampleNamespace]: mediaExample
   }),
   {},
   enhancer
 );
 
 
-// Render
-// ------------------------------------
-render(
-  <Provider store={store}>
-    <MuiThemeProvider>
-      <App />
-    </MuiThemeProvider>
-  </Provider>,
-  document.getElementById('root')
-);
+// // Render
+// // ------------------------------------
+// render(
+//   <Provider store={store}>
+//     <MuiThemeProvider>
+//       <App />
+//     </MuiThemeProvider>
+//   </Provider>,
+//   document.getElementById('root')
+// );

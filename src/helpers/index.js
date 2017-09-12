@@ -52,3 +52,11 @@ export function GetApplicationState() {
     api: veritone.config.endpoints.api
   }
 }
+
+/**
+ * Returns query string from url
+ * @return {OBJECT} - query string key value
+ */
+export function getQuery() {
+  return parse(window.location.search.substring(1));
+}
