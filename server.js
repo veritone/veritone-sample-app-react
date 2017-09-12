@@ -1,15 +1,8 @@
-const fs = require('fs');
-const path = require('path');
 const express = require('express');
 const compression = require('compression');
-const cheerio = require('cheerio');
 const cookieParser = require('cookie-parser');
 const nodeConfig = require('node-config');
 const cors = require('cors');
-const unirest = require('unirest');
-const url = require('url');
-const http = require('http');
-const Cookies = require('universal-cookie');
 
 
 const passport = require('passport');
@@ -74,12 +67,17 @@ passport.use(new Strategy({
   return done(null, profile);
 }));
 
-
 app.get('/auth/veritone', passport.authenticate('veritone'));
 
 app.get('/auth/veritone/callback',
   passport.authenticate('veritone', { session: false }), (req, res) => {
-    res.redirect(302, `http://localhost:3001?oauthToken=${req.user.oauthToken}`);
+    // fixme: in prod, this needs to send index.html, i think
+    res
+      .cookie('oauthToken', req.user.oauthToken, {
+        secure: false,
+        httpOnly: false
+      })
+      .redirect(302, `http://local.veritone.com:3000`);
   });
 
 

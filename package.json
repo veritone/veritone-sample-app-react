@@ -2,6 +2,11 @@
   "name": "veritone-frontend-base",
   "version": "0.1.0",
   "private": true,
+  "proxy": {
+    "/auth": {
+      "target": "http://local.veritone.com:9000"
+    }
+  },
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
@@ -20,9 +25,6 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
-    "react-redux-saga": "^1.0.2",
-    "react-router": "^4.2.0",
-    "react-router-redux": "^4.0.8",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
