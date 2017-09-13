@@ -12,10 +12,6 @@ import Cookies from 'universal-cookie';
 import './polyfill';
 
 
-// Core & Authentication helpers
-// -----------------------------------
-// import { AuthFlow, ApiConfiguration } from 'helpers';
-
 // Veritone Client SDK
 // -----------------------------------
 import veritoneApi from 'veritone-api/dist/bundle-browser.js';
