@@ -27,10 +27,6 @@ class App extends React.Component {
     fetchEnabledApps();
   }
 
-  DemoRequestHandler = (e) => {
-    e.preventDefault();
-  }
-
   render() {
     return (
       <div className={styles['wrapper']}>
@@ -45,22 +41,12 @@ class App extends React.Component {
             <Col lg={12}>
               <h1>Sample Veritone Application</h1>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-                id commodo augue. Praesent quam nisi, dictum ac neque quis,
-                ultricies vulputate magna. Mauris mollis, est et ultricies
-                ultrices, odio est ultrices neque, in sagittis dui nibh at nisl.
-                Vivamus pretium fermentum nunc, at congue nulla scelerisque in.
-              </p>
-              <p>
-                Donec a diam lacinia odio congue tempor. Praesent volutpat diam
-                vitae arcu fermentum, ac euismod mauris commodo. Sed interdum
-                magna non arcu vehicula consectetur. Suspendisse ac turpis
-                egestas, varius tellus a, faucibus sapien. Quisque in turpis at
-                augue facilisis ultrices. Nulla facilisi. Suspendisse rutrum sed
-                tellus vitae cursus. Nunc tincidunt ante vitae nibh aliquam
-                hendrerit. Nulla cursus est libero, vestibulum rutrum nulla
-                gravida non. Nam sapien lectus, tempus et sollicitudin eu,
-                mattis sit amet leo. Aliquam vel iaculis felis.
+                Welcome to the Veritone Sample Application.
+                Head over to <a href='https://veritone-developer.atlassian.net/wiki/spaces/DOC/pages/17989665/Sample+App+Walkthrough'>
+                  our confluence page
+                </a> to check out the sample app walkthrough guide.
+                Below we have created a transcription example for you, in order to give you a small glimpse of
+                what types of applications you can create while leveraging the Veritone Platform.
               </p>
             </Col>
           </Row>

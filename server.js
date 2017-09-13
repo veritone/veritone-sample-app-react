@@ -1,32 +1,25 @@
 const express = require('express');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
-const nodeConfig = require('node-config');
 const cors = require('cors');
-
-
+const dotenv = require('dotenv');
 const passport = require('passport');
 const Strategy = require('passport-veritone');
 
 
-
-// load config from file
+// init env vars
 // --------------------------------
-let config;
-try {
-  config = nodeConfig.load();
-} catch (e) {
-  config = nodeConfig.loadFromLocation('src/config.json');
-}
+dotenv.config({ path: '.env.development' });
 
 
 // settings
 // --------------------------------
 const settings = {
   host: '0.0.0.0',
-  port: config.port || 9000,
-  clientId: 'e5d77a9b-3ffb-472b-906b-899a559d2bc6',
-  clientSecret: 'N9dX40RUsqBVez_xDtEM7zIYeiHEI33gk5ZNIv9V6dbT5RMI3kZSKg'
+  port: process.env.NODE_PORT || 9000,
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  callbackURL: process.env.CALLBACK_URL
 };
 
 
@@ -60,9 +53,9 @@ app.use(function (req, res, next) {
 
 // Use the VeritoneStrategy within Passport.
 passport.use(new Strategy({
-  clientID: 'e5d90340-f4fc-4054-bbd9-a4bd727f1f95',
-  clientSecret: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
-  callbackURL: 'http://local.veritone.com:9000/auth/veritone/callback'
+  clientID: settings.clientId,
+  clientSecret: settings.clientSecret,
+  callbackURL: settings.callbackURL
 }, function(accessToken, refreshToken, profile, done) {
   return done(null, profile);
 }));

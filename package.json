@@ -14,6 +14,7 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "date-fns": "^1.28.5",
+    "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "lodash": "^4.17.4",
     "material-ui": "^0.18.7",
@@ -34,8 +35,6 @@
   "devDependencies": {
     "cheerio": "^1.0.0-rc.1",
     "functional-permissions-lib": "git+https://github.com/veritone/functional-permissions-lib#develop",
-    "node-config": "git+https://github.com/inspirent/node-config.git",
-    "node-logger": "git+https://github.com/inspirent/node-logger.git",
     "node-sass-chokidar": "^0.0.2",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.4.4",

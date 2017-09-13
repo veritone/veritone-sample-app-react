@@ -56,51 +56,58 @@ injectTapEventPlugin();
 
 
 const cookies = new Cookies();
+const oauthToken = cookies.get('oauthToken');
+let client;
 
-if (!cookies.get('oauthToken')) {
+if (!oauthToken) {
   window.location.replace('/auth/veritone');
+} else {
+  init();
 }
 
-// // Veritone API Client Initalization
-// // ------------------------------------
-const client = veritoneApi({
-  oauthToken: cookies.get('oauthToken')
-});
+
+function init() {
+  // Veritone API Client Initalization
+  // ------------------------------------
+  client = veritoneApi({
+    oauthToken
+  });
+
+  // Middleware
+  // -----------------------------------
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
-// Middleware
-// -----------------------------------
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  // Enhancers
+  // -----------------------------------
+  const enhancer = composeEnhancers(
+    applyMiddleware(
+      thunkMiddleware.withExtraArgument(client)
+    )
+  );
 
 
-// Enhancers
-// -----------------------------------
-const enhancer = composeEnhancers(
-  applyMiddleware(
-    thunkMiddleware.withExtraArgument(client)
-  )
-);
+  // Store Initialization
+  // ------------------------------------
+  const store = createStore(
+    combineReducers({
+      [userNamespace]: user,
+      [mediaExampleNamespace]: mediaExample
+    }),
+    {},
+    enhancer
+  );
 
 
-// Store Initialization
-// ------------------------------------
-const store = createStore(
-  combineReducers({
-    [userNamespace]: user,
-    [mediaExampleNamespace]: mediaExample
-  }),
-  {},
-  enhancer
-);
+  // // Render
+  // // ------------------------------------
+  render(
+    <Provider store={store}>
+      <MuiThemeProvider>
+        <App />
+      </MuiThemeProvider>
+    </Provider>,
+    document.getElementById('root')
+  );
+}
 
-
-// // Render
-// // ------------------------------------
-render(
-  <Provider store={store}>
-    <MuiThemeProvider>
-      <App />
-    </MuiThemeProvider>
-  </Provider>,
-  document.getElementById('root')
-);
