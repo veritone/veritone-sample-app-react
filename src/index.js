@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import Cookies from 'universal-cookie';
+
 
 // Polyfill
 // -----------------------------------
@@ -12,16 +14,15 @@ import './polyfill';
 
 // Core & Authentication helpers
 // -----------------------------------
-import { AuthFlow, ApiConfiguration } from 'helpers';
-
+// import { AuthFlow, ApiConfiguration } from 'helpers';
 
 // Veritone Client SDK
 // -----------------------------------
 import veritoneApi from 'veritone-api/dist/bundle-browser.js';
 
 
-// User Module
-// -----------------------------------
+// // User Module
+// // -----------------------------------
 import user, {
   namespace as userNamespace
 } from 'modules/user';
@@ -54,44 +55,58 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 
-// Veritone API Client Initalization
-// ------------------------------------
-const client = veritoneApi(ApiConfiguration(AuthFlow()));
+const cookies = new Cookies();
+const oauthToken = cookies.get('oauthToken');
+
+if (!oauthToken) {
+  window.location.replace('/auth/veritone');
+} else {
+  init();
+}
 
 
-// Middleware
-// -----------------------------------
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+function init() {
+  // Veritone API Client Initalization
+  // ------------------------------------
+  const client = veritoneApi({
+    oauthToken
+  });
+
+  // Middleware
+  // -----------------------------------
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
-// Enhancers
-// -----------------------------------
-const enhancer = composeEnhancers(
-  applyMiddleware(
-    thunkMiddleware.withExtraArgument(client)
-  )
-);
+  // Enhancers
+  // -----------------------------------
+  const enhancer = composeEnhancers(
+    applyMiddleware(
+      thunkMiddleware.withExtraArgument(client)
+    )
+  );
 
 
-// Store Initialization
-// ------------------------------------
-const store = createStore(
-  combineReducers({
-    [userNamespace]: user,
-    [mediaExampleNamespace]: mediaExample
-  }),
-  {},
-  enhancer
-);
+  // Store Initialization
+  // ------------------------------------
+  const store = createStore(
+    combineReducers({
+      [userNamespace]: user,
+      [mediaExampleNamespace]: mediaExample
+    }),
+    {},
+    enhancer
+  );
 
 
-// Render
-// ------------------------------------
-render(
-  <Provider store={store}>
-    <MuiThemeProvider>
-      <App />
-    </MuiThemeProvider>
-  </Provider>,
-  document.getElementById('root')
-);
+  // // Render
+  // // ------------------------------------
+  render(
+    <Provider store={store}>
+      <MuiThemeProvider>
+        <App />
+      </MuiThemeProvider>
+    </Provider>,
+    document.getElementById('root')
+  );
+}
+

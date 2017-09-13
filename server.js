@@ -1,57 +1,42 @@
-const fs = require('fs');
-const path = require('path');
 const express = require('express');
 const compression = require('compression');
-const cheerio = require('cheerio');
 const cookieParser = require('cookie-parser');
-const nodeConfig = require('node-config');
 const cors = require('cors');
-const unirest = require('unirest');
-const url = require('url');
-const http = require('http');
-const Cookies = require('universal-cookie');
+const dotenv = require('dotenv');
+const passport = require('passport');
+const Strategy = require('passport-veritone');
 
 
-// load config from file
+// init env vars
 // --------------------------------
-let config;
-try {
-  config = nodeConfig.load();
-} catch (e) {
-  config = nodeConfig.loadFromLocation('src/config.json');
-}
+dotenv.config({ path: '.env.development' });
 
 
 // settings
 // --------------------------------
 const settings = {
   host: '0.0.0.0',
-  port: config.port || 9000,
-  clientId: 'e5d90340-f4fc-4054-bbd9-a4bd727f1f95',
-  clientSecret: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+  port: process.env.NODE_PORT || 9000,
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  callbackURL: process.env.CALLBACK_URL
 };
-
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (config.clientOrigins.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  credentials: true
-}
 
 
 // express app
 // --------------------------------
 const app = express();
-
+app.use(cors());
 
 // common app handlers
 // --------------------------------
 app.use(cookieParser());
 app.use(compression());
+
+
+// initalize passport
+// --------------------------------
+app.use(passport.initialize());
 
 
 // allow static file serving
@@ -66,69 +51,27 @@ app.use(function (req, res, next) {
 });
 
 
-// (get) get veritone session id if exists)
-// --------------------------------
-app.get('/oauth', cors(corsOptions), (req, res) => {
-  if(req.headers.cookie === undefined) {
-    return res.json({
-      id: null,
-      error: 'no session found'
-    });
-  }
-  const cookies = new Cookies(req.headers.cookie);
-  if(req.query.client == config.clientId) {
-    try {
-      res.json({
-        id: cookies.get(config.cookies.name.veritone)
-      });
-    } catch(e) {
-      res.json({
-        id: null,
-        error: e
-      });
-    }
-  } else {
-    res.json({
-      id: null,
-      error: 'invalid clientId'
-    });
-  }
-});
+// Use the VeritoneStrategy within Passport.
+passport.use(new Strategy({
+  clientID: settings.clientId,
+  clientSecret: settings.clientSecret,
+  callbackURL: settings.callbackURL
+}, function(accessToken, refreshToken, profile, done) {
+  return done(null, profile);
+}));
 
+app.get('/auth/veritone', passport.authenticate('veritone'));
 
-// (post) post for access token
-// --------------------------------
-app.post('/oauth', cors(corsOptions), (req, res) => {
-  const code = req.query.code;
-  getAccessToken(code, function(payload) {
-    res.json(payload);
-  })
-});
-
-
-// exchange code for token
-// --------------------------------
-function getAccessToken(accessCode, callback) {
-  const url = `${config.endpoints.token}?client_id=${config.clientId}&client_secret=${config.clientSecret}&code=${accessCode}&grant_type=${config.clientGrantType}&redirect_uri=${config.clientRedirect}`;
-  unirest.post(url)
-  .headers({
-    'Content-Type': 'application/x-www-form-urlencoded'
-  })
-  .send({
-    client_id: settings.clientId || config.clientId,
-    client_secret: settings.clientSecret || config.clientSecret,
-    redirect_uri: settings.clientRedirect || config.clientRedirect,
-    grant_type: settings.clientGrantType || config.clientGrantType,
-    code: accessCode
-  })
-  .end(response => {
-    callback({
-      code: accessCode,
-      token: response.body,
-      response: response.statusCode
-    })
+app.get('/auth/veritone/callback',
+  passport.authenticate('veritone', { session: false }), (req, res) => {
+    // fixme: in prod, this needs to send index.html, i think
+    res
+      .cookie('oauthToken', req.user.oauthToken, {
+        secure: false,
+        httpOnly: false
+      })
+      .redirect(302, `http://local.veritone.com:3000`);
   });
-}
 
 
 // start server

@@ -8,8 +8,10 @@ export const FETCH_USER_SUCCESS = 'vtn/user/FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'vtn/user/FETCH_USER_FAILURE';
 
 export const FETCH_USER_APPLICATIONS = 'vtn/user/FETCH_USER_APPLICATIONS';
-export const FETCH_USER_APPLICATIONS_SUCCESS = 'vtn/user/FETCH_USER_APPLICATIONS_SUCCESS';
-export const FETCH_USER_APPLICATIONS_FAILURE = 'vtn/user/FETCH_USER_APPLICATIONS_FAILURE';
+export const FETCH_USER_APPLICATIONS_SUCCESS =
+  'vtn/user/FETCH_USER_APPLICATIONS_SUCCESS';
+export const FETCH_USER_APPLICATIONS_FAILURE =
+  'vtn/user/FETCH_USER_APPLICATIONS_FAILURE';
 
 const defaultState = {
   user: {},
@@ -19,7 +21,9 @@ const defaultState = {
   fetchingFailed: false,
 
   isFetchingApplications: false,
-  fetchingApplicationsFailed: false
+  fetchApplicationsFailed: false,
+  fetchApplicationsFailureMessage: null,
+  enabledApps: []
 };
 
 const reducer = createReducer(defaultState, {
@@ -46,27 +50,50 @@ const reducer = createReducer(defaultState, {
       user: {}
     };
   },
+
   [FETCH_USER_APPLICATIONS](state, action) {
-    return {
+    const requestSuccessState = {
       ...state,
       isFetchingApplications: true,
-      fetchingApplicationsFailed: false
+      fetchApplicationsFailed: false,
+      fetchApplicationsFailureMessage: null,
+      enabledApps: []
     };
+
+    return action.error
+      ? this[FETCH_USER_APPLICATIONS_FAILURE](state, action)
+      : requestSuccessState;
   },
+
   [FETCH_USER_APPLICATIONS_SUCCESS](state, action) {
     return {
       ...state,
       isFetchingApplications: false,
-      fetchingApplicationsFailed: false,
-      applications: action.payload
+      fetchApplicationsFailed: false,
+      enabledApps: action.payload.results,
+      fetchApplicationsFailureMessage: null
     };
   },
+
   [FETCH_USER_APPLICATIONS_FAILURE](state, action) {
+    const statusErrors = {
+      404: "Couldn't get application list.",
+      default: "Couldn't get application list. Please login."
+    };
+
+    const failureMessage =
+      action.payload.name === 'ApiError'
+        ? statusErrors[action.payload.status] || statusErrors.default
+        : action.payload.name === 'RequestError'
+          ? 'There was an error when fetching application list, please try again.'
+          : statusErrors.default;
+
     return {
       ...state,
       isFetchingApplications: false,
-      fetchingApplicationsFailed: true,
-      applications: {}
+      fetchApplicationsFailed: true,
+      fetchApplicationsFailureMessage: failureMessage,
+      enabledApps: []
     };
   }
 });
@@ -94,13 +121,14 @@ export function fetchUser() {
   }
 }
 
-export function fetchApplications() {
+export function fetchEnabledApps() {
   return (dispatch, getState, client) => {
     dispatch({ type: FETCH_USER_APPLICATIONS })
-    client.engine.getEngines().then(
-      (user) => dispatch({
+
+    client.user.getApplications().then(
+      (apps) => dispatch({
         type: FETCH_USER_APPLICATIONS_SUCCESS,
-        payload: user
+        payload: apps
       }),
       (err) => dispatch({
         type: FETCH_USER_APPLICATIONS_FAILURE,
@@ -113,4 +141,8 @@ export function fetchApplications() {
 
 export function userIsAuthenticated(state) {
   return !isEmpty(local(state).user);
+}
+
+export function getEnabledApps(state) {
+  return local(state).enabledApps;
 }
