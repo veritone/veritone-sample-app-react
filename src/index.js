@@ -57,7 +57,6 @@ injectTapEventPlugin();
 
 const cookies = new Cookies();
 const oauthToken = cookies.get('oauthToken');
-let client;
 
 if (!oauthToken) {
   window.location.replace('/auth/veritone');
@@ -69,7 +68,7 @@ if (!oauthToken) {
 function init() {
   // Veritone API Client Initalization
   // ------------------------------------
-  client = veritoneApi({
+  const client = veritoneApi({
     oauthToken
   });
 
