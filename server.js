@@ -1,7 +1,6 @@
 const express = require('express');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const Strategy = require('passport-veritone');
@@ -26,7 +25,6 @@ const settings = {
 // express app
 // --------------------------------
 const app = express();
-app.use(cors());
 
 // common app handlers
 // --------------------------------
