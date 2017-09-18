@@ -4,7 +4,7 @@
   "private": true,
   "proxy": {
     "/auth": {
-      "target": "http://local.veritone.com:9000"
+      "target": "http://local.veritone-sample-app.com:9000"
     }
   },
   "dependencies": {

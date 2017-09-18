@@ -68,7 +68,7 @@ app.get('/auth/veritone/callback',
         secure: false,
         httpOnly: false
       })
-      .redirect(302, `http://local.veritone.com:3000`);
+      .redirect(302, 'http://local.veritone-sample-app.com:3000');
   });
 
 
