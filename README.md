@@ -47,15 +47,10 @@ yarn install
 yarn start
 ```
 
-**We recommend using the [Redux DevTools Chrome Extension][rdce].**
-Using the chrome extension allows your monitors to run on a separate thread and affords better performance and functionality. It comes with several of the most popular monitors, is easy to configure, filters actions, and doesn't require installing any packages in your project.
-
 ### Building for Production
 ```bash
 $ yarn build  # Build production assets (or `npm run build`)
 ```
-
-
 
 [cra]: https://github.com/facebookincubator/create-react-app
 [cradocs]: https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md
