@@ -59,3 +59,8 @@ $ yarn build  # Build production assets (or `npm run build`)
 [veri]: https://veritone.com/
 [saw]: https://veritone-developer.atlassian.net/wiki/spaces/DOC/pages/17989665/Sample+App+Walkthrough
 [rdce]: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+
+# License
+Copyright (c) Veritone Corporation. All rights reserved.
+
+Licensed under the Apache 2.0 License.
