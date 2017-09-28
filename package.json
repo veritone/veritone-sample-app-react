@@ -1,7 +1,6 @@
 {
   "name": "veritone-sample-app-react",
   "version": "0.1.0",
-  "private": true,
   "proxy": {
     "/auth": {
       "target": "http://local.veritone-sample-app.com:9000"
