@@ -18,7 +18,7 @@
     "material-ui": "^0.18.7",
     "normalize.css": "^7.0.0",
     "passport": "^0.4.0",
-    "passport-veritone": "git+https://github.com/veritone/passport-veritone.git",
+    "passport-veritone": "^0.0.1",
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
     "react": "^15.6.1",
