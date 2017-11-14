@@ -6994,9 +6994,9 @@ vendors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.1.tgz#37ad73c8ee417fb3d580e785312307d274847f22"
 
-"veritone-api@git+https://github.com/veritone/veritone-api#refactor/VTN-3590/use-handler-factory":
-  version "1.0.0"
-  resolved "git+https://github.com/veritone/veritone-api#417127e10297142fc228084b3e8a620a73dc9e52"
+veritone-client-js@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/veritone-client-js/-/veritone-client-js-1.0.4.tgz#a025491fa51da703ab6b73376834acb626da8f56"
   dependencies:
     async "^2.5.0"
     axios "^0.16.2"
