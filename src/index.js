@@ -14,7 +14,7 @@ import './polyfill';
 
 // Veritone Client SDK
 // -----------------------------------
-import veritoneApi from 'veritone-api/dist/bundle-browser.js';
+import veritoneApi from 'veritone-client-js/dist/bundle-browser.js';
 
 
 // User Module
