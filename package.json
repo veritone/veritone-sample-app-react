@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.1",
-    "functional-permissions-lib": "git+https://github.com/veritone/functional-permissions-lib#develop",
     "node-sass-chokidar": "^0.0.2",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.4.4",
