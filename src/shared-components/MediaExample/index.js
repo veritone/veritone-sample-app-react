@@ -7,7 +7,8 @@ import MediaUploadState from 'shared-components/MediaUploadState';
 import MediaUploadStates from 'shared-components/MediaUploadStates';
 import RequestBar from 'shared-components/RequestBar';
 
-import { transcribeMedia } from 'modules/mediaExample';
+import { transcribeMedia as transcribeMediaGql } from '../../modules/mediaExample-gql';
+import { transcribeMedia as transcribeMediaRest} from '../../modules/mediaExample';
 
 class MediaExample extends React.Component {
   state = {
@@ -18,8 +19,11 @@ class MediaExample extends React.Component {
     this.setState({
       expanded: true
     });
-
-    this.props.transcribeMedia(file);
+    if (process.env.REACT_APP_CLIENT_TYPE === 'GRAPHQL') {
+      this.props.transcribeMediaGql(file);
+    } else {
+      this.props.transcribeMediaRest(file);
+    }
   };
 
   render() {
@@ -58,6 +62,6 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = { transcribeMedia };
+const mapDispatchToProps = { transcribeMediaRest, transcribeMediaGql };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MediaExample);

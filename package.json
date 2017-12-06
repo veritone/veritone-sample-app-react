@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "proxy": {
     "/auth": {
-      "target": "http://local.veritone-sample-app.com:9000"
+      "target": "http://local.veritone.com:9000"
     }
   },
   "dependencies": {
+    "apollo-client-preset": "^1.0.4",
+    "apollo-fetch-upload": "^1.1.0",
+    "apollo-link-context": "^1.0.2",
+    "apollo-link-error": "^1.0.2",
     "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
     "compression": "^1.7.0",
@@ -14,6 +18,9 @@
     "date-fns": "^1.28.5",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
+    "extract-files": "^2.0.1",
+    "graphql": "^0.11.7",
+    "graphql-tag": "^2.5.0",
     "lodash": "^4.17.4",
     "material-ui": "^0.18.7",
     "normalize.css": "^7.0.0",
@@ -22,6 +29,7 @@
     "prop-types": "^15.5.10",
     "qs": "^6.5.0",
     "react": "^15.6.1",
+    "react-apollo": "^2.0.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-tap-event-plugin": "^2.0.1",

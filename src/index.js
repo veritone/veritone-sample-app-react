@@ -17,19 +17,22 @@ import './polyfill';
 import veritoneApi from 'veritone-client-js/dist/bundle-browser.js';
 
 
-// User Module
+// User Module with REST and GQL
 // -----------------------------------
 import user, {
   namespace as userNamespace
-} from 'modules/user';
+} from './modules/user';
+import userGql, {
+  namespace as userNamespaceGql
+} from './modules/user-gql';
 
-
-// Media Module
-// -----------------------------------
+// Media Module with REST and GQL
 import mediaExample, {
   namespace as mediaExampleNamespace
-} from 'modules/mediaExample';
-
+} from './modules/mediaExample';
+import mediaExampleGql, {
+  namespace as mediaExampleNamespaceGql
+} from './modules/mediaExample-gql';
 
 // Global css
 // -----------------------------------
@@ -48,6 +51,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import { gqlClient } from './helpers/index';
+
 injectTapEventPlugin();
 
 
@@ -75,20 +81,39 @@ function init() {
 
   // Enhancers
   // -----------------------------------
+  const getThunkMiddleware = () => {
+    switch (process.env.REACT_APP_CLIENT_TYPE) {
+      case 'GRAPHQL': 
+        return thunkMiddleware.withExtraArgument(gqlClient);
+      default:
+        return thunkMiddleware.withExtraArgument(client);
+    }
+  }
   const enhancer = composeEnhancers(
-    applyMiddleware(
-      thunkMiddleware.withExtraArgument(client)
-    )
+    applyMiddleware(getThunkMiddleware())
   );
 
 
   // Store Initialization
   // ------------------------------------
+
+  const getReducer = () => {
+    switch (process.env.REACT_APP_CLIENT_TYPE) {
+      case 'GRAPHQL': 
+        return {
+          [userNamespaceGql]: userGql,
+          [mediaExampleNamespaceGql]: mediaExampleGql
+        };
+      default:
+        return {
+          [userNamespace]: user,
+          [mediaExampleNamespace]: mediaExample,
+        };
+    }
+  }
+
   const store = createStore(
-    combineReducers({
-      [userNamespace]: user,
-      [mediaExampleNamespace]: mediaExample
-    }),
+    combineReducers(getReducer()),
     {},
     enhancer
   );

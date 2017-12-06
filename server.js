@@ -63,12 +63,11 @@ app.get('/auth/veritone', passport.authenticate('veritone'));
 app.get('/auth/veritone/callback',
   passport.authenticate('veritone', { session: false }), (req, res) => {
     // fixme: in prod, this needs to send index.html, i think
-    res
-      .cookie('oauthToken', req.user.oauthToken, {
+    res.cookie('oauthToken', req.user.oauthToken, {
         secure: false,
         httpOnly: false
       })
-      .redirect(302, 'http://local.veritone-sample-app.com:3000');
+      .redirect(302, process.env.BASE_URL);
   });
 
 
