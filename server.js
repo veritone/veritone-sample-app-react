@@ -53,7 +53,10 @@ app.use(function (req, res, next) {
 passport.use(new Strategy({
   clientID: settings.clientId,
   clientSecret: settings.clientSecret,
-  callbackURL: settings.callbackURL
+  callbackURL: settings.callbackURL,
+  authorizationURL: 'https://api.aws-dev.veritone.com/v1/admin/oauth/authorize',
+  tokenURL: 'https://api.aws-dev.veritone.com/v1/admin/oauth/token',
+  profileUrl: 'https://api.aws-dev.veritone.com/v1/admin/current-user'
 }, function(accessToken, refreshToken, profile, done) {
   return done(null, profile);
 }));

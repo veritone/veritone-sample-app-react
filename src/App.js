@@ -1,13 +1,13 @@
 import React from 'react';
+import './polyfill';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Container, Row, Col } from 'shared-components/grid';
+import { AppBar, AppFooter } from 'veritone-react-common';
 import MediaExample from 'shared-components/MediaExample';
-import Header from 'shared-components/Header';
-import Footer from 'shared-components/Footer';
+import { modules } from 'veritone-redux-common';
 import styles from './App.scss';
 
-import { userIsAuthenticated, fetchUser, fetchEnabledApps, getEnabledApps } from 'modules/user';
 
 const { bool, array } = PropTypes;
 
@@ -30,11 +30,20 @@ class App extends React.Component {
   render() {
     return (
       <div className={styles['wrapper']}>
-        <Header
-          enabledApps={this.props.enabledApps}
-          appSwitcher
+        <AppBar
           profileMenu
-          onLogout={this.handleClick}
+          appSwitcher
+          currentAppName="Sample App"
+          logout={this.handleClick}
+          user={{
+            userName: 'mrobb@veritone.com',
+            kvp: {
+              firstName: 'Mitch',
+              lastName: 'Robb',
+              image: 'http://placekitten.com/g/400/300'
+            }
+          }}
+          enabledApps={this.props.enabledApps}
         />
         <Container topBarOffset>
           <Row>
@@ -57,7 +66,13 @@ class App extends React.Component {
           </Row>
         </Container>
         <div id="loader" />
-        <Footer />
+        <AppFooter>
+          <div className="content">
+            <span>&copy; Veritone, Inc. All Rights Reserved.</span>
+            <span><a href='https://www.veritone.com/wp/terms/' target='_blank' rel="noopener noreferrer">Terms of Service</a></span>
+            <span><a href='https://www.veritone.com/wp/privacy/' target='_blank' rel="noopener noreferrer">Privacy Policy</a></span>
+          </div>
+        </AppFooter>
       </div>
     );
   }
@@ -65,11 +80,11 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    userIsAuthenticated: userIsAuthenticated(state),
-    enabledApps: getEnabledApps(state)
+    userIsAuthenticated: modules.user.userIsAuthenticated(state),
+    // enabledApps: modules.user.selectEnabledApps(state)
   };
 };
 
-const mapDispatchToProps = { fetchUser, fetchEnabledApps };
+const mapDispatchToProps = { fetchUser: modules.user.fetchUser, fetchEnabledApps: modules.user.fetchEnabledApps };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -3,8 +3,10 @@ import React from 'react';
 import Divider from 'material-ui/Divider';
 import MediaUploadState from 'shared-components/MediaUploadState';
 
-import NavigationCheck from 'material-ui/svg-icons/navigation/check';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import NavigationCheck from 'material-ui-icons/Check';
+import NavigationClose from 'material-ui-icons/Close';
+// import NavigationCheck from 'material-ui/svg-icons/navigation/check';
+// import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
 export default class MediaUploadStates extends React.Component {
   render() {

@@ -11,13 +11,15 @@ import Cookies from 'universal-cookie';
 // -----------------------------------
 import './polyfill';
 
+import { apiMiddleware } from 'redux-api-middleware-fixed';
+import { modules } from 'veritone-redux-common';
+
 
 // Veritone Client SDK
 // -----------------------------------
 import veritoneApi from 'veritone-client-js/dist/bundle-browser.js';
 
-
-// User Module
+// Media Module
 // -----------------------------------
 import user, {
   namespace as userNamespace
@@ -42,13 +44,8 @@ import './styles/typography.css';
 // App and Mateiral-UI wrapper
 // ------------------------------------
 import App from './App';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import blue from 'material-ui/colors/blue';
 
 
 const cookies = new Cookies();
@@ -65,7 +62,8 @@ function init() {
   // Veritone API Client Initalization
   // ------------------------------------
   const client = veritoneApi({
-    oauthToken
+    oauthToken,
+    baseUrl: 'https://api.aws-dev.veritone.com',
   });
 
   // Middleware
@@ -77,16 +75,19 @@ function init() {
   // -----------------------------------
   const enhancer = composeEnhancers(
     applyMiddleware(
-      thunkMiddleware.withExtraArgument(client)
-    )
+      thunkMiddleware.withExtraArgument(client),
+      apiMiddleware(fetch)
+    ),
   );
+
 
 
   // Store Initialization
   // ------------------------------------
   const store = createStore(
     combineReducers({
-      [userNamespace]: user,
+      [modules.user.namespace]: modules.user.reducer,
+      // [userNamespace]: user,
       [mediaExampleNamespace]: mediaExample
     }),
     {},
@@ -98,7 +99,18 @@ function init() {
   // // ------------------------------------
   render(
     <Provider store={store}>
-      <MuiThemeProvider>
+      <MuiThemeProvider
+        theme={createMuiTheme({
+          palette: {
+            primary: blue
+          },
+          typography: {
+            button: {
+              fontWeight: 400
+            }
+          }
+        })}
+      >
         <App />
       </MuiThemeProvider>
     </Provider>,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 import './styles/index.css';
 
@@ -42,19 +42,32 @@ export default class MediaUpload extends Component {
 
   render() {
     return (
-      <RaisedButton
-        backgroundColor="#2196f3"
-        buttonStyle={{ minWidth: '110px' }}
-        labelStyle={{ color: '#fff', textTransform: 'capitalize' }}
+      <Button
+        color="primary"
+        raised
         containerElement="label"
         label="Upload"
+        primary
       >
         <input
           className="FileInput"
           type="file"
           onChange={this.onInputChange}
         />
-      </RaisedButton>
+      </Button>
+
+      // <input
+      //   accept="image/*"
+      //   className={classes.input}
+      //   id="raised-button-file"
+      //   multiple
+      //   type="file"
+      // />
+      // <label htmlFor="raised-button-file">
+      //   <Button raised component="span" className={classes.button}>
+      //     Upload
+      //   </Button>
+      // </label>
     );
   }
 }
