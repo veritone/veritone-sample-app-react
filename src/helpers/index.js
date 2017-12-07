@@ -1,6 +1,3 @@
-import { parse } from 'qs';
-
-
 /**
  * Checks whether an object is empty
  * @param  {Object} obj
@@ -13,13 +10,4 @@ export function isEmpty(obj) {
     }
   }
   return true;
-}
-
-
-/**
- * Returns query string from url
- * @return {OBJECT} - query string key value
- */
-export function getQuery() {
-  return parse(window.location.search.substring(1));
 }
