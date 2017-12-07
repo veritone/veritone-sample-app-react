@@ -67,7 +67,7 @@ class App extends React.Component {
         </Container>
         <div id="loader" />
         <AppFooter>
-          <div className="content">
+          <div className="fixme">
             <span>&copy; Veritone, Inc. All Rights Reserved.</span>
             <span><a href='https://www.veritone.com/wp/terms/' target='_blank' rel="noopener noreferrer">Terms of Service</a></span>
             <span><a href='https://www.veritone.com/wp/privacy/' target='_blank' rel="noopener noreferrer">Privacy Policy</a></span>

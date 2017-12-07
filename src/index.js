@@ -36,9 +36,9 @@ import mediaExample, {
 // Global css
 // -----------------------------------
 import 'normalize.css';
-import './styles/global.css';
-import './styles/theme.css';
-import './styles/typography.css';
+import './styles/global.scss';
+import './styles/theme.scss';
+import './styles/typography.scss';
 
 
 // App and Mateiral-UI wrapper

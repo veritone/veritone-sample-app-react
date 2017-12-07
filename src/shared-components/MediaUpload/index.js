@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 
-import './styles/index.css';
+import styles from "./styles/index.css";
 
 export default class MediaUpload extends Component {
   static propTypes = {
@@ -50,7 +50,7 @@ export default class MediaUpload extends Component {
         primary
       >
         <input
-          className="FileInput"
+          className={styles.fileInput}
           type="file"
           onChange={this.onInputChange}
         />

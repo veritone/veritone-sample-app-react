@@ -151,161 +151,49 @@ hr {
   padding: 0;
 }
 
-#root {
-  height: 100%;
-}
-
-.wrapper {
-  height: 100%;
-}
-
-// header element
-.header {
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-
-  &--fixed {
-    position: fixed;
-    background: $green-primary;
-    height: $topBarHeight;
-    left: 0;
-    right: 0;
-    top: 0;
+:global {
+  #root {
+    height: 100%;
   }
 
-  padding: 0 24px;
-  height: 60px !important;
+  .spinner {
+    height: 20px;;
+    width: 20px;;
+    border-radius: 50%;
+    border: 2px solid rgb(33, 150, 243);
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+    box-sizing: border-box;
+  }
 
-  .content {
-    width: 100%;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .logo {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      img {
-        height: 24px;
-      }
+  @keyframes spin {
+    0% {
+      transform: rotateZ(0);
     }
-
-    .controls {
-      position: relative;
-      width: 200px;
-      margin-right: -24px;
-
-      &__element {
-        font-family: Roboto, Helvetica Neue, sans-serif;
-        display: inline-block;
-        padding: 0 4px;
-        color: #fff;
-        font-weight: 400 !important;
-        font-size: 12px !important;
-        line-height: 16px !important;
-        color: #fff;
-        display: inline-block;
-        margin: 0;
-        opacity: .87;
-      }
+    100% {
+      transform: rotateZ(360deg);
     }
   }
-}
 
-// footer element
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  background: #f2f2f2;
-  display: flex;
-  padding: 0 24px;
-  font-size: $defaultMicroFontSize;
+  .ellipsis-loading:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(5, end) 1.3s infinite;
+    animation: ellipsis steps(5, end) 1.3s infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    width: 0;
+  }
 
-  .content {
-    width: 100%;
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    span {
-      margin-right: 8px;
+  @keyframes ellipsis {
+    to {
+      width: 1.25em;
     }
   }
-}
 
-.container {
-  padding-bottom: 20px;
-
-  &.topBarOffset {
-    padding: $topBarHeight 0;
-  }
-}
-
-h1 {
-  font-size: 20px;
-}
-
-.appToolBar {
-  background: none !important;
-  height: 60px;
-  width: 100%;
-  color: #fff;
-
-  span {
-    font-size: 0.9em;
-  }
-}
-
-$size: 20px;
-$border-color: rgb(33, 150, 243);
-
-.spinner {
-  height: $size;
-  width: $size;
-  border-radius: 50%;
-  border: 2px solid $border-color;
-  border-top-color: transparent;
-  animation: lai-spinnair 1s linear infinite;
-  box-sizing: border-box;
-}
-
-@keyframes lai-spinnair {
-  0% {
-    transform: rotateZ(0);
-  }
-  100% {
-    transform: rotateZ(360deg);
-  }
-}
-
-.ellipsis-loading:after {
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: bottom;
-  -webkit-animation: ellipsis steps(5, end) 1.3s infinite;
-  animation: ellipsis steps(5, end) 1.3s infinite;
-  content: "\2026"; /* ascii code for the ellipsis character */
-  width: 0px;
-}
-
-@keyframes ellipsis {
-  to {
-    width: 1.25em;
-  }
-}
-
-@-webkit-keyframes ellipsis {
-  to {
-    width: 1.25em;
+  @-webkit-keyframes ellipsis {
+    to {
+      width: 1.25em;
+    }
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { PropTypes } from 'prop-types';
 
-import '../../styles/vendor/grid.css';
+import '../../styles/vendor/grid.scss';
 
 const { number, bool, string } = PropTypes;
 const Container = ({ children, className, topBarOffset, ...props }) =>
