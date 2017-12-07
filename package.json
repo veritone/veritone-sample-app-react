@@ -1,17 +1,10 @@
 {
   "name": "veritone-sample-app-react",
   "version": "0.1.0",
-  "proxy": {
-    "/auth": {
-      "target": "http://local.veritone-sample-app.com:9000"
-    }
-  },
   "dependencies": {
-    "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
     "compression": "^1.7.0",
     "cookie-parser": "^1.4.3",
-    "date-fns": "^1.28.5",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "lodash": "^4.17.4",
@@ -21,38 +14,34 @@
     "passport": "^0.4.0",
     "passport-veritone": "^0.0.1",
     "prop-types": "^15.5.10",
-    "qs": "^6.5.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-api-middleware-fixed": "^1.2.0",
     "redux-thunk": "^2.2.0",
-    "unirest": "^0.5.1",
     "universal-cookie": "^2.0.8",
     "veritone-client-js": "^1.0.4",
     "veritone-react-common": "^1.0.2",
     "veritone-redux-common": "^1.0.0"
   },
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.1",
-    "node-sass-chokidar": "^0.0.2",
+    "css-loader": "^0.28.7",
+    "neutrino": "^7.4.0",
+    "neutrino-middleware-styles-loader": "^0.0.6",
+    "neutrino-preset-react": "^7.4.0",
+    "neutrino-preset-sass": "^1.0.3",
+    "node-sass": "^4.7.2",
     "npm-run-all": "^4.0.2",
-    "prettier": "^1.4.4",
-    "react-scripts": "1.0.7",
-    "redux-immutable-state-invariant": "^2.0.0",
-    "redux-logger": "^3.0.6",
-    "redux-validate-fsa": "^0.1.2"
+    "prettier": "^1.9.1",
+    "style-loader": "^0.19.0"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js serve",
+    "start-js": "neutrino start",
+    "start": "npm-run-all -p start-js serve",
     "serve": "node server.js",
-    "build": "npm run build-css && react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build": "neutrino build",
+    "format": "prettier --write \"./src/**/*.{js,scss,css}\""
   },
   "license": "Apache-2.0"
 }

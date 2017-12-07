@@ -1,5 +1,5 @@
-import { createReducer } from 'helpers/redux';
-import { isEmpty } from 'helpers';
+import { createReducer } from '@helpers/redux';
+import { isEmpty } from '@helpers';
 
 export const namespace = 'user';
 

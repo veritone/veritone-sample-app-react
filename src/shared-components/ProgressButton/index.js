@@ -2,7 +2,7 @@ import React from 'react';
 // import { omit } from 'lodash';
 // import RaisedButton from 'material-ui/RaisedButton';
 // import LinearProgress from 'material-ui/LinearProgress';
-import { PropTypes } from 'helpers/react';
+import { PropTypes } from '@helpers/react';
 // import styles from './styles/index';
 const { bool } = PropTypes;
 

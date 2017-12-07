@@ -1,4 +1,4 @@
-import { createReducer } from 'helpers/redux';
+import { createReducer } from '@helpers/redux';
 
 export const CREATE_RECORDING = 'vtn/recording/CREATE_RECORDING';
 export const CREATE_RECORDING_SUCCESS =
