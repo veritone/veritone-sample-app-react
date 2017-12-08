@@ -1,14 +1,21 @@
 import React from 'react';
-
-import Divider from 'material-ui/Divider';
-import MediaUploadState from 'shared-components/MediaUploadState';
-
+import { objectOf, shape, string } from 'prop-types';
 import NavigationCheck from 'material-ui-icons/Check';
 import NavigationClose from 'material-ui-icons/Close';
-// import NavigationCheck from 'material-ui/svg-icons/navigation/check';
-// import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import Divider from 'material-ui/Divider';
+
+import MediaUploadState from 'shared-components/MediaUploadState';
 
 export default class MediaUploadStates extends React.Component {
+  static propTypes = {
+    actions: objectOf(
+      shape({
+        name: string,
+        status: string
+      })
+    )
+  };
+
   render() {
     const iconStyles = {
       margin: 0 + 'auto'

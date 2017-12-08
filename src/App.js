@@ -1,19 +1,19 @@
 import React from 'react';
 import './polyfill';
 import { connect } from 'react-redux';
-import { PropTypes } from 'prop-types';
+import { bool, arrayOf, object, func } from 'prop-types';
 import { Container, Row, Col } from 'shared-components/grid';
 import { AppBar, AppFooter } from 'veritone-react-common';
 import MediaExample from 'shared-components/MediaExample';
 import { modules } from 'veritone-redux-common';
 import styles from './App.scss';
 
-const { bool, array } = PropTypes;
-
 class App extends React.Component {
   static propTypes = {
     userIsAuthenticated: bool,
-    enabledApps: array
+    enabledApps: arrayOf(object),
+    fetchUser: func.isRequired,
+    fetchEnabledApps: func.isRequired
   };
 
   componentWillMount() {

@@ -6,6 +6,8 @@
     "compression": "^1.7.0",
     "cookie-parser": "^1.4.3",
     "dotenv": "^4.0.0",
+    "eslint-plugin-lodash": "^2.5.0",
+    "eslint-plugin-promise": "^3.6.0",
     "express": "^4.15.4",
     "lodash": "^4.17.4",
     "material-ui": "v1.0.0-beta.20",
@@ -26,7 +28,11 @@
     "veritone-redux-common": "^1.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.0.3",
     "css-loader": "^0.28.7",
+    "eslint": "^4.12.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-react": "^7.5.1",
     "neutrino": "^7.4.0",
     "neutrino-middleware-styles-loader": "^0.0.6",
     "neutrino-preset-react": "^7.4.0",
@@ -34,14 +40,16 @@
     "node-sass": "^4.7.2",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.9.1",
-    "style-loader": "^0.19.0"
+    "style-loader": "^0.19.0",
+    "veritone-dev-env": "^1.0.2"
   },
   "scripts": {
     "start-js": "neutrino start",
     "start": "npm-run-all -p start-js serve",
     "serve": "node server.js",
     "build": "neutrino build",
-    "format": "prettier --write \"./src/**/*.{js,scss,css}\""
+    "format": "prettier --write \"./src/**/*.{js,scss,css}\"",
+    "lint": "eslint src/ --ext .js"
   },
   "license": "Apache-2.0"
 }

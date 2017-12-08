@@ -19,10 +19,6 @@ import veritoneApi from 'veritone-client-js/dist/bundle-browser.js';
 
 // Media Module
 // -----------------------------------
-import user, { namespace as userNamespace } from 'modules/user';
-
-// Media Module
-// -----------------------------------
 import mediaExample, {
   namespace as mediaExampleNamespace
 } from 'modules/mediaExample';

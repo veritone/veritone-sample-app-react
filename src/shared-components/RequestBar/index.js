@@ -1,11 +1,9 @@
 import React from 'react';
 
 import ExpandingContainer from 'shared-components/ExpandingContainer';
-import PropTypes from 'prop-types';
+import { number, string, arrayOf, objectOf, node, any, bool } from 'prop-types';
 
 import styles from './styles/index.scss';
-
-const { number, string, arrayOf, objectOf, node, any, bool } = PropTypes;
 
 export default class RequestBar extends React.Component {
   static propTypes = {
@@ -15,7 +13,8 @@ export default class RequestBar extends React.Component {
     parameters: objectOf(any),
     fields: arrayOf(any),
     expanded: bool,
-    button: node
+    button: node,
+    children: node
   };
   static defaultProps = {
     expanded: false

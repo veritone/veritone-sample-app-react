@@ -1,13 +1,13 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import { string, bool } from 'prop-types';
 import cx from 'classnames';
 import styles from './styles/index.scss';
 
 export default class MediaUploadState extends React.Component {
   static propTypes = {
-    action: propTypes.string,
-    icon: propTypes.any,
-    isLoading: propTypes.bool
+    action: string,
+    icon: string,
+    isLoading: bool
   };
   static defaultProps = {};
 

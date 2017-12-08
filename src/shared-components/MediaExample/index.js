@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { objectOf, shape, string, func } from 'prop-types';
 
 import Divider from 'material-ui/Divider';
 import MediaUpload from 'shared-components/MediaUpload';
@@ -10,6 +11,17 @@ import RequestBar from 'shared-components/RequestBar';
 import { transcribeMedia } from 'modules/mediaExample';
 
 class MediaExample extends React.Component {
+  static propTypes = {
+    actions: objectOf(
+      shape({
+        name: string,
+        status: string
+      })
+    ),
+    transcribeMedia: func.isRequired,
+    result: string
+  };
+
   state = {
     expanded: false
   };
@@ -42,7 +54,7 @@ class MediaExample extends React.Component {
           {showResults && (
             // fixme: <RequestBarPayload> component
             <div className="requestBar__payload">
-              <pre>{JSON.stringify(this.props.payload, null, 2)}</pre>
+              <pre>{JSON.stringify(this.props.result, null, 2)}</pre>
             </div>
           )}
         </RequestBar>
@@ -54,7 +66,7 @@ class MediaExample extends React.Component {
 const mapStateToProps = state => {
   return {
     actions: state.mediaExample.actions,
-    payload: state.mediaExample.result
+    result: state.mediaExample.result
   };
 };
 

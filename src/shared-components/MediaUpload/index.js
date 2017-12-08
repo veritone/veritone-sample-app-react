@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { func } from 'prop-types';
 import Button from 'material-ui/Button';
 
 import styles from './styles/index.css';
 
 export default class MediaUpload extends Component {
   static propTypes = {
-    onFileLoad: PropTypes.func.isRequired
+    onFileLoad: func.isRequired
   };
 
   onInputChange = e => {
