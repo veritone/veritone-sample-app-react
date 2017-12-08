@@ -29,10 +29,11 @@ export default class RequestBar extends React.Component {
             <div>
               {this.props.id}. {this.props.description}
             </div>
-            {this.props.endpoint &&
+            {this.props.endpoint && (
               <small className={styles.requestBar__endpoint}>
                 {this.props.endpoint}
-              </small>}
+              </small>
+            )}
           </div>
           <div className={styles['requestBar__btn-container']}>
             {!this.props.expanded && this.props.button}

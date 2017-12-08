@@ -18,12 +18,8 @@ export default class MediaUploadState extends React.Component {
 
     return (
       <div className={styles.action}>
-        <div className={actionClassNames}>
-          {this.props.action}
-        </div>
-        <div className={styles.action__icon}>
-          {this.props.icon}
-        </div>
+        <div className={actionClassNames}>{this.props.action}</div>
+        <div className={styles.action__icon}>{this.props.icon}</div>
       </div>
     );
   }

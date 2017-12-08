@@ -106,37 +106,41 @@ function local(state) {
 
 export function fetchUser() {
   return (dispatch, getState, client) => {
-    dispatch({ type: FETCH_USER })
+    dispatch({ type: FETCH_USER });
     client.user.getCurrentUser().then(
-      (user) => dispatch({
-        type: FETCH_USER_SUCCESS,
-        payload: user
-      }),
-      (err) => dispatch({
-        type: FETCH_USER_FAILURE,
-        error: true,
-        payload: err
-      })
+      user =>
+        dispatch({
+          type: FETCH_USER_SUCCESS,
+          payload: user
+        }),
+      err =>
+        dispatch({
+          type: FETCH_USER_FAILURE,
+          error: true,
+          payload: err
+        })
     );
-  }
+  };
 }
 
 export function fetchEnabledApps() {
   return (dispatch, getState, client) => {
-    dispatch({ type: FETCH_USER_APPLICATIONS })
+    dispatch({ type: FETCH_USER_APPLICATIONS });
 
     client.user.getApplications().then(
-      (apps) => dispatch({
-        type: FETCH_USER_APPLICATIONS_SUCCESS,
-        payload: apps
-      }),
-      (err) => dispatch({
-        type: FETCH_USER_APPLICATIONS_FAILURE,
-        error: true,
-        payload: err
-      })
+      apps =>
+        dispatch({
+          type: FETCH_USER_APPLICATIONS_SUCCESS,
+          payload: apps
+        }),
+      err =>
+        dispatch({
+          type: FETCH_USER_APPLICATIONS_FAILURE,
+          error: true,
+          payload: err
+        })
     );
-  }
+  };
 }
 
 export function userIsAuthenticated(state) {

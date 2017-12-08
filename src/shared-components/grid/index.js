@@ -5,15 +5,16 @@ import { PropTypes } from 'prop-types';
 import '../../styles/vendor/grid.scss';
 
 const { number, bool, string } = PropTypes;
-const Container = ({ children, className, topBarOffset, ...props }) =>
-  (<div
+const Container = ({ children, className, topBarOffset, ...props }) => (
+  <div
     {...props}
     className={cx('container', className, {
       ['topBarOffset']: topBarOffset
     })}
   >
     {children}
-  </div>);
+  </div>
+);
 
 Container.propTypes = {
   className: string,
@@ -21,10 +22,11 @@ Container.propTypes = {
   sideBarOffset: bool
 };
 
-const Row = ({ children, className, ...props }) =>
-  (<div className={cx('row', className)} {...props}>
+const Row = ({ children, className, ...props }) => (
+  <div className={cx('row', className)} {...props}>
     {children}
-  </div>);
+  </div>
+);
 
 Row.propTypes = {
   className: string

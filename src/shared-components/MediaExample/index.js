@@ -39,13 +39,12 @@ class MediaExample extends React.Component {
           <MediaUploadStates actions={actions} />
           <Divider />
           {showResults && <MediaUploadState action="Results" />}
-          {showResults &&
+          {showResults && (
             // fixme: <RequestBarPayload> component
             <div className="requestBar__payload">
-              <pre>
-                {JSON.stringify(this.props.payload, null, 2)}
-              </pre>
-            </div>}
+              <pre>{JSON.stringify(this.props.payload, null, 2)}</pre>
+            </div>
+          )}
         </RequestBar>
       </div>
     );

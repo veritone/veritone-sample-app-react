@@ -8,11 +8,7 @@ const { bool } = PropTypes;
 
 const ProgressButton = (props = {}) => {
   //const { loading } = props;
-  return (
-    <button>
-      { this.props.value }
-    </button>
-  );
+  return <button>{this.props.value}</button>;
 };
 
 ProgressButton.propTypes = {

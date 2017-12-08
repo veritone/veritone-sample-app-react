@@ -331,18 +331,16 @@ export function getJob(jobId, recordingId) {
 export function getRecordingTranscript(recordingId) {
   return (dispatch, getState, client) => {
     dispatch({ type: GET_RECORDING_TRANSCRIPT });
-    return client.recording
-      .getRecordingTranscript(recordingId)
-      .then(
-        transcript =>
-          dispatch({
-            type: GET_RECORDING_TRANSCRIPT_SUCCESS,
-            payload: transcript
-          }),
-        err =>
-          dispatch({
-            type: GET_RECORDING_TRANSCRIPT_FAILURE
-          })
-      );
+    return client.recording.getRecordingTranscript(recordingId).then(
+      transcript =>
+        dispatch({
+          type: GET_RECORDING_TRANSCRIPT_SUCCESS,
+          payload: transcript
+        }),
+      err =>
+        dispatch({
+          type: GET_RECORDING_TRANSCRIPT_FAILURE
+        })
+    );
   };
 }

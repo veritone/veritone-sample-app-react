@@ -25,7 +25,7 @@ export default class MediaUploadStates extends React.Component {
     return (
       <div>
         {actions &&
-          Object.keys(actions).map((action, i) =>
+          Object.keys(actions).map((action, i) => (
             <div key={i}>
               {i > 0 && <Divider />}
               <MediaUploadState
@@ -34,7 +34,7 @@ export default class MediaUploadStates extends React.Component {
                 isLoading={actions[action].status === 'loading'}
               />
             </div>
-          )}
+          ))}
       </div>
     );
   }
