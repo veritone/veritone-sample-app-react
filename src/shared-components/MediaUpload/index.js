@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { func } from 'prop-types';
 import Button from 'material-ui/Button';
 
 import styles from './styles/index.css';
 
-export default class MediaUpload extends Component {
+export default class MediaUploadButton extends Component {
   static propTypes = {
     onFileLoad: func.isRequired
   };
 
-  onInputChange = e => {
-    const self = this;
+  handleInputChange = e => {
     const file = e.target.files[0];
     // Files is a list because you can select several files
     // We just upload the first selected file
@@ -21,8 +20,8 @@ export default class MediaUpload extends Component {
       let video = document.createElement('video');
       video.preload = 'metadata';
 
-      video.onloadedmetadata = function() {
-        window.URL.revokeObjectURL(this.src);
+      video.onloadedmetadata = (e) => {
+        window.URL.revokeObjectURL(e.target.src);
         const startDateTime = file.lastModified;
         const duration = Math.round(video.duration);
         const stopDateTime = startDateTime + duration * 1000;
@@ -31,7 +30,7 @@ export default class MediaUpload extends Component {
         file.stopDateTime = stopDateTime;
         file.duration = duration;
 
-        return self.props.onFileLoad(evt, file);
+        return this.props.onFileLoad(evt, file);
       };
 
       video.src = URL.createObjectURL(file);
@@ -42,32 +41,20 @@ export default class MediaUpload extends Component {
 
   render() {
     return (
-      <Button
-        color="primary"
-        raised
-        containerElement="label"
-        label="Upload"
-        primary
-      >
+      <Fragment>
         <input
           className={styles.fileInput}
           type="file"
-          onChange={this.onInputChange}
+          id="file"
+          accept="video/*	"
+          onChange={this.handleInputChange}
         />
-      </Button>
-
-      // <input
-      //   accept="image/*"
-      //   className={classes.input}
-      //   id="raised-button-file"
-      //   multiple
-      //   type="file"
-      // />
-      // <label htmlFor="raised-button-file">
-      //   <Button raised component="span" className={classes.button}>
-      //     Upload
-      //   </Button>
-      // </label>
+        <label htmlFor="file">
+          <Button color="primary" raised component="span">
+            Upload
+          </Button>
+        </label>
+      </Fragment>
     );
   }
 }

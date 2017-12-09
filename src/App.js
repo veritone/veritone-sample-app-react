@@ -1,52 +1,40 @@
-import React from 'react';
 import './polyfill';
+
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { bool, arrayOf, object, func } from 'prop-types';
-import { Container, Row, Col } from 'shared-components/grid';
-import { AppBar, AppFooter } from 'veritone-react-common';
-import MediaExample from 'shared-components/MediaExample';
+import { bool, func } from 'prop-types';
+import { AppFooter } from 'veritone-react-common';
 import { modules } from 'veritone-redux-common';
+
+import AppContainer from 'shared-components/layout/AppContainer';
+import AppBar from 'shared-components/AppBar';
+import MediaExample from 'shared-components/MediaExample';
 import styles from './App.scss';
 
 class App extends React.Component {
   static propTypes = {
     userIsAuthenticated: bool,
-    enabledApps: arrayOf(object),
     fetchUser: func.isRequired,
     fetchEnabledApps: func.isRequired
   };
 
   componentWillMount() {
-    const { userIsAuthenticated, fetchUser, fetchEnabledApps } = this.props;
-
-    if (!userIsAuthenticated) {
-      fetchUser();
+    if (!this.props.userIsAuthenticated) {
+      return this.props.fetchUser().then(this.props.fetchEnabledApps);
     }
-
-    fetchEnabledApps();
   }
 
   render() {
     return (
-      <div className={styles['wrapper']}>
-        <AppBar
-          profileMenu
-          appSwitcher
-          currentAppName="Sample App"
-          logout={this.handleClick}
-          user={{
-            userName: 'mrobb@veritone.com',
-            kvp: {
-              firstName: 'Mitch',
-              lastName: 'Robb',
-              image: 'http://placekitten.com/g/400/300'
-            }
-          }}
-          enabledApps={this.props.enabledApps}
-        />
-        <Container topBarOffset>
-          <Row>
-            <Col lg={12}>
+      <Fragment>
+        <AppBar />
+        <AppContainer
+          appBarOffset
+          appFooterOffset="short"
+          className={styles.container}
+        >
+          <div className={styles.content}>
+            <div>
               <h1>Sample Veritone Application</h1>
               <p>
                 Welcome to the Veritone Sample Application. Head over to{' '}
@@ -58,53 +46,40 @@ class App extends React.Component {
                 small glimpse of what types of applications you can create while
                 leveraging the Veritone Platform.
               </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col sm={12} className={styles['topDivider']}>
+            </div>
+            <div className={styles.divider}>
               <MediaExample />
-            </Col>
-          </Row>
-        </Container>
-        <div id="loader" />
-        <AppFooter>
-          <div className="fixme">
-            <span>&copy; Veritone, Inc. All Rights Reserved.</span>
-            <span>
-              <a
-                href="https://www.veritone.com/wp/terms/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Terms of Service
-              </a>
-            </span>
-            <span>
-              <a
-                href="https://www.veritone.com/wp/privacy/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Privacy Policy
-              </a>
-            </span>
+            </div>
           </div>
+        </AppContainer>
+        <AppFooter>
+          <span>&copy; Veritone, Inc. All Rights Reserved.</span>
+          <a
+            href="https://www.veritone.com/wp/terms/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Terms of Service
+          </a>
+          <a
+            href="https://www.veritone.com/wp/privacy/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
         </AppFooter>
-      </div>
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
+export default connect(
+  state => ({
     userIsAuthenticated: modules.user.userIsAuthenticated(state)
-    // enabledApps: modules.user.selectEnabledApps(state)
-  };
-};
-
-const mapDispatchToProps = {
-  fetchUser: modules.user.fetchUser,
-  fetchEnabledApps: modules.user.fetchEnabledApps
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+  }),
+  {
+    fetchUser: modules.user.fetchUser,
+    fetchEnabledApps: modules.user.fetchEnabledApps
+  }
+)(App);

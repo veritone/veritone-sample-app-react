@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { objectOf, shape, string, func } from 'prop-types';
+import { objectOf, shape, string, func, any } from 'prop-types';
 
 import Divider from 'material-ui/Divider';
 import MediaUpload from 'shared-components/MediaUpload';
@@ -19,14 +19,14 @@ class MediaExample extends React.Component {
       })
     ),
     transcribeMedia: func.isRequired,
-    result: string
+    result: objectOf(any)
   };
 
   state = {
     expanded: false
   };
 
-  onFileLoad = (e, file) => {
+  handleFileLoad = (e, file) => {
     this.setState({
       expanded: true
     });
@@ -45,7 +45,7 @@ class MediaExample extends React.Component {
           id={1}
           description="Upload a media file to begin transcription"
           expanded={this.state.expanded}
-          button={<MediaUpload onFileLoad={this.onFileLoad} />}
+          button={<MediaUpload onFileLoad={this.handleFileLoad} />}
         >
           <Divider style={{ marginTop: 20 + 'px' }} />
           <MediaUploadStates actions={actions} />
@@ -63,13 +63,10 @@ class MediaExample extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
+export default connect(
+  state => ({
     actions: state.mediaExample.actions,
     result: state.mediaExample.result
-  };
-};
-
-const mapDispatchToProps = { transcribeMedia };
-
-export default connect(mapStateToProps, mapDispatchToProps)(MediaExample);
+  }),
+  { transcribeMedia }
+)(MediaExample);

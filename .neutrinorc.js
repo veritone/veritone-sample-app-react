@@ -1,10 +1,9 @@
 const path = require("path");
 
 module.exports = {
-  options: {},
   use: [
     [
-      "neutrino-preset-react",
+      '@neutrinojs/react',
       {
         html: { title: "Veritone Sample App" },
         devServer: {
@@ -38,6 +37,6 @@ module.exports = {
           "shared-components",
           path.join(__dirname, "src/shared-components")
         ),
-    neutrino => neutrino.config.devtool("cheap-module-source-map"),
+    neutrino => neutrino.config.devtool("cheap-module-source-map")
   ]
 };

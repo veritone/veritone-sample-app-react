@@ -220,7 +220,9 @@ const reducer = createReducer(defaultState, {
 export default reducer;
 
 export function transcribeMedia(file) {
+  debugger;
   return (dispatch, getState, client) => {
+    debugger;
     dispatch(
       createRecording({
         startDateTime: file.startDateTime,
