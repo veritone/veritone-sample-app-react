@@ -1,218 +1,120 @@
 import { createReducer } from '@helpers/redux';
 
-export const CREATE_RECORDING = 'vtn/recording/CREATE_RECORDING';
-export const CREATE_RECORDING_SUCCESS =
-  'vtn/recording/CREATE_RECORDING_SUCCESS';
-export const CREATE_RECORDING_FAILURE =
-  'vtn/recording/CREATE_RECORDING_FAILURE';
+export const TRANSCRIBE_START = 'TRANSCRIBE_START';
+export const TRANSCRIBE_SUCCESS = 'TRANSCRIBE_SUCCESS';
 
-export const CREATE_MEDIA_ASSET = 'vtn/recording/CREATE_MEDIA_ASSET';
-export const CREATE_MEDIA_ASSET_SUCCESS =
-  'vtn/recording/CREATE_MEDIA_ASSET_SUCCESS';
-export const CREATE_MEDIA_ASSET_FAILURE =
-  'vtn/recording/CREATE_MEDIA_ASSET_FAILURE';
+export const CREATE_RECORDING = 'CREATE_RECORDING';
+export const CREATE_RECORDING_FAILURE = 'CREATE_RECORDING_FAILURE';
 
-export const CREATE_JOB = 'vtn/job/CREATE_JOB';
-export const CREATE_JOB_SUCCESS = 'vtn/job/CREATE_JOB_SUCCESS';
-export const CREATE_JOB_FAILURE = 'vtn/job/CREATE_JOB_FAILURE';
+export const CREATE_MEDIA_ASSET = 'CREATE_MEDIA_ASSET';
+export const CREATE_MEDIA_ASSET_FAILURE = 'CREATE_MEDIA_ASSET_FAILURE';
 
-export const GET_JOB = 'vtn/job/GET_JOB';
-export const GET_JOB_SUCCESS = 'vtn/job/GET_JOB_SUCCESS';
-export const GET_JOB_FAILURE = 'vtn/job/GET_JOB_FAILURE';
+export const CREATE_JOB = 'CREATE_JOB';
+export const CREATE_JOB_FAILURE = 'CREATE_JOB_FAILURE';
 
-export const GET_RECORDING_TRANSCRIPT = 'vtn/recoding/GET_RECORDING_TRANSCRIPT';
-export const GET_RECORDING_TRANSCRIPT_SUCCESS =
-  'vtn/recoding/GET_RECORDING_TRANSCRIPT_SUCCESS';
+export const GET_JOB = 'GET_JOB';
+export const GET_JOB_FAILURE = 'GET_JOB_FAILURE';
+
+export const GET_RECORDING_TRANSCRIPT = 'GET_RECORDING_TRANSCRIPT';
 export const GET_RECORDING_TRANSCRIPT_FAILURE =
-  'vtn/recoding/GET_RECORDING_TRANSCRIPT_FAILURE';
+  'GET_RECORDING_TRANSCRIPT_FAILURE';
 
 export const namespace = 'mediaExample';
 
 const defaultState = {
-  actions: {},
+  steps: [],
+  running: false,
+  failure: false,
+  failureMessage: '',
   result: {}
 };
 
 const reducer = createReducer(defaultState, {
-  [CREATE_RECORDING](state, action) {
+  [TRANSCRIBE_START]() {
     return {
-      ...state,
-      actions: {
-        ...state.actions,
-        createRecording: {
-          name: 'Creating Recording',
-          status: 'loading'
-        }
-      }
+      ...defaultState,
+      running: true
     };
   },
 
-  [CREATE_RECORDING_SUCCESS](state, action) {
+  [TRANSCRIBE_SUCCESS](state, action) {
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        createRecording: {
-          ...state.actions.createRecording,
-          name: 'Created Recording',
-          status: 'success'
-        }
-      }
+      running: false,
+      result: action.payload
+    };
+  },
+
+  [CREATE_RECORDING](state) {
+    return {
+      ...state,
+      steps: [...state.steps, { name: 'Create Recording' }]
     };
   },
 
   [CREATE_RECORDING_FAILURE](state, action) {
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        createRecording: {
-          ...state.actions.createRecording,
-          name: 'Failed To Create Recording',
-          status: 'failed'
-        }
-      }
-    };
-  },
-  [CREATE_MEDIA_ASSET](state, action) {
-    return {
-      ...state,
-      actions: {
-        ...state.actions,
-        createMediaAsset: {
-          name: 'Creating Media Asset',
-          status: 'loading'
-        }
-      }
+      failure: true,
+      running: false,
+      failureMessage: action.payload
     };
   },
 
-  [CREATE_MEDIA_ASSET_SUCCESS](state, action) {
+  [CREATE_MEDIA_ASSET](state) {
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        createMediaAsset: {
-          ...state.actions.createMediaAsset,
-          name: 'Created Media Asset',
-          status: 'success'
-        }
-      }
+      steps: [...state.steps, { name: 'Create Media Asset' }]
     };
   },
 
   [CREATE_MEDIA_ASSET_FAILURE](state, action) {
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        createMediaAsset: {
-          ...state.actions.createMediaAsset,
-          name: 'Failed To Create Media Asset',
-          status: 'failed'
-        }
-      }
+      failure: true,
+      running: false,
+      failureMessage: action.payload
     };
   },
 
-  [CREATE_JOB](state, action) {
+  [CREATE_JOB](state) {
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        createJob: {
-          name: 'Creating Job',
-          status: 'loading'
-        }
-      }
-    };
-  },
-
-  [CREATE_JOB_SUCCESS](state, action) {
-    return {
-      ...state,
-      actions: {
-        ...state.actions,
-        createJob: {
-          ...state.actions.createJob,
-          name: 'Created Job',
-          status: 'success'
-        }
-      }
+      steps: [...state.steps, { name: 'Create Job' }]
     };
   },
 
   [CREATE_JOB_FAILURE](state, action) {
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        createJob: {
-          ...state.actions.createJob,
-          name: 'Failed To Get Job',
-          status: 'failed'
-        }
-      }
+      failure: true,
+      running: false,
+      failureMessage: action.payload
     };
   },
 
-  [GET_JOB](state, action) {
+  [GET_JOB](state) {
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        getJob: {
-          name: 'Polling For Job',
-          status: 'loading'
-        }
-      }
-    };
-  },
-
-  [GET_JOB_SUCCESS](state, action) {
-    return {
-      ...state,
-      actions: {
-        ...state.actions,
-        getJob: {
-          ...state.actions.getJob,
-          name: 'Job Complete',
-          status: 'success'
-        }
-      }
+      steps: [...state.steps, { name: 'Poll for Job' }]
     };
   },
 
   [GET_JOB_FAILURE](state, action) {
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        getJob: {
-          ...state.actions.getJob,
-          name: 'Failed To Get Job',
-          status: 'failed'
-        }
-      }
-    };
-  },
-
-  [GET_RECORDING_TRANSCRIPT](state, action) {
-    return {
-      ...state
-    };
-  },
-
-  [GET_RECORDING_TRANSCRIPT_SUCCESS](state, action) {
-    return {
-      ...state,
-      result: action.payload
+      failure: true,
+      running: false,
+      failureMessage: action.payload
     };
   },
 
   [GET_RECORDING_TRANSCRIPT_FAILURE](state, action) {
     return {
-      ...state
+      ...state,
+      failure: true,
+      running: false,
+      failureMessage: action.payload
     };
   }
 });
@@ -220,129 +122,100 @@ const reducer = createReducer(defaultState, {
 export default reducer;
 
 export function transcribeMedia(file) {
-  debugger;
-  return (dispatch, getState, client) => {
-    debugger;
-    dispatch(
-      createRecording({
+  return async (dispatch, getState, client) => {
+    dispatch({ type: TRANSCRIBE_START });
+
+    let recordingId;
+    try {
+      dispatch({ type: CREATE_RECORDING });
+
+      let response = await client.recording.createRecording({
         startDateTime: file.startDateTime,
         stopDateTime: file.stopDateTime
-      })
-    )
-      .then(response => {
-        const recordingId = response.payload.recordingId;
-
-        return dispatch(createMediaAsset(recordingId, file));
-      })
-      .then(response => {
-        const recordingId = response.payload.recordingId;
-        const tasks = [
-          {
-            engineId: 'transcribe-voicebase'
-          }
-        ];
-
-        return dispatch(createJob(recordingId, tasks));
-      })
-      .then(response => {
-        const jobId = response.payload.jobId;
-        const recordingId = response.payload.recordingId;
-
-        return dispatch(getJob(jobId, recordingId));
       });
+      recordingId = response.recordingId;
+    } catch (e) {
+      return dispatch({
+        type: CREATE_RECORDING_FAILURE,
+        payload: 'Failed to create recording'
+      });
+    }
+
+    try {
+      dispatch({ type: CREATE_MEDIA_ASSET });
+
+      await client.recording.createAsset(recordingId, file);
+    } catch (e) {
+      return dispatch({
+        type: CREATE_MEDIA_ASSET_FAILURE,
+        payload: 'Failed to create media asset'
+      });
+    }
+
+    const tasks = [
+      {
+        engineId: 'transcribe-voicebase'
+      }
+    ];
+
+    let jobId;
+    try {
+      dispatch({ type: CREATE_JOB });
+
+      const response = await client.job.createJob({ recordingId, tasks });
+      jobId = response.jobId;
+    } catch (e) {
+      return dispatch({
+        type: CREATE_JOB_FAILURE,
+        payload: 'Failed to create job'
+      });
+    }
+
+    try {
+      dispatch({ type: GET_JOB });
+
+      await pollForJob(jobId, client);
+    } catch (e) {
+      return dispatch({
+        type: GET_JOB_FAILURE,
+        payload: 'Failed to retrieve job'
+      });
+    }
+
+    let transcript;
+    try {
+      dispatch({ type: GET_RECORDING_TRANSCRIPT });
+
+      transcript = await client.recording.getRecordingTranscript(recordingId);
+    } catch (e) {
+      return dispatch({
+        type: GET_RECORDING_TRANSCRIPT_FAILURE,
+        payload: 'Failed to fetch recording transcript'
+      });
+    }
+
+    dispatch({ type: TRANSCRIBE_SUCCESS, payload: transcript });
   };
 }
 
-export function createRecording(recording) {
-  return (dispatch, getState, client) => {
-    dispatch({ type: CREATE_RECORDING });
-    return client.recording.createRecording(recording).then(
-      recording =>
-        dispatch({
-          type: CREATE_RECORDING_SUCCESS,
-          payload: recording
-        }),
-      err =>
-        dispatch({
-          type: CREATE_RECORDING_FAILURE
-        })
-    );
-  };
-}
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-export function createMediaAsset(recordingId, asset) {
-  return (dispatch, getState, client) => {
-    dispatch({ type: CREATE_MEDIA_ASSET });
-    return client.recording.createAsset(recordingId, asset).then(
-      asset =>
-        dispatch({
-          type: CREATE_MEDIA_ASSET_SUCCESS,
-          payload: asset
-        }),
-      err =>
-        dispatch({
-          type: CREATE_MEDIA_ASSET_FAILURE
-        })
-    );
-  };
-}
+async function pollForJob(jobId, client) {
+  let job;
+  try {
+    job = await client.job.getJob(jobId);
+  } catch (e) {
+    throw new Error('Failed to fetch job');
+  }
 
-export function createJob(recordingId, tasks) {
-  return (dispatch, getState, client) => {
-    dispatch({ type: CREATE_JOB });
-    return client.job.createJob({ recordingId, tasks }).then(
-      job =>
-        dispatch({
-          type: CREATE_JOB_SUCCESS,
-          payload: job
-        }),
-      err =>
-        dispatch({
-          type: CREATE_JOB_FAILURE
-        })
-    );
-  };
-}
+  if (job.status === 'failed') {
+    throw new Error('Job failed');
+  }
 
-export function getJob(jobId, recordingId) {
-  return (dispatch, getState, client) => {
-    dispatch({ type: GET_JOB });
-    return client.job.getJob(jobId).then(
-      job => {
-        if (job.status === 'failed') {
-          return dispatch({ type: GET_JOB_FAILURE });
-        }
+  if (job.status === 'complete') {
+    return job;
+  }
 
-        if (job.status === 'complete') {
-          dispatch({ type: GET_JOB_SUCCESS });
-          return dispatch(getRecordingTranscript(recordingId));
-        }
-
-        setTimeout(function() {
-          return dispatch(getJob(jobId, recordingId));
-        }, 5000);
-      },
-      err =>
-        dispatch({
-          type: GET_JOB_FAILURE
-        })
-    );
-  };
-}
-
-export function getRecordingTranscript(recordingId) {
-  return (dispatch, getState, client) => {
-    dispatch({ type: GET_RECORDING_TRANSCRIPT });
-    return client.recording.getRecordingTranscript(recordingId).then(
-      transcript =>
-        dispatch({
-          type: GET_RECORDING_TRANSCRIPT_SUCCESS,
-          payload: transcript
-        }),
-      err =>
-        dispatch({
-          type: GET_RECORDING_TRANSCRIPT_FAILURE
-        })
-    );
-  };
+  await delay(5000);
+  await pollForJob(jobId, client);
 }

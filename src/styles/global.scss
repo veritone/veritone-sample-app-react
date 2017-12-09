@@ -156,25 +156,6 @@ hr {
     height: 100%;
   }
 
-  .spinner {
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    border: 2px solid rgb(33, 150, 243);
-    border-top-color: transparent;
-    animation: spin 1s linear infinite;
-    box-sizing: border-box;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotateZ(0);
-    }
-    100% {
-      transform: rotateZ(360deg);
-    }
-  }
-
   .ellipsis-loading:after {
     overflow: hidden;
     display: inline-block;

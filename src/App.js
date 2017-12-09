@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bool, func } from 'prop-types';
 import { AppFooter } from 'veritone-react-common';
 import { modules } from 'veritone-redux-common';
+import Divider from 'material-ui/Divider';
 
 import AppContainer from 'shared-components/layout/AppContainer';
 import AppBar from 'shared-components/AppBar';
@@ -47,9 +48,10 @@ class App extends React.Component {
                 leveraging the Veritone Platform.
               </p>
             </div>
-            <div className={styles.divider}>
-              <MediaExample />
-            </div>
+
+            <Divider />
+
+            <MediaExample />
           </div>
         </AppContainer>
         <AppFooter>

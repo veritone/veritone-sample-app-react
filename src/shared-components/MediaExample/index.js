@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { objectOf, shape, string, func, any } from 'prop-types';
+import { arrayOf, objectOf, shape, string, func, any, bool } from 'prop-types';
 
 import Divider from 'material-ui/Divider';
 import MediaUpload from 'shared-components/MediaUpload';
@@ -12,13 +12,15 @@ import { transcribeMedia } from 'modules/mediaExample';
 
 class MediaExample extends React.Component {
   static propTypes = {
-    actions: objectOf(
-      shape({
-        name: string,
-        status: string
-      })
-    ),
     transcribeMedia: func.isRequired,
+    steps: arrayOf(
+      shape({
+        name: string
+      })
+    ).isRequired,
+    running: bool.isRequired,
+    failure: bool.isRequired,
+    // failureMessage: string.isRequired,
     result: objectOf(any)
   };
 
@@ -35,23 +37,26 @@ class MediaExample extends React.Component {
   };
 
   render() {
-    const actions = this.props.actions;
-    const showResults = actions.getJob && actions.getJob.status === 'success';
+    const isSuccess = !this.props.running && !this.props.failure;
 
     return (
       <div>
         <h4>Transcription Example</h4>
         <RequestBar
-          id={1}
           description="Upload a media file to begin transcription"
           expanded={this.state.expanded}
-          button={<MediaUpload onFileLoad={this.handleFileLoad} />}
+          buttonEl={<MediaUpload onFileLoad={this.handleFileLoad} />}
         >
-          <Divider style={{ marginTop: 20 + 'px' }} />
-          <MediaUploadStates actions={actions} />
+          <Divider style={{ marginTop: 20 }} />
+          <MediaUploadStates
+            steps={this.props.steps}
+            running={this.props.running}
+            success={isSuccess}
+            failure={this.props.failure}
+          />
           <Divider />
-          {showResults && <MediaUploadState action="Results" />}
-          {showResults && (
+          {isSuccess && <MediaUploadState name="Results" />}
+          {isSuccess && (
             // fixme: <RequestBarPayload> component
             <div className="requestBar__payload">
               <pre>{JSON.stringify(this.props.result, null, 2)}</pre>
@@ -65,8 +70,7 @@ class MediaExample extends React.Component {
 
 export default connect(
   state => ({
-    actions: state.mediaExample.actions,
-    result: state.mediaExample.result
+    ...state.mediaExample
   }),
   { transcribeMedia }
 )(MediaExample);

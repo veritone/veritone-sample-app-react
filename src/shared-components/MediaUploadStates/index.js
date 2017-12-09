@@ -1,47 +1,60 @@
 import React from 'react';
-import { objectOf, shape, string } from 'prop-types';
+import { arrayOf, shape, string, bool } from 'prop-types';
 import NavigationCheck from 'material-ui-icons/Check';
 import NavigationClose from 'material-ui-icons/Close';
-import Divider from 'material-ui/Divider';
+import { CircularProgress } from 'material-ui/Progress';
 
 import MediaUploadState from 'shared-components/MediaUploadState';
 
 export default class MediaUploadStates extends React.Component {
   static propTypes = {
-    actions: objectOf(
+    steps: arrayOf(
       shape({
-        name: string,
-        status: string
+        name: string
       })
-    )
+    ).isRequired,
+    running: bool.isRequired,
+    success: bool.isRequired,
+    failure: bool.isRequired
   };
 
   render() {
     const iconStyles = {
-      margin: 0 + 'auto'
+      margin: '0 auto'
     };
 
-    const states = {
-      loading: <div className="spinner" />,
+    const stateIcons = {
+      loading: <CircularProgress size={30}/>,
       success: <NavigationCheck style={iconStyles} color="green" />,
       failed: <NavigationClose style={iconStyles} color="red" />
     };
 
-    const actions = this.props.actions;
+    let currentStateEl = {
+      [this.props.running]: stateIcons.loading,
+      [this.props.failure]: stateIcons.failed,
+      [this.props.success]: stateIcons.success
+    }[true];
 
     return (
       <div>
-        {actions &&
-          Object.keys(actions).map((action, i) => (
-            <div key={i}>
-              {i > 0 && <Divider />}
-              <MediaUploadState
-                action={actions[action].name}
-                icon={states[actions[action].status]}
-                isLoading={actions[action].status === 'loading'}
-              />
-            </div>
-          ))}
+        {this.props.steps.map(({ name }, i) => {
+          const isLast = i === this.props.steps.length - 1;
+
+          return (
+            <MediaUploadState
+              name={name}
+              divider={i > 0}
+              iconEl={isLast ? currentStateEl : stateIcons.success}
+              loading={
+                isLast &&
+                this.props.running &&
+                !this.props.failure &&
+                !this.props.success
+              }
+              key={name}
+            />
+          );
+        })}
       </div>
     );
   }

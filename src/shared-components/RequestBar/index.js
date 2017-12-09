@@ -7,13 +7,10 @@ import styles from './styles/index.scss';
 
 export default class RequestBar extends React.Component {
   static propTypes = {
-    id: number,
     description: string,
     endpoint: string,
-    parameters: objectOf(any),
-    fields: arrayOf(any),
     expanded: bool,
-    button: node,
+    buttonEl: node,
     children: node
   };
   static defaultProps = {
@@ -26,7 +23,7 @@ export default class RequestBar extends React.Component {
         <div className={styles.requestBar__header}>
           <div>
             <div>
-              {this.props.id}. {this.props.description}
+              {this.props.description}
             </div>
             {this.props.endpoint && (
               <small className={styles.requestBar__endpoint}>
@@ -35,7 +32,7 @@ export default class RequestBar extends React.Component {
             )}
           </div>
           <div>
-            {!this.props.expanded && this.props.button}
+            {!this.props.expanded && this.props.buttonEl}
           </div>
         </div>
         <ExpandingContainer defaultExpanded={this.props.expanded}>
