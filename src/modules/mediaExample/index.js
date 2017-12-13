@@ -1,4 +1,5 @@
-import { createReducer } from '@helpers/redux';
+import { helpers } from 'veritone-redux-common';
+const { createReducer } = helpers;
 
 export const TRANSCRIBE_START = 'TRANSCRIBE_START';
 export const TRANSCRIBE_SUCCESS = 'TRANSCRIBE_SUCCESS';

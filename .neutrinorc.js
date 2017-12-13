@@ -32,7 +32,6 @@ module.exports = {
       neutrino.config.resolve.alias
         .set("redux-api-middleware", "redux-api-middleware-fixed")
         .set("modules", path.join(__dirname, "src/modules"))
-        .set("@helpers", path.join(__dirname, "src/helpers"))
         .set(
           "shared-components",
           path.join(__dirname, "src/shared-components")
