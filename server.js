@@ -39,7 +39,7 @@ app.use(passport.initialize());
 
 // allow static file serving
 // --------------------------------
-app.use('/static', express.static('build/static'));
+app.use('/', express.static('build'));
 
 
 // middleware
@@ -54,9 +54,6 @@ passport.use(new Strategy({
   clientID: settings.clientId,
   clientSecret: settings.clientSecret,
   callbackURL: settings.callbackURL,
-  // authorizationURL: 'https://api.aws-dev.veritone.com/v1/admin/oauth/authorize',
-  // tokenURL: 'https://api.aws-dev.veritone.com/v1/admin/oauth/token',
-  // profileUrl: 'https://api.aws-dev.veritone.com/v1/admin/current-user'
 }, function(accessToken, refreshToken, profile, done) {
   return done(null, profile);
 }));
@@ -65,7 +62,6 @@ app.get('/auth/veritone', passport.authenticate('veritone'));
 
 app.get('/auth/veritone/callback',
   passport.authenticate('veritone', { session: false }), (req, res) => {
-    // fixme: in prod, this needs to send index.html, i think
     res
       .cookie('oauthToken', req.user.oauthToken, {
         secure: false,
