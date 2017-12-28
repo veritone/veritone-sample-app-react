@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ExpandingContainer from 'shared-components/ExpandingContainer';
-import { number, string, arrayOf, objectOf, node, any, bool } from 'prop-types';
+import { string, node, bool } from 'prop-types';
 
 import styles from './styles/index.scss';
 

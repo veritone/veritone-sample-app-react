@@ -58,7 +58,7 @@ function init() {
 
   store.dispatch(
     modules.config.setConfig({
-      apiRoot: 'https://api.veritone.com/v1'
+      apiRoot: 'https://api.veritone.com'
     })
   );
 
