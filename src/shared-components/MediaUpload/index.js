@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
+import React, { Component, Fragment } from 'react';
+import { func } from 'prop-types';
+import Button from 'material-ui/Button';
 
-import './styles/index.css';
+import styles from './styles/index.css';
 
-export default class MediaUpload extends Component {
+export default class MediaUploadButton extends Component {
   static propTypes = {
-    onFileLoad: PropTypes.func.isRequired
+    onFileLoad: func.isRequired
   };
 
-  onInputChange = e => {
-    const self = this;
+  handleInputChange = e => {
     const file = e.target.files[0];
     // Files is a list because you can select several files
     // We just upload the first selected file
@@ -21,8 +20,8 @@ export default class MediaUpload extends Component {
       let video = document.createElement('video');
       video.preload = 'metadata';
 
-      video.onloadedmetadata = function() {
-        window.URL.revokeObjectURL(this.src);
+      video.onloadedmetadata = (e) => {
+        window.URL.revokeObjectURL(e.target.src);
         const startDateTime = file.lastModified;
         const duration = Math.round(video.duration);
         const stopDateTime = startDateTime + duration * 1000;
@@ -31,7 +30,7 @@ export default class MediaUpload extends Component {
         file.stopDateTime = stopDateTime;
         file.duration = duration;
 
-        return self.props.onFileLoad(evt, file);
+        return this.props.onFileLoad(evt, file);
       };
 
       video.src = URL.createObjectURL(file);
@@ -42,19 +41,20 @@ export default class MediaUpload extends Component {
 
   render() {
     return (
-      <RaisedButton
-        backgroundColor="#2196f3"
-        buttonStyle={{ minWidth: '110px' }}
-        labelStyle={{ color: '#fff', textTransform: 'capitalize' }}
-        containerElement="label"
-        label="Upload"
-      >
+      <Fragment>
         <input
-          className="FileInput"
+          className={styles.fileInput}
           type="file"
-          onChange={this.onInputChange}
+          id="file"
+          accept="video/*	"
+          onChange={this.handleInputChange}
         />
-      </RaisedButton>
+        <label htmlFor="file">
+          <Button color="primary" raised component="span">
+            Upload
+          </Button>
+        </label>
+      </Fragment>
     );
   }
 }

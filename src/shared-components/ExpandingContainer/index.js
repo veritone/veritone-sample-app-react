@@ -2,12 +2,13 @@ import React from 'react';
 
 import styles from './styles/index.scss';
 
-import propTypes from 'prop-types';
-const { bool } = propTypes;
+import { bool, node } from 'prop-types';
 
+// fixme -- replace with mui one?
 export default class ExpandingContainer extends React.Component {
   static propTypes = {
-    defaultExpanded: bool
+    defaultExpanded: bool,
+    children: node
   };
   static defaultProps = {
     defaultExpanded: false
