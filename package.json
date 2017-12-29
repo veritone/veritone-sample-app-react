@@ -1,58 +1,55 @@
 {
   "name": "veritone-sample-app-react",
   "version": "0.1.0",
-  "private": true,
-  "proxy": {
-    "/auth": {
-      "target": "http://local.veritone-sample-app.com:9000"
-    }
-  },
   "dependencies": {
-    "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
     "compression": "^1.7.0",
     "cookie-parser": "^1.4.3",
-    "date-fns": "^1.28.5",
     "dotenv": "^4.0.0",
+    "eslint-plugin-lodash": "^2.5.0",
+    "eslint-plugin-promise": "^3.6.0",
     "express": "^4.15.4",
     "lodash": "^4.17.4",
-    "material-ui": "^0.18.7",
+    "material-ui": "v1.0.0-beta.20",
+    "material-ui-icons": "^1.0.0-beta.17",
     "normalize.css": "^7.0.0",
     "passport": "^0.4.0",
-    "passport-veritone": "git+https://github.com/veritone/passport-veritone.git",
+    "passport-veritone": "^0.0.1",
     "prop-types": "^15.5.10",
-    "qs": "^6.5.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
     "react-redux": "^5.0.6",
-    "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
+    "redux-api-middleware-fixed": "^1.2.0",
     "redux-thunk": "^2.2.0",
-    "unirest": "^0.5.1",
-    "universal-cookie": "^2.0.8"
+    "universal-cookie": "^2.0.8",
+    "veritone-client-js": "^1.0.4",
+    "veritone-react-common": "^1.1.0",
+    "veritone-redux-common": "^2.0.0"
   },
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.1",
-    "functional-permissions-lib": "git+https://github.com/veritone/functional-permissions-lib#develop",
-    "node-sass-chokidar": "^0.0.2",
+    "@neutrinojs/react": "^8.0.8",
+    "babel-eslint": "^8.0.3",
+    "css-loader": "^0.28.7",
+    "eslint": "^4.12.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-react": "^7.5.1",
+    "neutrino": "^8.0.8",
+    "neutrino-middleware-styles-loader": "^0.0.6",
+    "neutrino-preset-sass": "^1.0.3",
+    "node-sass": "^4.7.2",
     "npm-run-all": "^4.0.2",
-    "prettier": "^1.4.4",
-    "react-scripts": "1.0.7",
-    "redux-immutable-state-invariant": "^2.0.0",
-    "redux-logger": "^3.0.6",
-    "redux-validate-fsa": "^0.1.2",
-    "veritone-api": "git+https://github.com/veritone/veritone-api#refactor/VTN-3590/use-handler-factory",
-    "veritone-lib": "git+https://github.com/veritone/veritone-lib#develop"
+    "prettier": "^1.9.1",
+    "style-loader": "^0.19.0",
+    "veritone-dev-env": "^1.0.2"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js serve",
+    "start-js": "neutrino start",
+    "start": "npm-run-all -p start-js serve",
     "serve": "node server.js",
-    "build": "npm run build-css && react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build": "neutrino build",
+    "format": "prettier --write \"./src/**/*.{js,scss,css}\"",
+    "lint": "eslint src/ --ext .js"
   },
   "license": "Apache-2.0"
 }

@@ -1,4 +1,4 @@
-import regeneratorRuntime from "regenerator-runtime/runtime";
+import regeneratorRuntime from 'regenerator-runtime/runtime';
+import 'core-js/fn/promise';
 
-require('core-js/fn/promise');
-window.regeneratorRuntime = regeneratorRuntime; 
+window.regeneratorRuntime = regeneratorRuntime;
