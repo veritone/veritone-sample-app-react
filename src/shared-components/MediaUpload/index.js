@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { func } from 'prop-types';
 import Button from 'material-ui/Button';
 
-import styles from './styles/index.css';
+import styles from './styles/index.scss';
 
 export default class MediaUploadButton extends Component {
   static propTypes = {
