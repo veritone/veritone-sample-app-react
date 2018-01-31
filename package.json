@@ -24,8 +24,8 @@
     "redux-thunk": "^2.2.0",
     "universal-cookie": "^2.0.8",
     "veritone-client-js": "^1.0.4",
-    "veritone-react-common": "^1.1.0",
-    "veritone-redux-common": "^2.0.0"
+    "veritone-react-common": "^2.1.0",
+    "veritone-redux-common": "^2.1.1"
   },
   "devDependencies": {
     "@neutrinojs/react": "^8.0.8",
