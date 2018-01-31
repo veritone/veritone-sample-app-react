@@ -46,6 +46,7 @@ function init() {
     combineReducers({
       [modules.user.namespace]: modules.user.reducer,
       [modules.config.namespace]: modules.config.reducer,
+      [modules.auth.namespace]: modules.auth.reducer,
       [mediaExampleNamespace]: mediaExample
     }),
     composeEnhancers(
@@ -60,6 +61,10 @@ function init() {
     modules.config.setConfig({
       apiRoot: 'https://api.veritone.com'
     })
+  );
+
+  store.dispatch(
+    modules.auth.setOAuthToken(oauthToken)
   );
 
   render(
