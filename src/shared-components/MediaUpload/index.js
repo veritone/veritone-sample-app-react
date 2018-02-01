@@ -43,7 +43,7 @@ export default class MediaUploadButton extends Component {
     return (
       <Fragment>
         <input
-          className={styles.fileInput}
+          className={styles.FileInput}
           type="file"
           id="file"
           accept="video/*	"
