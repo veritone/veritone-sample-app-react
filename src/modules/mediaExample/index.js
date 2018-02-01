@@ -196,8 +196,29 @@ export function transcribeMedia(file) {
     try {
       dispatch({ type: CREATE_JOB });
 
-      const response = await client.job.createJob({ recordingId, tasks });
-      jobId = response.jobId;
+      let createJobQuery =`mutation {
+        createJob(input:{
+          targetId: ${recordingId},
+          tasks :[
+            {
+              engineId: "transcribe-voicebase"
+            }
+          ]
+        }) {
+          id
+        }
+      }
+      `;
+
+      await axios({
+        url: '/v3/graphql',
+        method: 'post',
+        data: {
+          query: createJobQuery
+        }
+      }).then(response => {
+        jobId = response.data.data.createJob.id;
+      });
     } catch (e) {
       return dispatch({
         type: CREATE_JOB_FAILURE,
