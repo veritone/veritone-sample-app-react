@@ -160,7 +160,7 @@ export function transcribeMedia(file) {
     try {
       dispatch({ type: CREATE_MEDIA_ASSET });
 
-      let createAccessQuery = `mutation {
+      let createAssetQuery = `mutation {
         createAsset(input: {
           containerId: ${recordingId},
           assetType: "media",
@@ -171,7 +171,7 @@ export function transcribeMedia(file) {
       `;
 
       let formData = new FormData();
-      formData.append("query", createAccessQuery)
+      formData.append("query", createAssetQuery)
       formData.append("filename", file.name)
       formData.append("file", file)
       await axios.post('v3/graphql', formData, {
@@ -186,22 +186,17 @@ export function transcribeMedia(file) {
       });
     }
 
-    const tasks = [
-      {
-        engineId: 'transcribe-voicebase'
-      }
-    ];
-
     let jobId;
     try {
       dispatch({ type: CREATE_JOB });
 
+      let engineId = "2b06ec74-2e70-5f1a-f834-2bd7d6fdfdf2"; //Supernova-English (USA)
       let createJobQuery =`mutation {
         createJob(input:{
           targetId: ${recordingId},
           tasks :[
             {
-              engineId: "transcribe-voicebase"
+              engineId: "${engineId}"
             }
           ]
         }) {
