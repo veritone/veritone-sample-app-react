@@ -60,8 +60,19 @@ $ yarn build  # Build production assets (or `npm run build`)
 [saw]: https://veritone-developer.atlassian.net/wiki/spaces/DOC/pages/17989665/Sample+App+Walkthrough
 [rdce]: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
 
+## Contributing
+
+We use [git-flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) to manage changes to this repository.
+To contribute to this project, please follow these steps:
+
+1. Create a fork of this repository on Github.
+2. Create a feature branch off the `develop` branch in your private fork.
+3. Make your changes in your feature branch.
+4. When your features are ready, create a pull request from your feature branch in your private fork to the `develop` branch in this repo.
+5. Once your pull request passes review, it will be merged into the `develop` branch.
+
 # License
-Copyright 2017, Veritone Inc.
+Copyright 2018, Veritone Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
