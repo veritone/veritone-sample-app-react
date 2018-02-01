@@ -46,7 +46,7 @@ export default class MediaUploadButton extends Component {
           className={styles.FileInput}
           type="file"
           id="file"
-          accept="video/*	"
+          accept="video/*,audio/*"
           onChange={this.handleInputChange}
         />
         <label htmlFor="file">
