@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { helpers } from 'veritone-redux-common';
 const { createReducer } = helpers;
 
@@ -130,11 +131,25 @@ export function transcribeMedia(file) {
     try {
       dispatch({ type: CREATE_RECORDING });
 
-      let response = await client.recording.createRecording({
-        startDateTime: file.startDateTime,
-        stopDateTime: file.stopDateTime
+      let createTDOQuery = `mutation {
+        createTDO(input: {
+          startDateTime: ${file.startDateTime},
+          stopDateTime: ${file.stopDateTime}
+        }), {
+          id
+        }
+      }
+      `;
+
+      await axios({
+        url: '/v3/graphql',
+        method: 'post',
+        data: {
+          query: createTDOQuery
+        }
+      }).then(response => {
+        recordingId = response.data.data.createTDO.id;
       });
-      recordingId = response.recordingId;
     } catch (e) {
       return dispatch({
         type: CREATE_RECORDING_FAILURE,
@@ -145,7 +160,25 @@ export function transcribeMedia(file) {
     try {
       dispatch({ type: CREATE_MEDIA_ASSET });
 
-      await client.recording.createAsset(recordingId, file);
+      let createAccessQuery = `mutation {
+        createAsset(input: {
+          containerId: ${recordingId},
+          assetType: "media",
+        }),{
+          id
+        }
+      }
+      `;
+
+      let formData = new FormData();
+      formData.append("query", createAccessQuery)
+      formData.append("filename", file.name)
+      formData.append("file", file)
+      await axios.post('v3/graphql', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
     } catch (e) {
       return dispatch({
         type: CREATE_MEDIA_ASSET_FAILURE,

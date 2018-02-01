@@ -9,6 +9,7 @@ import Cookies from 'universal-cookie';
 import { apiMiddleware } from 'redux-api-middleware';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
+import axios from 'axios';
 
 import { modules } from 'veritone-redux-common';
 import veritoneApi from 'veritone-client-js/dist/bundle-browser.js';
@@ -38,6 +39,8 @@ function init() {
     oauthToken,
     baseUrl: 'https://api.veritone.com'
   });
+  axios.defaults.baseURL = 'https://api.veritone.com';
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + oauthToken;
 
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
