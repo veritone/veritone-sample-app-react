@@ -221,10 +221,13 @@ export function transcribeMedia(file) {
       });
     }
 
+    let tdoId;
     try {
       dispatch({ type: GET_JOB });
 
-      await pollForJob(jobId, client);
+      await pollForJob(jobId, client).then(response => {
+        tdoId = response.target.id;
+      });
     } catch (e) {
       return dispatch({
         type: GET_JOB_FAILURE,
@@ -232,11 +235,35 @@ export function transcribeMedia(file) {
       });
     }
 
-    let transcript;
+    let assets;
     try {
       dispatch({ type: GET_RECORDING_TRANSCRIPT });
 
-      transcript = await client.recording.getRecordingTranscript(recordingId);
+      let getTDOQuery = `query {
+        temporalDataObject(id:${tdoId}) {
+          assets {
+            count,
+            records{
+              id,
+              contentType,
+              type,
+              jsondata,
+              signedUri
+            }
+          }
+        }
+      }
+      `;
+      await axios({
+        url: '/v3/graphql',
+        method: 'post',
+        data: {
+          query: getTDOQuery
+        }
+      }).then(response => {
+        console.log(response);
+        assets = response.data.data.temporalDataObject.assets
+      });
     } catch (e) {
       return dispatch({
         type: GET_RECORDING_TRANSCRIPT_FAILURE,
@@ -244,7 +271,7 @@ export function transcribeMedia(file) {
       });
     }
 
-    dispatch({ type: TRANSCRIBE_SUCCESS, payload: transcript });
+    dispatch({ type: TRANSCRIBE_SUCCESS, payload: assets });
   };
 }
 
@@ -255,8 +282,21 @@ async function pollForJob(jobId, client) {
   try {
     let getJobQuery = `query {
       job(id:"${jobId}") {
-        id,
+        id
         status
+        tasks {
+          records {
+            id
+            status
+            output
+            target {
+              id
+            }
+          }
+        },
+        target {
+          id
+        }
       }
     }
     `;
@@ -282,5 +322,5 @@ async function pollForJob(jobId, client) {
   }
 
   await delay(5000);
-  await pollForJob(jobId, client);
+  return await pollForJob(jobId, client);
 }
