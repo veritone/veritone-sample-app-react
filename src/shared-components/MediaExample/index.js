@@ -8,6 +8,8 @@ import MediaUploadState from 'shared-components/MediaUploadState';
 import MediaUploadStates from 'shared-components/MediaUploadStates';
 import RequestBar from 'shared-components/RequestBar';
 
+import styles from './styles/index.scss';
+
 import { transcribeMedia } from 'modules/mediaExample';
 
 class MediaExample extends React.Component {
@@ -58,7 +60,7 @@ class MediaExample extends React.Component {
           {isSuccess && <MediaUploadState name="Results" />}
           {isSuccess && (
             // fixme: <RequestBarPayload> component
-            <div className="requestBar__payload">
+            <div className={styles.requestBar__payload}>
               <pre>{JSON.stringify(this.props.result, null, 2)}</pre>
             </div>
           )}
