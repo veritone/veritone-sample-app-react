@@ -258,7 +258,22 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function pollForJob(jobId, client) {
   let job;
   try {
-    job = await client.job.getJob(jobId);
+    let getJobQuery = `query {
+      job(id:"${jobId}") {
+        id,
+        status
+      }
+    }
+    `;
+    await axios({
+      url: '/v3/graphql',
+      method: 'post',
+      data: {
+        query: getJobQuery  
+      }
+    }).then(response => {
+      job = response.data.data.job;
+    });
   } catch (e) {
     throw new Error('Failed to fetch job');
   }
