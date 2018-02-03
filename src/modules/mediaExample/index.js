@@ -5,8 +5,8 @@ const { createReducer } = helpers;
 export const TRANSCRIBE_START = 'TRANSCRIBE_START';
 export const TRANSCRIBE_SUCCESS = 'TRANSCRIBE_SUCCESS';
 
-export const CREATE_RECORDING = 'CREATE_RECORDING';
-export const CREATE_RECORDING_FAILURE = 'CREATE_RECORDING_FAILURE';
+export const CREATE_TDO = 'CREATE_TDO';
+export const CREATE_TDO_FAILURE = 'CREATE_TDO_FAILURE';
 
 export const CREATE_MEDIA_ASSET = 'CREATE_MEDIA_ASSET';
 export const CREATE_MEDIA_ASSET_FAILURE = 'CREATE_MEDIA_ASSET_FAILURE';
@@ -17,9 +17,8 @@ export const CREATE_JOB_FAILURE = 'CREATE_JOB_FAILURE';
 export const GET_JOB = 'GET_JOB';
 export const GET_JOB_FAILURE = 'GET_JOB_FAILURE';
 
-export const GET_RECORDING_TRANSCRIPT = 'GET_RECORDING_TRANSCRIPT';
-export const GET_RECORDING_TRANSCRIPT_FAILURE =
-  'GET_RECORDING_TRANSCRIPT_FAILURE';
+export const GET_TDO_TRANSCRIPT = 'GET_TDO_TRANSCRIPT';
+export const GET_TDO_TRANSCRIPT_FAILURE = 'GET_TDO_TRANSCRIPT_FAILURE';
 
 export const namespace = 'mediaExample';
 
@@ -47,14 +46,14 @@ const reducer = createReducer(defaultState, {
     };
   },
 
-  [CREATE_RECORDING](state) {
+  [CREATE_TDO](state) {
     return {
       ...state,
-      steps: [...state.steps, { name: 'Create Recording' }]
+      steps: [...state.steps, { name: 'Create Temporal Data Object' }]
     };
   },
 
-  [CREATE_RECORDING_FAILURE](state, action) {
+  [CREATE_TDO_FAILURE](state, action) {
     return {
       ...state,
       failure: true,
@@ -111,7 +110,7 @@ const reducer = createReducer(defaultState, {
     };
   },
 
-  [GET_RECORDING_TRANSCRIPT_FAILURE](state, action) {
+  [GET_TDO_TRANSCRIPT_FAILURE](state, action) {
     return {
       ...state,
       failure: true,
@@ -127,9 +126,9 @@ export function transcribeMedia(file) {
   return async (dispatch, getState, client) => {
     dispatch({ type: TRANSCRIBE_START });
 
-    let recordingId;
+    let tdoId;
     try {
-      dispatch({ type: CREATE_RECORDING });
+      dispatch({ type: CREATE_TDO });
 
       let createTDOQuery = `mutation {
         createTDO(input: {
@@ -148,12 +147,12 @@ export function transcribeMedia(file) {
           query: createTDOQuery
         }
       }).then(response => {
-        recordingId = response.data.data.createTDO.id;
+        tdoId = response.data.data.createTDO.id;
       });
     } catch (e) {
       return dispatch({
-        type: CREATE_RECORDING_FAILURE,
-        payload: 'Failed to create recording'
+        type: CREATE_TDO_FAILURE,
+        payload: 'Failed to create temporal data object'
       });
     }
 
@@ -162,7 +161,7 @@ export function transcribeMedia(file) {
 
       let createAssetQuery = `mutation {
         createAsset(input: {
-          containerId: ${recordingId},
+          containerId: ${tdoId},
           assetType: "media",
         }),{
           id
@@ -193,7 +192,7 @@ export function transcribeMedia(file) {
       let engineId = "2b06ec74-2e70-5f1a-f834-2bd7d6fdfdf2"; //Supernova-English (USA)
       let createJobQuery =`mutation {
         createJob(input:{
-          targetId: ${recordingId},
+          targetId: ${tdoId},
           tasks :[
             {
               engineId: "${engineId}"
@@ -221,7 +220,6 @@ export function transcribeMedia(file) {
       });
     }
 
-    let tdoId;
     try {
       dispatch({ type: GET_JOB });
 
@@ -237,7 +235,7 @@ export function transcribeMedia(file) {
 
     let assets;
     try {
-      dispatch({ type: GET_RECORDING_TRANSCRIPT });
+      dispatch({ type: GET_TDO_TRANSCRIPT });
 
       let getTDOQuery = `query {
         temporalDataObject(id:${tdoId}) {
@@ -266,8 +264,8 @@ export function transcribeMedia(file) {
       });
     } catch (e) {
       return dispatch({
-        type: GET_RECORDING_TRANSCRIPT_FAILURE,
-        payload: 'Failed to fetch recording transcript'
+        type: GET_TDO_TRANSCRIPT_FAILURE,
+        payload: 'Failed to fetch transcript'
       });
     }
 
