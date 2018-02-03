@@ -6,9 +6,6 @@ The [Veritone][veri] sample app is a minimal boilerplate for creating [Veritone]
 * [Create React App][cra] for development and test infrastructure (see [user guide][cradocs])
 * [React][react] + [Redux][redux] for UI and declarative data fetching.
 
-### Walkthrough
-* [Sample App Walkthrough][saw] – How the sample app functions.
-
 ### Requirements
 * node `^6.4.0`
 * yarn `^0.24.5` or npm `^3.10.3`
