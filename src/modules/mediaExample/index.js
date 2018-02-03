@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { helpers } from 'veritone-redux-common';
 const { createReducer } = helpers;
 
@@ -130,11 +131,25 @@ export function transcribeMedia(file) {
     try {
       dispatch({ type: CREATE_RECORDING });
 
-      let response = await client.recording.createRecording({
-        startDateTime: file.startDateTime,
-        stopDateTime: file.stopDateTime
+      let createTDOQuery = `mutation {
+        createTDO(input: {
+          startDateTime: ${file.startDateTime},
+          stopDateTime: ${file.stopDateTime}
+        }), {
+          id
+        }
+      }
+      `;
+
+      await axios({
+        url: '/v3/graphql',
+        method: 'post',
+        data: {
+          query: createTDOQuery
+        }
+      }).then(response => {
+        recordingId = response.data.data.createTDO.id;
       });
-      recordingId = response.recordingId;
     } catch (e) {
       return dispatch({
         type: CREATE_RECORDING_FAILURE,
@@ -145,7 +160,25 @@ export function transcribeMedia(file) {
     try {
       dispatch({ type: CREATE_MEDIA_ASSET });
 
-      await client.recording.createAsset(recordingId, file);
+      let createAssetQuery = `mutation {
+        createAsset(input: {
+          containerId: ${recordingId},
+          assetType: "media",
+        }),{
+          id
+        }
+      }
+      `;
+
+      let formData = new FormData();
+      formData.append("query", createAssetQuery)
+      formData.append("filename", file.name)
+      formData.append("file", file)
+      await axios.post('v3/graphql', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
     } catch (e) {
       return dispatch({
         type: CREATE_MEDIA_ASSET_FAILURE,
@@ -153,18 +186,34 @@ export function transcribeMedia(file) {
       });
     }
 
-    const tasks = [
-      {
-        engineId: 'transcribe-voicebase'
-      }
-    ];
-
     let jobId;
     try {
       dispatch({ type: CREATE_JOB });
 
-      const response = await client.job.createJob({ recordingId, tasks });
-      jobId = response.jobId;
+      let engineId = "2b06ec74-2e70-5f1a-f834-2bd7d6fdfdf2"; //Supernova-English (USA)
+      let createJobQuery =`mutation {
+        createJob(input:{
+          targetId: ${recordingId},
+          tasks :[
+            {
+              engineId: "${engineId}"
+            }
+          ]
+        }) {
+          id
+        }
+      }
+      `;
+
+      await axios({
+        url: '/v3/graphql',
+        method: 'post',
+        data: {
+          query: createJobQuery
+        }
+      }).then(response => {
+        jobId = response.data.data.createJob.id;
+      });
     } catch (e) {
       return dispatch({
         type: CREATE_JOB_FAILURE,
@@ -172,10 +221,13 @@ export function transcribeMedia(file) {
       });
     }
 
+    let tdoId;
     try {
       dispatch({ type: GET_JOB });
 
-      await pollForJob(jobId, client);
+      await pollForJob(jobId, client).then(response => {
+        tdoId = response.target.id;
+      });
     } catch (e) {
       return dispatch({
         type: GET_JOB_FAILURE,
@@ -183,11 +235,35 @@ export function transcribeMedia(file) {
       });
     }
 
-    let transcript;
+    let assets;
     try {
       dispatch({ type: GET_RECORDING_TRANSCRIPT });
 
-      transcript = await client.recording.getRecordingTranscript(recordingId);
+      let getTDOQuery = `query {
+        temporalDataObject(id:${tdoId}) {
+          assets {
+            count,
+            records{
+              id,
+              contentType,
+              type,
+              jsondata,
+              signedUri
+            }
+          }
+        }
+      }
+      `;
+      await axios({
+        url: '/v3/graphql',
+        method: 'post',
+        data: {
+          query: getTDOQuery
+        }
+      }).then(response => {
+        console.log(response);
+        assets = response.data.data.temporalDataObject.assets
+      });
     } catch (e) {
       return dispatch({
         type: GET_RECORDING_TRANSCRIPT_FAILURE,
@@ -195,7 +271,7 @@ export function transcribeMedia(file) {
       });
     }
 
-    dispatch({ type: TRANSCRIBE_SUCCESS, payload: transcript });
+    dispatch({ type: TRANSCRIBE_SUCCESS, payload: assets });
   };
 }
 
@@ -204,7 +280,35 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function pollForJob(jobId, client) {
   let job;
   try {
-    job = await client.job.getJob(jobId);
+    let getJobQuery = `query {
+      job(id:"${jobId}") {
+        id
+        status
+        tasks {
+          records {
+            id
+            status
+            output
+            target {
+              id
+            }
+          }
+        },
+        target {
+          id
+        }
+      }
+    }
+    `;
+    await axios({
+      url: '/v3/graphql',
+      method: 'post',
+      data: {
+        query: getJobQuery  
+      }
+    }).then(response => {
+      job = response.data.data.job;
+    });
   } catch (e) {
     throw new Error('Failed to fetch job');
   }
@@ -218,5 +322,5 @@ async function pollForJob(jobId, client) {
   }
 
   await delay(5000);
-  await pollForJob(jobId, client);
+  return await pollForJob(jobId, client);
 }

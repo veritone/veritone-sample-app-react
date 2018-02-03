@@ -2,6 +2,7 @@
   "name": "veritone-sample-app-react",
   "version": "0.1.0",
   "dependencies": {
+    "axios": "^0.17.1",
     "classnames": "^2.2.5",
     "compression": "^1.7.0",
     "cookie-parser": "^1.4.3",
@@ -24,8 +25,8 @@
     "redux-thunk": "^2.2.0",
     "universal-cookie": "^2.0.8",
     "veritone-client-js": "^1.0.4",
-    "veritone-react-common": "^1.1.0",
-    "veritone-redux-common": "^2.0.0"
+    "veritone-react-common": "^2.1.0",
+    "veritone-redux-common": "^2.1.1"
   },
   "devDependencies": {
     "@neutrinojs/react": "^8.0.8",
