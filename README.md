@@ -44,6 +44,8 @@ yarn install
 yarn start
 ```
 
+* The sample app should now be serving at `http://local.veritone-sample-app.com:3000`.
+
 ### Building for Production
 ```bash
 $ yarn build  # Build production assets (or `npm run build`)
