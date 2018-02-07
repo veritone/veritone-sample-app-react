@@ -98,7 +98,7 @@ const reducer = createReducer(defaultState, {
   [GET_JOB](state) {
     return {
       ...state,
-      steps: [...state.steps, { name: 'Poll for Job' }]
+      steps: [...state.steps, { name: 'Wait for Job Completion' }]
     };
   },
 
