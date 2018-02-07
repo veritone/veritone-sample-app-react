@@ -196,7 +196,7 @@ export function transcribeMedia(file) {
           targetId: ${recordingId},
           tasks :[
             {
-              engineId: "fc004413-89f0-132a-60b2-b94522fb7e66" // Cerebral (Transcoder)
+              engineId: "fc004413-89f0-132a-60b2-b94522fb7e66" # Cerebral (Transcoder)
             },
             {
               engineId: "${engineId}"
