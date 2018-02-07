@@ -196,10 +196,16 @@ export function transcribeMedia(file) {
           targetId: ${recordingId},
           tasks :[
             {
-              engineId: "fc004413-89f0-132a-60b2-b94522fb7e66" # Cerebral (Transcoder)
+              engineId: "fc004413-89f0-132a-60b2-b94522fb7e66"  # Cerebral (Transcoder) - Makes for faster browser playback
             },
             {
               engineId: "${engineId}"
+            },
+            {
+              engineId: "c2aaa6d7-14fa-f840-f77e-4d2c0b857fa8"  # Add to Index - Allows processed TDO to display in CMS
+            },
+            {
+              engineId: "915bb300-bfa8-4ce6-8498-50d43705a144"  # Mention Generate - Allows processed TDO to be caught in watchlists
             }
           ]
         }) {
